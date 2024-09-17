@@ -27,7 +27,7 @@ type GetOneOfRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// query to find. can be hex id or translit name
-	Query string `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // @gotags: form:"query" validate:"required"
+	Query string `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty" form:"query" validate:"required"`  
 }
 
 func (x *GetOneOfRequest) Reset() {

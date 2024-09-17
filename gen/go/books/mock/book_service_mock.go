@@ -9,7 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	books "github.com/reversersed/LitGO-proto/gen/go/books"
+	books_pb "github.com/reversersed/LitGO-proto/gen/go/books"
 	grpc "google.golang.org/grpc"
 )
 
@@ -37,14 +37,14 @@ func (m *MockBookClient) EXPECT() *MockBookClientMockRecorder {
 }
 
 // GetBookSuggestions mocks base method.
-func (m *MockBookClient) GetBookSuggestions(ctx context.Context, in *books.GetSuggestionRequest, opts ...grpc.CallOption) (*books.GetBooksResponse, error) {
+func (m *MockBookClient) GetBookSuggestions(ctx context.Context, in *books_pb.GetSuggestionRequest, opts ...grpc.CallOption) (*books_pb.GetBooksResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetBookSuggestions", varargs...)
-	ret0, _ := ret[0].(*books.GetBooksResponse)
+	ret0, _ := ret[0].(*books_pb.GetBooksResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -80,10 +80,10 @@ func (m *MockBookServer) EXPECT() *MockBookServerMockRecorder {
 }
 
 // GetBookSuggestions mocks base method.
-func (m *MockBookServer) GetBookSuggestions(arg0 context.Context, arg1 *books.GetSuggestionRequest) (*books.GetBooksResponse, error) {
+func (m *MockBookServer) GetBookSuggestions(arg0 context.Context, arg1 *books_pb.GetSuggestionRequest) (*books_pb.GetBooksResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBookSuggestions", arg0, arg1)
-	ret0, _ := ret[0].(*books.GetBooksResponse)
+	ret0, _ := ret[0].(*books_pb.GetBooksResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

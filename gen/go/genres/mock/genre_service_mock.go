@@ -9,7 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	genres "github.com/reversersed/LitGO-proto/gen/go/genres"
+	genres_pb "github.com/reversersed/LitGO-proto/gen/go/genres"
 	grpc "google.golang.org/grpc"
 )
 
@@ -37,14 +37,14 @@ func (m *MockGenreClient) EXPECT() *MockGenreClientMockRecorder {
 }
 
 // GetAll mocks base method.
-func (m *MockGenreClient) GetAll(ctx context.Context, in *genres.Empty, opts ...grpc.CallOption) (*genres.GetAllResponse, error) {
+func (m *MockGenreClient) GetAll(ctx context.Context, in *genres_pb.Empty, opts ...grpc.CallOption) (*genres_pb.GetAllResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetAll", varargs...)
-	ret0, _ := ret[0].(*genres.GetAllResponse)
+	ret0, _ := ret[0].(*genres_pb.GetAllResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -57,14 +57,14 @@ func (mr *MockGenreClientMockRecorder) GetAll(ctx, in interface{}, opts ...inter
 }
 
 // GetOneOf mocks base method.
-func (m *MockGenreClient) GetOneOf(ctx context.Context, in *genres.GetOneOfRequest, opts ...grpc.CallOption) (*genres.GetCategoryOrGenreResponse, error) {
+func (m *MockGenreClient) GetOneOf(ctx context.Context, in *genres_pb.GetOneOfRequest, opts ...grpc.CallOption) (*genres_pb.GetCategoryOrGenreResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetOneOf", varargs...)
-	ret0, _ := ret[0].(*genres.GetCategoryOrGenreResponse)
+	ret0, _ := ret[0].(*genres_pb.GetCategoryOrGenreResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -77,14 +77,14 @@ func (mr *MockGenreClientMockRecorder) GetOneOf(ctx, in interface{}, opts ...int
 }
 
 // GetTree mocks base method.
-func (m *MockGenreClient) GetTree(ctx context.Context, in *genres.GetOneOfRequest, opts ...grpc.CallOption) (*genres.CategoryResponse, error) {
+func (m *MockGenreClient) GetTree(ctx context.Context, in *genres_pb.GetOneOfRequest, opts ...grpc.CallOption) (*genres_pb.CategoryResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetTree", varargs...)
-	ret0, _ := ret[0].(*genres.CategoryResponse)
+	ret0, _ := ret[0].(*genres_pb.CategoryResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -120,10 +120,10 @@ func (m *MockGenreServer) EXPECT() *MockGenreServerMockRecorder {
 }
 
 // GetAll mocks base method.
-func (m *MockGenreServer) GetAll(arg0 context.Context, arg1 *genres.Empty) (*genres.GetAllResponse, error) {
+func (m *MockGenreServer) GetAll(arg0 context.Context, arg1 *genres_pb.Empty) (*genres_pb.GetAllResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll", arg0, arg1)
-	ret0, _ := ret[0].(*genres.GetAllResponse)
+	ret0, _ := ret[0].(*genres_pb.GetAllResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -135,10 +135,10 @@ func (mr *MockGenreServerMockRecorder) GetAll(arg0, arg1 interface{}) *gomock.Ca
 }
 
 // GetOneOf mocks base method.
-func (m *MockGenreServer) GetOneOf(arg0 context.Context, arg1 *genres.GetOneOfRequest) (*genres.GetCategoryOrGenreResponse, error) {
+func (m *MockGenreServer) GetOneOf(arg0 context.Context, arg1 *genres_pb.GetOneOfRequest) (*genres_pb.GetCategoryOrGenreResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetOneOf", arg0, arg1)
-	ret0, _ := ret[0].(*genres.GetCategoryOrGenreResponse)
+	ret0, _ := ret[0].(*genres_pb.GetCategoryOrGenreResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -150,10 +150,10 @@ func (mr *MockGenreServerMockRecorder) GetOneOf(arg0, arg1 interface{}) *gomock.
 }
 
 // GetTree mocks base method.
-func (m *MockGenreServer) GetTree(arg0 context.Context, arg1 *genres.GetOneOfRequest) (*genres.CategoryResponse, error) {
+func (m *MockGenreServer) GetTree(arg0 context.Context, arg1 *genres_pb.GetOneOfRequest) (*genres_pb.CategoryResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTree", arg0, arg1)
-	ret0, _ := ret[0].(*genres.CategoryResponse)
+	ret0, _ := ret[0].(*genres_pb.CategoryResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

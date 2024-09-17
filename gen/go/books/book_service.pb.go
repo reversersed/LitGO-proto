@@ -27,9 +27,9 @@ type GetSuggestionRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// query to find
-	Query string `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"` // @gotags: form:"query" validate:"required"
+	Query string `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty" form:"query" validate:"required"`  
 	// max objects to find
-	Limit int64 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"` // @gotags: form:"limit" validate:"required,gte=1,lte=10"
+	Limit int64 `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty" form:"limit" validate:"required,gte=1,lte=10"`  
 }
 
 func (x *GetSuggestionRequest) Reset() {
