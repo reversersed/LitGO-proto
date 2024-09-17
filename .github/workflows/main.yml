@@ -25,3 +25,15 @@ jobs:
     
     - name: Proto generation
       run: make
+
+    - name: Commit generated files
+      run: |
+        git config --local user.name "github-actions"
+        git config --local user.email "github-actions@github.com"
+        git add .
+        git commit -m "Generate new Go proto files" || echo "No changes to commit"
+
+    - name: Push changes
+      run: git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
