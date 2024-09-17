@@ -28,7 +28,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-//go:generate mockgen -source=genre_service_grpc.pb.go -destination=../mocks/genres/genre_service_mock.go
+//go:generate mockgen -source=genre_service_grpc.pb.go -destination=./mock/genre_service_mock.go
 type GenreClient interface {
 	GetAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAllResponse, error)
 	GetOneOf(ctx context.Context, in *GetOneOfRequest, opts ...grpc.CallOption) (*GetCategoryOrGenreResponse, error)
@@ -77,7 +77,7 @@ func (c *genreClient) GetTree(ctx context.Context, in *GetOneOfRequest, opts ...
 // All implementations must embed UnimplementedGenreServer
 // for forward compatibility.
 //
-//go:generate mockgen -source=genre_service_grpc.pb.go -destination=../mocks/genres/genre_service_mock.go
+//go:generate mockgen -source=genre_service_grpc.pb.go -destination=./mock/genre_service_mock.go
 type GenreServer interface {
 	GetAll(context.Context, *Empty) (*GetAllResponse, error)
 	GetOneOf(context.Context, *GetOneOfRequest) (*GetCategoryOrGenreResponse, error)

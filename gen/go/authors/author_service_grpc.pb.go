@@ -27,7 +27,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-//go:generate mockgen -source=author_service_grpc.pb.go -destination=../mocks/authors/author_service_mock.go
+//go:generate mockgen -source=author_service_grpc.pb.go -destination=./mock/author_service_mock.go
 type AuthorClient interface {
 	GetAuthors(ctx context.Context, in *GetAuthorsRequest, opts ...grpc.CallOption) (*GetAuthorsResponse, error)
 	GetAuthorSuggestion(ctx context.Context, in *GetSuggestionRequest, opts ...grpc.CallOption) (*GetAuthorsResponse, error)
@@ -65,7 +65,7 @@ func (c *authorClient) GetAuthorSuggestion(ctx context.Context, in *GetSuggestio
 // All implementations must embed UnimplementedAuthorServer
 // for forward compatibility.
 //
-//go:generate mockgen -source=author_service_grpc.pb.go -destination=../mocks/authors/author_service_mock.go
+//go:generate mockgen -source=author_service_grpc.pb.go -destination=./mock/author_service_mock.go
 type AuthorServer interface {
 	GetAuthors(context.Context, *GetAuthorsRequest) (*GetAuthorsResponse, error)
 	GetAuthorSuggestion(context.Context, *GetSuggestionRequest) (*GetAuthorsResponse, error)

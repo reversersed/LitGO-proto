@@ -29,7 +29,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-//go:generate mockgen -source=user_service_grpc.pb.go -destination=../mocks/users/user_service_mock.go
+//go:generate mockgen -source=user_service_grpc.pb.go -destination=./mock/user_service_mock.go
 type UserClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	UpdateToken(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokenReply, error)
@@ -89,7 +89,7 @@ func (c *userClient) RegisterUser(ctx context.Context, in *RegistrationRequest, 
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
 //
-//go:generate mockgen -source=user_service_grpc.pb.go -destination=../mocks/users/user_service_mock.go
+//go:generate mockgen -source=user_service_grpc.pb.go -destination=./mock/user_service_mock.go
 type UserServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	UpdateToken(context.Context, *TokenRequest) (*TokenReply, error)

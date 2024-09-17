@@ -26,7 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-//go:generate mockgen -source=book_service_grpc.pb.go -destination=../mocks/books/book_service_mock.go
+//go:generate mockgen -source=book_service_grpc.pb.go -destination=./mock/book_service_mock.go
 type BookClient interface {
 	GetBookSuggestions(ctx context.Context, in *GetSuggestionRequest, opts ...grpc.CallOption) (*GetBooksResponse, error)
 }
@@ -53,7 +53,7 @@ func (c *bookClient) GetBookSuggestions(ctx context.Context, in *GetSuggestionRe
 // All implementations must embed UnimplementedBookServer
 // for forward compatibility.
 //
-//go:generate mockgen -source=book_service_grpc.pb.go -destination=../mocks/books/book_service_mock.go
+//go:generate mockgen -source=book_service_grpc.pb.go -destination=./mock/book_service_mock.go
 type BookServer interface {
 	GetBookSuggestions(context.Context, *GetSuggestionRequest) (*GetBooksResponse, error)
 	mustEmbedUnimplementedBookServer()
