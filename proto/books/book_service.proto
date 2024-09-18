@@ -2,9 +2,6 @@ syntax = "proto3";
 package books;
 option go_package = "github.com/reversersed/LitGO-proto/gen/go/books;books_pb";
 
-import "authors/author_service.proto";
-import "genres/genre_service.proto";
-
 //go:generate mockgen -source=book_service_grpc.pb.go -destination=./mock/book_service_mock.go
 service Book {
     rpc GetBookSuggestions(GetSuggestionRequest) returns (GetBooksResponse);
@@ -47,7 +44,22 @@ message BookModel {
     string description = 4;
     string picture = 5;
     string filepath = 6;
-    repeated authors.AuthorModel authors = 7;
-    genres.CategoryModel category = 8;
-    genres.GenreModel genre = 9;
+    repeated AuthorModel authors = 7;
+    CategoryModel category = 8;
+    GenreModel genre = 9;
+}
+message AuthorModel {
+    string id = 1;
+    string name = 2;
+    string translitname = 3;
+}
+message CategoryModel {
+    string id = 1;
+    string name = 2;
+    string translitname = 3;
+}
+message GenreModel {
+    string id = 1;
+    string name = 2;
+    string translitname = 3;
 }

@@ -31,12 +31,12 @@ message Empty {}
 message CategoryModel {
     string id = 1;
     string name = 2;
-    string translitName = 3;
+    string translitname = 3;
     repeated GenreModel genres = 4;
 }
 message GenreModel {
     string id = 1;
     string name = 2;
-    string translitName = 3;
-    int64 bookCount = 4;
+    string translitname = 3;
+    int64 bookcount = 4;
 }
