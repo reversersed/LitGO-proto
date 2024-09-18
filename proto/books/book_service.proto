@@ -1,0 +1,55 @@
+syntax = "proto3";
+package books;
+option go_package = "github.com/reversersed/LitGO-proto/gen/go/books;books_pb";
+
+import "authors/author_service.proto";
+import "genres/genre_service.proto";
+
+//go:generate mockgen -source=book_service_grpc.pb.go -destination=./mock/book_service_mock.go
+service Book {
+    rpc GetBookSuggestions(GetSuggestionRequest) returns (GetBooksResponse);
+    rpc CreateBook(CreateBookRequest) returns (CreateBookResponse);
+}
+//Requests
+message GetSuggestionRequest {
+    // query to find
+    string query = 1; // @gotags: form:"query" validate:"required"
+    // max objects to find
+    int64 limit = 2; // @gotags: form:"limit" validate:"required,gte=1,lte=10"
+}
+message CreateBookRequest {
+    // book name, required, 4 <= length <= 64
+    string name = 1; // @gotags: validate:"required,min=4,max=64"
+    // description, required, 16 <= length <= 1024
+    string description = 2; // @gotags: validate:"required,min=16,max=1024"
+    // picture path, required
+    string picture = 3; // @gotags: validate:"required"
+    // file path, required
+    string filepath = 4; // @gotags: validate:"required"
+    // category primitive id, required
+    string category = 5; // @gotags: validate:"required,primitiveid"
+    // genre primitive id, required
+    string genre = 6; // @gotags: validate:"required,primitiveid"
+    // authors primitive id, at least one required
+    repeated string authors = 7; // @gotags: validate:"required,primitiveid"
+}
+//Responses
+message GetBooksResponse {
+    repeated BookModel books = 1;
+}
+message CreateBookResponse {
+    BookModel book = 1;
+}
+//Models
+message Empty {}
+message BookModel {
+    string id = 1;
+    string name = 2;
+    string translitname = 3;
+    string description = 4;
+    string picture = 5;
+    string filepath = 6;
+    repeated authors.AuthorModel authors = 7;
+    genres.CategoryModel category = 8;
+    genres.GenreModel genre = 9;
+}

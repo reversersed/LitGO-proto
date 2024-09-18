@@ -1,6 +1,6 @@
 syntax = "proto3";
 package authors;
-option go_package = "./authors;authors_pb";
+option go_package = "github.com/reversersed/LitGO-proto/gen/go/authors;authors_pb";
 
 //go:generate mockgen -source=author_service_grpc.pb.go -destination=./mock/author_service_mock.go
 service Author {

@@ -1,6 +1,6 @@
 syntax = "proto3";
 package shared;
-option go_package = "./shared;shared_pb";
+option go_package = "github.com/reversersed/LitGO-proto/gen/go/shared;shared_pb";
 
 // @Description Error detail contains information about error
 message ErrorDetail {

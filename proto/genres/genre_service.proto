@@ -1,6 +1,6 @@
 syntax = "proto3";
 package genres;
-option go_package = "./genres;genres_pb";
+option go_package = "github.com/reversersed/LitGO-proto/gen/go/genres;genres_pb";
 
 //go:generate mockgen -source=genre_service_grpc.pb.go -destination=./mock/genre_service_mock.go
 service Genre {
