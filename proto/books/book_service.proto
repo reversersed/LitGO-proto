@@ -26,12 +26,10 @@ message CreateBookRequest {
     string picture = 3; // @gotags: validate:"required"
     // file path, required
     string filepath = 4; // @gotags: validate:"required"
-    // category primitive id, required
-    string category = 5; // @gotags: validate:"required,primitiveid"
     // genre primitive id, required
-    string genre = 6; // @gotags: validate:"required,primitiveid"
+    string genre = 5; // @gotags: validate:"required,primitiveid"
     // authors primitive id, at least one required
-    repeated string authors = 7; // @gotags: validate:"required,primitiveid"
+    repeated string authors = 6; // @gotags: validate:"required,primitiveid"
 }
 //Responses
 message GetBooksResponse {
