@@ -16,17 +16,17 @@ message GetSuggestionRequest {
 }
 message CreateBookRequest {
     // book name, required, 4 <= length <= 64
-    string name = 1; // @gotags: validate:"required,min=4,max=64"
+    string name = 1; // @gotags: validate:"required,min=4,max=64" form:"Name"
     // description, required, 16 <= length <= 1024
-    string description = 2; // @gotags: validate:"required,min=16,max=1024"
+    string description = 2; // @gotags: validate:"required,min=16,max=1024" form:"Description"
     // picture path, required
-    string picture = 3; // @gotags: validate:"required"
+    string picture = 3; // @gotags: validate:"required" form:"Picture" swaggerignore:"true"
     // file path, required
-    string filepath = 4; // @gotags: validate:"required"
+    string filepath = 4; // @gotags: validate:"required" form:"File" swaggerignore:"true"
     // genre primitive id, required
-    string genre = 5; // @gotags: validate:"required,primitiveid"
+    string genre = 5; // @gotags: validate:"required,primitiveid" form:"Genre"
     // authors primitive id, at least one required
-    repeated string authors = 6; // @gotags: validate:"required,primitiveid"
+    repeated string authors = 6; // @gotags: validate:"required,primitiveid" form:"Authors"
 }
 //Responses
 message GetBooksResponse {
