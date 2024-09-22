@@ -20,9 +20,9 @@ message CreateBookRequest {
     // description, required, 16 <= length <= 1024
     string description = 2; // @gotags: validate:"required,min=16,max=1024" form:"Description"
     // picture path, required
-    string picture = 3; // @gotags: validate:"required" form:"Picture" swaggerignore:"true"
+    string picture = 3; // @gotags: validate:"required" swaggerignore:"true"
     // file path, required
-    string filepath = 4; // @gotags: validate:"required" form:"File" swaggerignore:"true"
+    string filepath = 4; // @gotags: validate:"required" swaggerignore:"true"
     // genre primitive id, required
     string genre = 5; // @gotags: validate:"required,primitiveid" form:"Genre"
     // authors primitive id, at least one required
