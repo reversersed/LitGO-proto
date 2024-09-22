@@ -52,6 +52,7 @@ message AuthorModel {
     string id = 1;
     string name = 2;
     string translitname = 3;
+    string profilepicture = 4;
 }
 message CategoryModel {
     string id = 1;
