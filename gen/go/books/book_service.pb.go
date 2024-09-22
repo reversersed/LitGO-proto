@@ -88,9 +88,9 @@ type CreateBookRequest struct {
 	// description, required, 16 <= length <= 1024
 	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty" validate:"required,min=16,max=1024" form:"Description"`  
 	// picture path, required
-	Picture string `protobuf:"bytes,3,opt,name=picture,proto3" json:"picture,omitempty" validate:"required" form:"Picture" swaggerignore:"true"`  
+	Picture string `protobuf:"bytes,3,opt,name=picture,proto3" json:"picture,omitempty" validate:"required" swaggerignore:"true"`  
 	// file path, required
-	Filepath string `protobuf:"bytes,4,opt,name=filepath,proto3" json:"filepath,omitempty" validate:"required" form:"File" swaggerignore:"true"`  
+	Filepath string `protobuf:"bytes,4,opt,name=filepath,proto3" json:"filepath,omitempty" validate:"required" swaggerignore:"true"`  
 	// genre primitive id, required
 	Genre string `protobuf:"bytes,5,opt,name=genre,proto3" json:"genre,omitempty" validate:"required,primitiveid" form:"Genre"`  
 	// authors primitive id, at least one required
