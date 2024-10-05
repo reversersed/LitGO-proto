@@ -27,9 +27,9 @@ type LoginRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	 
-	Login      string `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty" validate:"required" example:"admin"`            // Can be presented as login or email
-	Password   string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty" validate:"required" example:"admin"`       
-	RememberMe bool   `protobuf:"varint,3,opt,name=rememberMe,proto3" json:"rememberMe,omitempty" validate:"required" example:"false"`  
+	Login      string `protobuf:"bytes,1,opt,name=login,proto3" json:"login,omitempty" validate:"required" example:"admin"`       // Can be presented as login or email
+	Password   string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty" validate:"required" example:"admin"`  
+	RememberMe bool   `protobuf:"varint,3,opt,name=rememberMe,proto3" json:"rememberMe,omitempty"`
 }
 
 func (x *LoginRequest) Reset() {
@@ -204,7 +204,7 @@ type RegistrationRequest struct {
 	Password       string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty" validate:"required,min=8,max=32,lowercase,uppercase,digitrequired,specialsymbol"`                                    
 	PasswordRepeat string `protobuf:"bytes,3,opt,name=password_repeat,json=passwordRepeat,proto3" json:"password_repeat,omitempty" validate:"required,eqfield=Password"`  
 	Email          string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty" validate:"required,email"`                                          
-	RememberMe     bool   `protobuf:"varint,5,opt,name=rememberMe,proto3" json:"rememberMe,omitempty" validate:"required"`                               
+	RememberMe     bool   `protobuf:"varint,5,opt,name=rememberMe,proto3" json:"rememberMe,omitempty"`
 }
 
 func (x *RegistrationRequest) Reset() {
