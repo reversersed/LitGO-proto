@@ -27,6 +27,7 @@ message CreateBookRequest {
     string genre = 5; // @gotags: validate:"required,primitiveid" form:"Genre"
     // authors primitive id, at least one required
     repeated string authors = 6; // @gotags: validate:"required,primitiveid" form:"Authors"
+    int32 price = 7; // @gotags: validate:"required,min=0" form:"Price"
 }
 //Responses
 message GetBooksResponse {
@@ -47,6 +48,9 @@ message BookModel {
     repeated AuthorModel authors = 7;
     CategoryModel category = 8;
     GenreModel genre = 9;
+    float rating = 10;
+    int32 reviews = 11;
+    int32 price = 12;
 }
 message AuthorModel {
     string id = 1;
