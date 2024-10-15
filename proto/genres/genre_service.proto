@@ -2,7 +2,7 @@ syntax = "proto3";
 package genres;
 option go_package = "github.com/reversersed/LitGO-proto/gen/go/genres;genres_pb";
 
-//go:generate mockgen -source=genre_service_grpc.pb.go -destination=./mock/genre_service_mock.go
+//go:generate mockgen -source=genre_service_grpc.pb.go -destination=./mocks/genre_service_mock.go
 service Genre {
     rpc GetAll(Empty) returns (GetAllResponse);
     rpc GetOneOf(GetOneOfRequest) returns (GetCategoryOrGenreResponse);

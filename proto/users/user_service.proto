@@ -2,7 +2,7 @@ syntax = "proto3";
 package users;
 option go_package = "github.com/reversersed/LitGO-proto/gen/go/users;users_pb";
 
-//go:generate mockgen -source=user_service_grpc.pb.go -destination=./mock/user_service_mock.go
+//go:generate mockgen -source=user_service_grpc.pb.go -destination=./mocks/user_service_mock.go
 service User {
   rpc Login (LoginRequest) returns (LoginResponse);
   rpc UpdateToken (TokenRequest) returns (TokenReply);
