@@ -31,10 +31,8 @@ message CreateBookRequest {
     int32 price = 7; // @gotags: validate:"required,min=0" form:"Price"
 }
 message GetBookRequest {
-    // book's id to find
-    string id = 1; // @gotags: form:"id" validate:"primitiveid,required_without_all=Translit"
-    // book's translit name to find
-    string translit = 2; // @gotags: form:"translit" validate:"required_without_all=Id"
+    // book's translit name or id to find
+    string query = 1; // @gotags: form:"translit" validate:"required"
 }
 //Responses
 message GetBooksResponse {
