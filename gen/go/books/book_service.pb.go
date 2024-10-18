@@ -181,7 +181,7 @@ type GetBookRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// book's translit name or id to find
-	Query string `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty" form:"translit" validate:"required"`  
+	Query string `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty" form:"query" validate:"required"`  
 }
 
 func (x *GetBookRequest) Reset() {
