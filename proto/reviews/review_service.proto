@@ -1,0 +1,47 @@
+syntax = "proto3";
+package reviews;
+option go_package = "github.com/reversersed/LitGO-proto/gen/go/reviews;reviews_pb";
+
+//go:generate mockgen -source=review_service_grpc.pb.go -destination=./mocks/review_service_mock.go
+service Review {
+    rpc CreateBookReview(CreateBookReviewRequest) returns (CreateBookReviewResponse);
+    rpc GetBookReviews(GetBookReviewsRequest) returns (GetBookReviewsResponse);
+}
+//Requests
+message GetBookReviewsRequest {
+    // Book ID to search reviews of
+    string id = 1; // @gotags: form:"Id" validate:"required,primitiveid"
+}
+message CreateBookReviewRequest {
+    string text = 1; // @gotags: form:"Id" validate:"required"
+    float rating = 2; // @gotags: form:"Rating" validate:"required,gte=0,lte=5"
+    string creatorId = 3; // @gotags: validate:"required,primitiveid" swaggerignore:"true"
+    string modelId = 4; // @gotags: form:"ModelId" validate:"required,primitiveid"
+}
+//Responses
+message GetBookReviewsResponse {
+    repeated ReviewModel reviews = 1;
+}
+message CreateBookReviewResponse {
+    ReviewModel review = 1;
+}
+//Models
+enum UserActionEnum {
+    noAction = 0;
+    like = 1;
+    dislike = 2;
+}
+message ReviewModel {
+    string id = 1;
+    string text = 2;
+    int64 created = 3;
+    UserModel creator = 4;
+    float rating = 5;
+    UserActionEnum userAction = 6;
+    int32 upvotes = 7;
+    int32 downvotes = 8;
+}
+message UserModel {
+    string id = 1;
+    string login = 2;
+}

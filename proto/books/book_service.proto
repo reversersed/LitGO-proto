@@ -6,6 +6,7 @@ option go_package = "github.com/reversersed/LitGO-proto/gen/go/books;books_pb";
 service Book {
     rpc GetBookSuggestions(GetSuggestionRequest) returns (GetBooksResponse);
     rpc CreateBook(CreateBookRequest) returns (CreateBookResponse);
+    rpc GetBook(GetBookRequest) returns (GetBookResponse);
 }
 //Requests
 message GetSuggestionRequest {
@@ -29,11 +30,20 @@ message CreateBookRequest {
     repeated string authors = 6; // @gotags: validate:"required,primitiveid" form:"Authors"
     int32 price = 7; // @gotags: validate:"required,min=0" form:"Price"
 }
+message GetBookRequest {
+    // book's id to find
+    string id = 1; // @gotags: form:"id" validate:"primitiveid,required_without_all=Translit"
+    // book's translit name to find
+    string translit = 2; // @gotags: form:"translit" validate:"required_without_all=Id"
+}
 //Responses
 message GetBooksResponse {
     repeated BookModel books = 1;
 }
 message CreateBookResponse {
+    BookModel book = 1;
+}
+message GetBookResponse {
     BookModel book = 1;
 }
 //Models
