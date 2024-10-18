@@ -56,6 +56,26 @@ func (mr *MockBookClientMockRecorder) CreateBook(ctx, in interface{}, opts ...in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBook", reflect.TypeOf((*MockBookClient)(nil).CreateBook), varargs...)
 }
 
+// GetBook mocks base method.
+func (m *MockBookClient) GetBook(ctx context.Context, in *books_pb.GetBookRequest, opts ...grpc.CallOption) (*books_pb.GetBookResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetBook", varargs...)
+	ret0, _ := ret[0].(*books_pb.GetBookResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetBook indicates an expected call of GetBook.
+func (mr *MockBookClientMockRecorder) GetBook(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBook", reflect.TypeOf((*MockBookClient)(nil).GetBook), varargs...)
+}
+
 // GetBookSuggestions mocks base method.
 func (m *MockBookClient) GetBookSuggestions(ctx context.Context, in *books_pb.GetSuggestionRequest, opts ...grpc.CallOption) (*books_pb.GetBooksResponse, error) {
 	m.ctrl.T.Helper()
@@ -112,6 +132,21 @@ func (m *MockBookServer) CreateBook(arg0 context.Context, arg1 *books_pb.CreateB
 func (mr *MockBookServerMockRecorder) CreateBook(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBook", reflect.TypeOf((*MockBookServer)(nil).CreateBook), arg0, arg1)
+}
+
+// GetBook mocks base method.
+func (m *MockBookServer) GetBook(arg0 context.Context, arg1 *books_pb.GetBookRequest) (*books_pb.GetBookResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetBook", arg0, arg1)
+	ret0, _ := ret[0].(*books_pb.GetBookResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetBook indicates an expected call of GetBook.
+func (mr *MockBookServerMockRecorder) GetBook(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBook", reflect.TypeOf((*MockBookServer)(nil).GetBook), arg0, arg1)
 }
 
 // GetBookSuggestions mocks base method.
