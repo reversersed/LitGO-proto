@@ -5,7 +5,7 @@ option go_package = "github.com/reversersed/LitGO-proto/gen/go/authors;authors_p
 //go:generate mockgen -source=author_service_grpc.pb.go -destination=./mocks/author_service_mock.go
 service Author {
     rpc GetAuthors(GetAuthorsRequest) returns (GetAuthorsResponse);
-    rpc GetAuthorSuggestion(GetSuggestionRequest) returns (GetAuthorsResponse);
+    rpc FindAuthors(FindAuthorsRequest) returns (GetAuthorsResponse);
 }
 //Requests
 message GetAuthorsRequest {
@@ -14,11 +14,13 @@ message GetAuthorsRequest {
     // array of translit names to find
     repeated string translit = 2; // @gotags: form:"translit" validate:"required_without_all=Id"
 }
-message GetSuggestionRequest {
+message FindAuthorsRequest {
     // query to find
     string query = 1; // @gotags: form:"query" validate:"required"
     // max objects to find
-    int64 limit = 2; // @gotags: form:"limit" validate:"required,gte=1,lte=10"
+    int32 limit = 2; // @gotags: form:"limit" validate:"required,gte=1,lte=50"
+    // page to find
+    int32 page = 3; // @gotags: form:"page" validate:"gte=0"
 }
 //Responses
 message GetAuthorsResponse {
