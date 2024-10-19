@@ -77,11 +77,11 @@ type GetBookReviewsRequest struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Book ID to search reviews of
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"Id" validate:"required,primitiveid"`  
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" validate:"required,primitiveid"`  
 	// Page number to search
-	Page int32 `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty" form:"Page" validate:"gte=0"`  
+	Page int32 `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty" form:"page" validate:"gte=0"`  
 	// Reviews count per page
-	PageSize int32 `protobuf:"varint,3,opt,name=pageSize,proto3" json:"pageSize,omitempty" form:"PageSize" validate:"gte=1"`  
+	PageSize int32 `protobuf:"varint,3,opt,name=pageSize,proto3" json:"pageSize,omitempty" form:"pagesize" validate:"gte=1"`  
 }
 
 func (x *GetBookReviewsRequest) Reset() {
