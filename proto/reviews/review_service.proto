@@ -11,6 +11,10 @@ service Review {
 message GetBookReviewsRequest {
     // Book ID to search reviews of
     string id = 1; // @gotags: form:"Id" validate:"required,primitiveid"
+    // Page number to search
+    int32 page = 2; // @gotags: form:"Page" validate:"gte=0"
+    // Reviews count per page
+    int32 pageSize = 3; // @gotags: form:"PageSize" validate:"gte=1"
 }
 message CreateBookReviewRequest {
     string text = 1; // @gotags: form:"Id" validate:"required"
