@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Author_GetAuthors_FullMethodName          = "/authors.Author/GetAuthors"
-	Author_GetAuthorSuggestion_FullMethodName = "/authors.Author/GetAuthorSuggestion"
+	Author_GetAuthors_FullMethodName  = "/authors.Author/GetAuthors"
+	Author_FindAuthors_FullMethodName = "/authors.Author/FindAuthors"
 )
 
 // AuthorClient is the client API for Author service.
@@ -30,7 +30,7 @@ const (
 //go:generate mockgen -source=author_service_grpc.pb.go -destination=./mocks/author_service_mock.go
 type AuthorClient interface {
 	GetAuthors(ctx context.Context, in *GetAuthorsRequest, opts ...grpc.CallOption) (*GetAuthorsResponse, error)
-	GetAuthorSuggestion(ctx context.Context, in *GetSuggestionRequest, opts ...grpc.CallOption) (*GetAuthorsResponse, error)
+	FindAuthors(ctx context.Context, in *FindAuthorsRequest, opts ...grpc.CallOption) (*GetAuthorsResponse, error)
 }
 
 type authorClient struct {
@@ -51,10 +51,10 @@ func (c *authorClient) GetAuthors(ctx context.Context, in *GetAuthorsRequest, op
 	return out, nil
 }
 
-func (c *authorClient) GetAuthorSuggestion(ctx context.Context, in *GetSuggestionRequest, opts ...grpc.CallOption) (*GetAuthorsResponse, error) {
+func (c *authorClient) FindAuthors(ctx context.Context, in *FindAuthorsRequest, opts ...grpc.CallOption) (*GetAuthorsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetAuthorsResponse)
-	err := c.cc.Invoke(ctx, Author_GetAuthorSuggestion_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Author_FindAuthors_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (c *authorClient) GetAuthorSuggestion(ctx context.Context, in *GetSuggestio
 //go:generate mockgen -source=author_service_grpc.pb.go -destination=./mocks/author_service_mock.go
 type AuthorServer interface {
 	GetAuthors(context.Context, *GetAuthorsRequest) (*GetAuthorsResponse, error)
-	GetAuthorSuggestion(context.Context, *GetSuggestionRequest) (*GetAuthorsResponse, error)
+	FindAuthors(context.Context, *FindAuthorsRequest) (*GetAuthorsResponse, error)
 	mustEmbedUnimplementedAuthorServer()
 }
 
@@ -82,8 +82,8 @@ type UnimplementedAuthorServer struct{}
 func (UnimplementedAuthorServer) GetAuthors(context.Context, *GetAuthorsRequest) (*GetAuthorsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAuthors not implemented")
 }
-func (UnimplementedAuthorServer) GetAuthorSuggestion(context.Context, *GetSuggestionRequest) (*GetAuthorsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAuthorSuggestion not implemented")
+func (UnimplementedAuthorServer) FindAuthors(context.Context, *FindAuthorsRequest) (*GetAuthorsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindAuthors not implemented")
 }
 func (UnimplementedAuthorServer) mustEmbedUnimplementedAuthorServer() {}
 func (UnimplementedAuthorServer) testEmbeddedByValue()                {}
@@ -124,20 +124,20 @@ func _Author_GetAuthors_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Author_GetAuthorSuggestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSuggestionRequest)
+func _Author_FindAuthors_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindAuthorsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthorServer).GetAuthorSuggestion(ctx, in)
+		return srv.(AuthorServer).FindAuthors(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Author_GetAuthorSuggestion_FullMethodName,
+		FullMethod: Author_FindAuthors_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthorServer).GetAuthorSuggestion(ctx, req.(*GetSuggestionRequest))
+		return srv.(AuthorServer).FindAuthors(ctx, req.(*FindAuthorsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -154,8 +154,8 @@ var Author_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Author_GetAuthors_Handler,
 		},
 		{
-			MethodName: "GetAuthorSuggestion",
-			Handler:    _Author_GetAuthorSuggestion_Handler,
+			MethodName: "FindAuthors",
+			Handler:    _Author_FindAuthors_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

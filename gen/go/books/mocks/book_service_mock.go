@@ -56,6 +56,26 @@ func (mr *MockBookClientMockRecorder) CreateBook(ctx, in interface{}, opts ...in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBook", reflect.TypeOf((*MockBookClient)(nil).CreateBook), varargs...)
 }
 
+// FindBook mocks base method.
+func (m *MockBookClient) FindBook(ctx context.Context, in *books_pb.FindBookRequest, opts ...grpc.CallOption) (*books_pb.FindBookResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "FindBook", varargs...)
+	ret0, _ := ret[0].(*books_pb.FindBookResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindBook indicates an expected call of FindBook.
+func (mr *MockBookClientMockRecorder) FindBook(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindBook", reflect.TypeOf((*MockBookClient)(nil).FindBook), varargs...)
+}
+
 // GetBook mocks base method.
 func (m *MockBookClient) GetBook(ctx context.Context, in *books_pb.GetBookRequest, opts ...grpc.CallOption) (*books_pb.GetBookResponse, error) {
 	m.ctrl.T.Helper()
@@ -74,26 +94,6 @@ func (mr *MockBookClientMockRecorder) GetBook(ctx, in interface{}, opts ...inter
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBook", reflect.TypeOf((*MockBookClient)(nil).GetBook), varargs...)
-}
-
-// GetBookSuggestions mocks base method.
-func (m *MockBookClient) GetBookSuggestions(ctx context.Context, in *books_pb.GetSuggestionRequest, opts ...grpc.CallOption) (*books_pb.GetBooksResponse, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "GetBookSuggestions", varargs...)
-	ret0, _ := ret[0].(*books_pb.GetBooksResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetBookSuggestions indicates an expected call of GetBookSuggestions.
-func (mr *MockBookClientMockRecorder) GetBookSuggestions(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBookSuggestions", reflect.TypeOf((*MockBookClient)(nil).GetBookSuggestions), varargs...)
 }
 
 // MockBookServer is a mock of BookServer interface.
@@ -134,6 +134,21 @@ func (mr *MockBookServerMockRecorder) CreateBook(arg0, arg1 interface{}) *gomock
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBook", reflect.TypeOf((*MockBookServer)(nil).CreateBook), arg0, arg1)
 }
 
+// FindBook mocks base method.
+func (m *MockBookServer) FindBook(arg0 context.Context, arg1 *books_pb.FindBookRequest) (*books_pb.FindBookResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindBook", arg0, arg1)
+	ret0, _ := ret[0].(*books_pb.FindBookResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindBook indicates an expected call of FindBook.
+func (mr *MockBookServerMockRecorder) FindBook(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindBook", reflect.TypeOf((*MockBookServer)(nil).FindBook), arg0, arg1)
+}
+
 // GetBook mocks base method.
 func (m *MockBookServer) GetBook(arg0 context.Context, arg1 *books_pb.GetBookRequest) (*books_pb.GetBookResponse, error) {
 	m.ctrl.T.Helper()
@@ -147,21 +162,6 @@ func (m *MockBookServer) GetBook(arg0 context.Context, arg1 *books_pb.GetBookReq
 func (mr *MockBookServerMockRecorder) GetBook(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBook", reflect.TypeOf((*MockBookServer)(nil).GetBook), arg0, arg1)
-}
-
-// GetBookSuggestions mocks base method.
-func (m *MockBookServer) GetBookSuggestions(arg0 context.Context, arg1 *books_pb.GetSuggestionRequest) (*books_pb.GetBooksResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetBookSuggestions", arg0, arg1)
-	ret0, _ := ret[0].(*books_pb.GetBooksResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetBookSuggestions indicates an expected call of GetBookSuggestions.
-func (mr *MockBookServerMockRecorder) GetBookSuggestions(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBookSuggestions", reflect.TypeOf((*MockBookServer)(nil).GetBookSuggestions), arg0, arg1)
 }
 
 // mustEmbedUnimplementedBookServer mocks base method.
