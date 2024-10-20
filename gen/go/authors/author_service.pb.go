@@ -88,7 +88,7 @@ type FindAuthorsRequest struct {
 	// page to find
 	Page int32 `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty" form:"page" validate:"gte=0"`  
 	// rating to find
-	Rating float32 `protobuf:"fixed32,4,opt,name=rating,proto3" json:"rating,omitempty" form:"rating" validate:"gte=0"`  
+	Rating float32 `protobuf:"fixed32,4,opt,name=rating,proto3" json:"rating,omitempty" form:"rating" validate:"gte=0,lte=5"`  
 }
 
 func (x *FindAuthorsRequest) Reset() {
