@@ -63,6 +63,7 @@ message BookModel {
     float rating = 10;
     int32 reviews = 11;
     int32 price = 12;
+    int64 published = 13;
 }
 message AuthorModel {
     string id = 1;
