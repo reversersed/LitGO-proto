@@ -64,6 +64,8 @@ message BookModel {
     int32 reviews = 11;
     int32 price = 12;
     int64 published = 13;
+    int32 written = 14;
+    int32 pages = 15;
 }
 message AuthorModel {
     string id = 1;
