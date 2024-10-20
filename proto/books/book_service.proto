@@ -16,6 +16,8 @@ message FindBookRequest {
     int32 limit = 2; // @gotags: form:"limit" validate:"required,gte=1,lte=50"
     // page to find
     int32 page = 3; // @gotags: form:"page" validate:"gte=0"
+    // minimum rating to find
+    float rating = 4; // @gotags: form:"rating" validate:"gte=0"
 }
 message CreateBookRequest {
     // book name, required, 4 <= length <= 64
