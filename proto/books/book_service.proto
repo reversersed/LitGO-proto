@@ -7,6 +7,7 @@ service Book {
     rpc FindBook(FindBookRequest) returns (FindBookResponse);
     rpc CreateBook(CreateBookRequest) returns (CreateBookResponse);
     rpc GetBook(GetBookRequest) returns (GetBookResponse);
+    rpc GetBookByGenre(GetBookByGenreRequest) returns (GetBookByGenreResponse);
 }
 //Requests
 message FindBookRequest {
@@ -32,11 +33,19 @@ message CreateBookRequest {
     string genre = 5; // @gotags: validate:"required,primitiveid" form:"Genre"
     // authors primitive id, at least one required
     repeated string authors = 6; // @gotags: validate:"required,primitiveid" form:"Authors"
-    int32 price = 7; // @gotags: validate:"required,min=0" form:"Price"
+    int32 price = 7; // @gotags: validate:"required,gte=0" form:"Price"
 }
 message GetBookRequest {
     // book's translit name or id to find
     string query = 1; // @gotags: form:"query" validate:"required"
+}
+message GetBookByGenreRequest {
+    // Query can be translit name or genre id
+    string query = 1; // @gotags: form:"query" validate:"required"
+    string sorttype = 2; // @gotags: form:"sorttype" validate:"oneof=Popular Newest"
+    bool onlyhighrating = 3; // @gotags: form:"onlyhighrating"
+    int32 limit = 4; // @gotags: form:"limit" validate:"gte=1,lte=50"
+    int32 page = 5; // @gotags: form:"page" validate:"gte=0"
 }
 //Responses
 message FindBookResponse {
@@ -47,6 +56,9 @@ message CreateBookResponse {
 }
 message GetBookResponse {
     BookModel book = 1;
+}
+message GetBookByGenreResponse {
+    repeated BookModel books = 1;
 }
 //Models
 message Empty {}
