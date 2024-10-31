@@ -12,13 +12,14 @@ service Book {
 //Requests
 message FindBookRequest {
     // query to find
-    string query = 1; // @gotags: form:"query" validate:"required"
+    string query = 1; // @gotags: form:"query" validate:"max=128"
     // max objects to find
     int32 limit = 2; // @gotags: form:"limit" validate:"required,gte=1,lte=50"
     // page to find
     int32 page = 3; // @gotags: form:"page" validate:"gte=0"
     // minimum rating to find
     float rating = 4; // @gotags: form:"rating" validate:"gte=0,lte=5"
+    string sorttype = 5; // @gotags: form:"sorttype" validate:"oneof=Popular Newest"
 }
 message CreateBookRequest {
     // book name, required, 4 <= length <= 64
