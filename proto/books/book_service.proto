@@ -8,8 +8,15 @@ service Book {
     rpc CreateBook(CreateBookRequest) returns (CreateBookResponse);
     rpc GetBook(GetBookRequest) returns (GetBookResponse);
     rpc GetBookByGenre(GetBookByGenreRequest) returns (GetBookByGenreResponse);
+    rpc GetBootList(GetBookListRequest) returns (GetBookListResponse);
 }
 //Requests
+message GetBookListRequest {
+    // array of authors id to find
+    repeated string id = 1; // @gotags: form:"id" validate:"primitiveid,required_without_all=Translit"
+    // array of translit names to find
+    repeated string translit = 2; // @gotags: form:"translit" validate:"required_without_all=Id"
+}
 message FindBookRequest {
     // query to find
     string query = 1; // @gotags: form:"query" validate:"max=128"
@@ -50,6 +57,9 @@ message GetBookByGenreRequest {
 }
 //Responses
 message FindBookResponse {
+    repeated BookModel books = 1;
+}
+message GetBookListResponse {
     repeated BookModel books = 1;
 }
 message CreateBookResponse {
