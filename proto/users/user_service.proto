@@ -33,10 +33,11 @@ message RegistrationRequest {
 }
 //Responses
 message LoginResponse {
-  string login = 1;
-  repeated string roles = 2;
-  string token = 3;
-  string refreshtoken = 4;
+  string id = 1;
+  string login = 2;
+  repeated string roles = 3;
+  string token = 4;
+  string refreshtoken = 5;
 }
 message TokenReply {
   string token = 1 ;// @gotags: example:"token"
