@@ -1,0 +1,13 @@
+syntax = "proto3";
+package collections;
+option go_package = "github.com/reversersed/LitGO-proto/gen/go/collections;collections_pb";
+
+//go:generate mockgen -source=collection_service_grpc.pb.go -destination=./mocks/collection_service_mock.go
+service Collection {
+
+}
+//Requests
+
+//Responses
+
+//Models
