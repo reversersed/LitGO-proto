@@ -8,7 +8,7 @@ service Book {
     rpc CreateBook(CreateBookRequest) returns (CreateBookResponse);
     rpc GetBook(GetBookRequest) returns (GetBookResponse);
     rpc GetBookByGenre(GetBookByGenreRequest) returns (GetBookByGenreResponse);
-    rpc GetBootList(GetBookListRequest) returns (GetBookListResponse);
+    rpc GetBookList(GetBookListRequest) returns (GetBookListResponse);
 }
 //Requests
 message GetBookListRequest {
