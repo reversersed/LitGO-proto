@@ -1,0 +1,460 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "title": "genres/genre_service.proto",
+    "version": "version not set"
+  },
+  "paths": {},
+  "definitions": {
+    "authorsAuthorModel": {
+      "type": "object",
+      "properties": {
+        "about": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "profilepicture": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "number",
+          "format": "float"
+        },
+        "translitname": {
+          "type": "string"
+        }
+      }
+    },
+    "authorsGetAuthorsResponse": {
+      "type": "object",
+      "title": "Responses",
+      "properties": {
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authorsAuthorModel"
+          }
+        }
+      }
+    },
+    "booksAuthorModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "profilepicture": {
+          "type": "string"
+        },
+        "translitname": {
+          "type": "string"
+        }
+      }
+    },
+    "booksBookModel": {
+      "type": "object",
+      "properties": {
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/booksAuthorModel"
+          }
+        },
+        "category": {
+          "$ref": "#/definitions/booksCategoryModel"
+        },
+        "description": {
+          "type": "string"
+        },
+        "filepath": {
+          "type": "string"
+        },
+        "genre": {
+          "$ref": "#/definitions/booksGenreModel"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "picture": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "published": {
+          "type": "string",
+          "format": "int64"
+        },
+        "rating": {
+          "type": "number",
+          "format": "float"
+        },
+        "reviews": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "translitname": {
+          "type": "string"
+        },
+        "written": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "booksCategoryModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "translitname": {
+          "type": "string"
+        }
+      }
+    },
+    "booksCreateBookResponse": {
+      "type": "object",
+      "properties": {
+        "book": {
+          "$ref": "#/definitions/booksBookModel"
+        }
+      }
+    },
+    "booksFindBookResponse": {
+      "type": "object",
+      "title": "Responses",
+      "properties": {
+        "books": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/booksBookModel"
+          }
+        }
+      }
+    },
+    "booksGenreModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "translitname": {
+          "type": "string"
+        }
+      }
+    },
+    "booksGetBookByGenreResponse": {
+      "type": "object",
+      "properties": {
+        "books": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/booksBookModel"
+          }
+        }
+      }
+    },
+    "booksGetBookListResponse": {
+      "type": "object",
+      "properties": {
+        "books": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/booksBookModel"
+          }
+        }
+      }
+    },
+    "booksGetBookResponse": {
+      "type": "object",
+      "properties": {
+        "book": {
+          "$ref": "#/definitions/booksBookModel"
+        }
+      }
+    },
+    "genresCategoryModel": {
+      "type": "object",
+      "properties": {
+        "genres": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/genresGenreModel"
+          }
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "translitname": {
+          "type": "string"
+        }
+      }
+    },
+    "genresCategoryResponse": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/genresCategoryModel"
+        }
+      }
+    },
+    "genresGenreModel": {
+      "type": "object",
+      "properties": {
+        "bookcount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "translitname": {
+          "type": "string"
+        }
+      }
+    },
+    "genresGetAllResponse": {
+      "type": "object",
+      "title": "Responses",
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/genresCategoryModel"
+          }
+        }
+      }
+    },
+    "genresGetCategoryOrGenreResponse": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/genresCategoryModel"
+        },
+        "genre": {
+          "$ref": "#/definitions/genresGenreModel"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "reviewsCreateBookReviewResponse": {
+      "type": "object",
+      "properties": {
+        "review": {
+          "$ref": "#/definitions/reviewsReviewModel"
+        }
+      }
+    },
+    "reviewsGetBookReviewsResponse": {
+      "type": "object",
+      "title": "Responses",
+      "properties": {
+        "reviews": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/reviewsReviewModel"
+          }
+        }
+      }
+    },
+    "reviewsReviewModel": {
+      "type": "object",
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "int64"
+        },
+        "creator": {
+          "$ref": "#/definitions/reviewsUserModel"
+        },
+        "downvotes": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "id": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "number",
+          "format": "float"
+        },
+        "text": {
+          "type": "string"
+        },
+        "upvotes": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "userAction": {
+          "$ref": "#/definitions/reviewsUserActionEnum"
+        }
+      }
+    },
+    "reviewsUserActionEnum": {
+      "type": "string",
+      "title": "Models",
+      "default": "noAction",
+      "enum": [
+        "noAction",
+        "like",
+        "dislike"
+      ]
+    },
+    "reviewsUserModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        }
+      }
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "usersLoginResponse": {
+      "type": "object",
+      "title": "Responses",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        },
+        "refreshtoken": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "usersTokenReply": {
+      "type": "object",
+      "properties": {
+        "refreshtoken": {
+          "type": "string",
+          "title": "@gotags: example:\"refresh token\""
+        },
+        "token": {
+          "type": "string",
+          "title": "@gotags: example:\"token\""
+        }
+      }
+    },
+    "usersUserModel": {
+      "type": "object",
+      "title": "Models",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Genre"
+    },
+    {
+      "name": "User"
+    },
+    {
+      "name": "Review"
+    },
+    {
+      "name": "Book"
+    },
+    {
+      "name": "Author"
+    }
+  ]
+}
