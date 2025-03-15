@@ -10,7 +10,40 @@
     "title": "genres/genre_service.proto",
     "version": "version not set"
   },
-  "paths": {},
+  "paths": {
+    "/v1/users/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_Login",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/usersLoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/usersLoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    }
+  },
   "definitions": {
     "authorsAuthorModel": {
       "type": "object",
@@ -378,6 +411,24 @@
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "usersLoginRequest": {
+      "type": "object",
+      "title": "Requests",
+      "properties": {
+        "login": {
+          "description": "Can be presented as login or email",
+          "type": "string",
+          "title": "@gotags: validate:\"required\" example:\"admin\""
+        },
+        "password": {
+          "type": "string",
+          "title": "@gotags: validate:\"required\" example:\"admin\""
+        },
+        "rememberMe": {
+          "type": "boolean"
         }
       }
     },

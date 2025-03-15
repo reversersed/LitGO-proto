@@ -15,7 +15,40 @@
   "produces": [
     "application/json"
   ],
-  "paths": {},
+  "paths": {
+    "/v1/users/login": {
+      "post": {
+        "operationId": "User_Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/usersLoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/usersLoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    }
+  },
   "definitions": {
     "protobufAny": {
       "type": "object",
@@ -44,6 +77,24 @@
           }
         }
       }
+    },
+    "usersLoginRequest": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string",
+          "description": "Can be presented as login or email",
+          "title": "@gotags: validate:\"required\" example:\"admin\""
+        },
+        "password": {
+          "type": "string",
+          "title": "@gotags: validate:\"required\" example:\"admin\""
+        },
+        "rememberMe": {
+          "type": "boolean"
+        }
+      },
+      "title": "Requests"
     },
     "usersLoginResponse": {
       "type": "object",
