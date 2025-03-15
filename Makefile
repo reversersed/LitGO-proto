@@ -1,4 +1,4 @@
-PROTO_FILES := $(shell find proto -name '*.proto')
+PROTO_FILES := $(shell find proto -path ./google -prune -name '*.proto')
 SWAGGER_FILES := $(shell find gen/docs -name '*.swagger.json')
 
 run: $(PROTO_FILES)
