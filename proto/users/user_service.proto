@@ -2,9 +2,16 @@ syntax = "proto3";
 package users;
 option go_package = "github.com/reversersed/LitGO-proto/gen/go/users;users_pb";
 
+import "google/api/annotations.proto";
+
 //go:generate mockgen -source=user_service_grpc.pb.go -destination=./mocks/user_service_mock.go
 service User {
-  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Login (LoginRequest) returns (LoginResponse){
+        option (google.api.http) = {
+          post: "/v1/users/login"
+          body: "*"
+        };
+    }
   rpc UpdateToken (TokenRequest) returns (TokenReply);
   rpc GetUser (UserRequest) returns (UserModel);
   rpc RegisterUser (RegistrationRequest) returns (LoginResponse);
