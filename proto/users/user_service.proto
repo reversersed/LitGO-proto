@@ -1,6 +1,24 @@
 syntax = "proto3";
 package users;
 option go_package = "github.com/reversersed/LitGO-proto/gen/go/users;users_pb";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) ={
+  security_definitions: {
+    security: {
+      key: "bearer"
+      value: {
+        type: TYPE_API_KEY
+        in: IN_HEADER
+        name: "Authorization"
+        description: "Authentication token, prefixed by Bearer: Bearer <token>"
+      }
+    }
+  }
+  security: {
+    security_requirement: {
+      key: "bearer"
+    }
+  }
+};
 
 import "google/api/annotations.proto";
 
@@ -8,7 +26,7 @@ import "google/api/annotations.proto";
 service User {
   rpc Login (LoginRequest) returns (LoginResponse){
         option (google.api.http) = {
-          post: "/v1/users/login"
+          post: "/api/v1/users/login"
           body: "*"
         };
     }
