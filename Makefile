@@ -8,8 +8,11 @@ else
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	@go install github.com/favadi/protoc-go-inject-tag@latest
 	@go install github.com/golang/mock/mockgen@latest
+	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
 
 	@protoc -I=proto --proto_path=proto --go_out=gen/go --go-grpc_out=gen/go --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative $(PROTO_FILES)
+	@protoc -I=proto --proto_path=proto --grpc-gateway_out=gen/go --grpc-gateway_opt paths=source_relative --grpc-gateway_opt generate_unbound_methods=true $(PROTO_FILES)
 	@protoc-go-inject-tag -input="./gen/go/*/*.pb.go" -remove_tag_comment
 	@go generate ./gen/go/...
 	@cd ./gen/go && go mod tidy
