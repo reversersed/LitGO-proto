@@ -1,5 +1,5 @@
 PROTO_FILES := $(shell find proto -name '*.proto')
-SWAGGER_FILES := $(shell find docs/swagger -name '*.swagger.json')
+SWAGGER_FILES := $(shell find docs -name '*.swagger.json')
 
 run: $(PROTO_FILES)
 ifeq ($(OS),Windows_NT)
