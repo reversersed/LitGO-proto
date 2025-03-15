@@ -7,8 +7,9 @@
   ],
   "swagger": "2.0",
   "info": {
-    "title": "genres/genre_service.proto",
-    "version": "version not set"
+    "description": "API specification for LitGO API ecosystem",
+    "title": "LitGO API Swagger Scheme",
+    "version": "1.0.0"
   },
   "paths": {
     "/api/v1/users/login": {
