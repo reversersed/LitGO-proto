@@ -2,41 +2,41 @@ name: Proto files generation
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
-    
+    branches: ["main"]
+
 permissions:
-    contents: write
-    
+  contents: write
+
 jobs:
   generation:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    
-    - name: Protoc installation
-      uses: arduino/setup-protoc@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: '1.22.5'
-        cache-dependency-path: gen/go/go.sum
-    - run: go env -w GO111MODULE=auto
-    
-    - name: Proto generation
-      run: make
+      - name: Protoc installation
+        uses: arduino/setup-protoc@v3
 
-    - name: Commit generated files
-      run: |
-        git config --local user.name "github-actions"
-        git config --local user.email "github-actions@github.com"
-        git add .
-        git commit -m "Generate new Go proto files" || echo "No changes to commit"
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.24.1"
+          cache-dependency-path: gen/go/go.sum
+      - run: go env -w GO111MODULE=auto
 
-    - name: Push changes
-      run: git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Proto generation
+        run: make
+
+      - name: Commit generated files
+        run: |
+          git config --local user.name "github-actions"
+          git config --local user.email "github-actions@github.com"
+          git add .
+          git commit -m "Generate new Go proto files" || echo "No changes to commit"
+
+      - name: Push changes
+        run: git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
