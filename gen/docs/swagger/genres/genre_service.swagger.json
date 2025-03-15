@@ -1,0 +1,120 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "genres/genre_service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Genre"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "genresCategoryModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "translitname": {
+          "type": "string"
+        },
+        "genres": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/genresGenreModel"
+          }
+        }
+      }
+    },
+    "genresCategoryResponse": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/genresCategoryModel"
+        }
+      }
+    },
+    "genresGenreModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "translitname": {
+          "type": "string"
+        },
+        "bookcount": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "genresGetAllResponse": {
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/genresCategoryModel"
+          }
+        }
+      },
+      "title": "Responses"
+    },
+    "genresGetCategoryOrGenreResponse": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/genresCategoryModel"
+        },
+        "genre": {
+          "$ref": "#/definitions/genresGenreModel"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

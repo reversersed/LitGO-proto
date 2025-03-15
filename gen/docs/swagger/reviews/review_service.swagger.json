@@ -1,0 +1,124 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "reviews/review_service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Review"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "reviewsCreateBookReviewResponse": {
+      "type": "object",
+      "properties": {
+        "review": {
+          "$ref": "#/definitions/reviewsReviewModel"
+        }
+      }
+    },
+    "reviewsGetBookReviewsResponse": {
+      "type": "object",
+      "properties": {
+        "reviews": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/reviewsReviewModel"
+          }
+        }
+      },
+      "title": "Responses"
+    },
+    "reviewsReviewModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "format": "int64"
+        },
+        "creator": {
+          "$ref": "#/definitions/reviewsUserModel"
+        },
+        "rating": {
+          "type": "number",
+          "format": "float"
+        },
+        "userAction": {
+          "$ref": "#/definitions/reviewsUserActionEnum"
+        },
+        "upvotes": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "downvotes": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "reviewsUserActionEnum": {
+      "type": "string",
+      "enum": [
+        "noAction",
+        "like",
+        "dislike"
+      ],
+      "default": "noAction",
+      "title": "Models"
+    },
+    "reviewsUserModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        }
+      }
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

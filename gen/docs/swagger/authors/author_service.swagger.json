@@ -1,0 +1,86 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "authors/author_service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Author"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "authorsAuthorModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "translitname": {
+          "type": "string"
+        },
+        "profilepicture": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "authorsGetAuthorsResponse": {
+      "type": "object",
+      "properties": {
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authorsAuthorModel"
+          }
+        }
+      },
+      "title": "Responses"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
