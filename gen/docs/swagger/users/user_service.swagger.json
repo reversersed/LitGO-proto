@@ -16,7 +16,7 @@
     "application/json"
   ],
   "paths": {
-    "/v1/users/login": {
+    "/api/v1/users/login": {
       "post": {
         "operationId": "User_Login",
         "responses": {
@@ -154,5 +154,18 @@
       },
       "title": "Models"
     }
-  }
+  },
+  "securityDefinitions": {
+    "bearer": {
+      "type": "apiKey",
+      "description": "Authentication token, prefixed by Bearer: Bearer \u003ctoken\u003e",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "bearer": []
+    }
+  ]
 }

@@ -11,7 +11,7 @@
     "version": "version not set"
   },
   "paths": {
-    "/v1/users/login": {
+    "/api/v1/users/login": {
       "post": {
         "tags": [
           "User"
@@ -491,6 +491,19 @@
       }
     }
   },
+  "securityDefinitions": {
+    "bearer": {
+      "description": "Authentication token, prefixed by Bearer: Bearer \u003ctoken\u003e",
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "bearer": []
+    }
+  ],
   "tags": [
     {
       "name": "Genre"
