@@ -12,6 +12,503 @@
     "version": "1.0.0"
   },
   "paths": {
+    "/api/v1/authors": {
+      "get": {
+        "description": "Get authors by id or translit name. Can be multiple",
+        "tags": [
+          "Author"
+        ],
+        "summary": "Find authors",
+        "operationId": "Author_GetAuthors",
+        "parameters": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi",
+            "description": "array of authors id to find\n\n@gotags: form:\"id\" validate:\"primitiveid,required_without_all=Translit\"",
+            "name": "id",
+            "in": "query"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi",
+            "description": "array of translit names to find\n\n@gotags: form:\"translit\" validate:\"required_without_all=Id\"",
+            "name": "translit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/authorsGetAuthorsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/authors/list": {
+      "get": {
+        "description": "Get authors by query with pagination",
+        "tags": [
+          "Author"
+        ],
+        "summary": "Find authors list",
+        "operationId": "Author_FindAuthors",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "query to find\n\n@gotags: form:\"query\" validate:\"required\"",
+            "name": "query",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "max objects to find\n\n@gotags: form:\"limit\" validate:\"required,gte=1,lte=50\"",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "page to find\n\n@gotags: form:\"page\" validate:\"gte=0\"",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "format": "float",
+            "description": "rating to find\n\n@gotags: form:\"rating\" validate:\"gte=0,lte=5\"",
+            "name": "rating",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/authorsGetAuthorsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/book": {
+      "get": {
+        "description": "Gets book by id or translit name",
+        "tags": [
+          "Book"
+        ],
+        "summary": "Get book by id",
+        "operationId": "Book_GetBook",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "book's translit name or id to find\n\n@gotags: form:\"query\" validate:\"required\"",
+            "name": "query",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/booksGetBookResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Create new book. Accessible only for authorized users with admin rights.",
+        "tags": [
+          "Book"
+        ],
+        "summary": "Create book",
+        "operationId": "Book_CreateBook",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/booksCreateBookRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/booksCreateBookResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/book/find": {
+      "get": {
+        "description": "Searches books by query with pagination",
+        "tags": [
+          "Book"
+        ],
+        "summary": "Find book by query",
+        "operationId": "Book_FindBook",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "query to find\n\n@gotags: form:\"query\" validate:\"max=128\"",
+            "name": "query",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "max objects to find\n\n@gotags: form:\"limit\" validate:\"required,gte=1,lte=50\"",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "page to find\n\n@gotags: form:\"page\" validate:\"gte=0\"",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "type": "number",
+            "format": "float",
+            "description": "minimum rating to find\n\n@gotags: form:\"rating\" validate:\"gte=0,lte=5\"",
+            "name": "rating",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "@gotags: form:\"sorttype\" validate:\"oneof=Popular Newest\"",
+            "name": "sorttype",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/booksFindBookResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/book/genre": {
+      "get": {
+        "description": "Gets book by genre id or translit name with pagination",
+        "tags": [
+          "Book"
+        ],
+        "summary": "Get book by genre",
+        "operationId": "Book_GetBookByGenre",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Query can be translit name or genre id\n\n@gotags: form:\"query\" validate:\"required\"",
+            "name": "query",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "@gotags: form:\"sorttype\" validate:\"oneof=Popular Newest\"",
+            "name": "sorttype",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "@gotags: form:\"onlyhighrating\"",
+            "name": "onlyhighrating",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "@gotags: form:\"limit\" validate:\"gte=1,lte=50\"",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "@gotags: form:\"page\" validate:\"gte=0\"",
+            "name": "page",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/booksGetBookByGenreResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/book/list": {
+      "get": {
+        "description": "Get authors by query with pagination",
+        "tags": [
+          "Book"
+        ],
+        "summary": "Find authors list",
+        "operationId": "Book_GetBookList",
+        "parameters": [
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi",
+            "description": "array of authors id to find\n\n@gotags: form:\"id\" validate:\"primitiveid,required_without_all=Translit\"",
+            "name": "id",
+            "in": "query"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi",
+            "description": "array of translit names to find\n\n@gotags: form:\"translit\" validate:\"required_without_all=Id\"",
+            "name": "translit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/booksGetBookListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/genre": {
+      "get": {
+        "description": "Query can be hex id or translit name of category or genre",
+        "tags": [
+          "Genre"
+        ],
+        "summary": "Get category or genre by query",
+        "operationId": "Genre_GetOneOf",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "query to find. can be hex id or translit name\n\n@gotags: form:\"query\" validate:\"required\"",
+            "name": "query",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/genresGetCategoryOrGenreResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/genre/all": {
+      "get": {
+        "tags": [
+          "Genre"
+        ],
+        "summary": "Get all categories and genres list",
+        "operationId": "Genre_GetAll",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/genresGetAllResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/genre/tree": {
+      "get": {
+        "description": "Search category by genre or category by id or translit name",
+        "tags": [
+          "Genre"
+        ],
+        "summary": "Get whole tree",
+        "operationId": "Genre_GetTree",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "query to find. can be hex id or translit name\n\n@gotags: form:\"query\" validate:\"required\"",
+            "name": "query",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/genresCategoryResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/review/book": {
+      "post": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Adds new review to book",
+        "operationId": "Review_CreateBookReview",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reviewsCreateBookReviewRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reviewsCreateBookReviewResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/review/{id}": {
+      "get": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Get reviews of book with provided {id}",
+        "operationId": "Review_GetBookReviews",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Book ID to search reviews of\n\n@gotags: form:\"id\" validate:\"required,primitiveid\"",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "Page number to search\n\n@gotags: form:\"page\" validate:\"gte=0\"",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "Reviews count per page\n\n@gotags: form:\"pagesize\" validate:\"gte=1\"",
+            "name": "pageSize",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reviewsGetBookReviewsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/users": {
       "get": {
         "description": "Find user by provided id, login or email. Only one parameter at time allowed.",
@@ -241,35 +738,19 @@
         }
       }
     },
-    "booksAuthorModel": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "profilepicture": {
-          "type": "string"
-        },
-        "translitname": {
-          "type": "string"
-        }
-      }
-    },
     "booksBookModel": {
       "type": "object",
+      "title": "Models",
       "properties": {
         "authors": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/booksAuthorModel"
+            "$ref": "#/definitions/authorsAuthorModel"
           }
         },
         "category": {
-          "$ref": "#/definitions/booksCategoryModel"
+          "$ref": "#/definitions/genresCategoryModel"
         },
         "description": {
           "type": "string"
@@ -278,7 +759,7 @@
           "type": "string"
         },
         "genre": {
-          "$ref": "#/definitions/booksGenreModel"
+          "$ref": "#/definitions/genresGenreModel"
         },
         "id": {
           "type": "string"
@@ -318,17 +799,48 @@
         }
       }
     },
-    "booksCategoryModel": {
+    "booksCreateBookRequest": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
+        "authors": {
+          "description": "@gotags: validate:\"required,primitiveid\" form:\"Authors\"",
+          "type": "array",
+          "title": "authors primitive id, at least one required",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": {
+          "description": "@gotags: validate:\"required,min=16,max=1024\" form:\"Description\"",
+          "type": "string",
+          "title": "description, required, 16 \u003c= length \u003c= 1024"
+        },
+        "filepath": {
+          "description": "@gotags: validate:\"required\" form:\"Book\"",
+          "type": "string",
+          "format": "byte",
+          "title": "book file, required"
+        },
+        "genre": {
+          "description": "@gotags: validate:\"required,primitiveid\" form:\"Genre\"",
+          "type": "string",
+          "title": "genre primitive id, required"
         },
         "name": {
-          "type": "string"
+          "description": "@gotags: validate:\"required,min=4,max=64\" form:\"Name\"",
+          "type": "string",
+          "title": "book name, required, 4 \u003c= length \u003c= 64"
         },
-        "translitname": {
-          "type": "string"
+        "picture": {
+          "description": "@gotags: validate:\"required\" form:\"Picture\"",
+          "type": "string",
+          "format": "byte",
+          "title": "picture file, required"
+        },
+        "price": {
+          "type": "integer",
+          "format": "int32",
+          "title": "@gotags: validate:\"required,gte=0\" form:\"Price\""
         }
       }
     },
@@ -350,20 +862,6 @@
             "type": "object",
             "$ref": "#/definitions/booksBookModel"
           }
-        }
-      }
-    },
-    "booksGenreModel": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "translitname": {
-          "type": "string"
         }
       }
     },
@@ -401,6 +899,7 @@
     },
     "genresCategoryModel": {
       "type": "object",
+      "title": "Models",
       "properties": {
         "genres": {
           "type": "array",
@@ -478,6 +977,28 @@
         }
       },
       "additionalProperties": {}
+    },
+    "reviewsCreateBookReviewRequest": {
+      "type": "object",
+      "properties": {
+        "creatorId": {
+          "type": "string",
+          "title": "@gotags: validate:\"required,primitiveid\" swaggerignore:\"true\""
+        },
+        "modelId": {
+          "type": "string",
+          "title": "@gotags: form:\"ModelId\" validate:\"required,primitiveid\""
+        },
+        "rating": {
+          "type": "number",
+          "format": "float",
+          "title": "@gotags: form:\"Rating\" validate:\"required,gte=0,lte=5\""
+        },
+        "text": {
+          "type": "string",
+          "title": "@gotags: form:\"Id\" validate:\"required\""
+        }
+      }
     },
     "reviewsCreateBookReviewResponse": {
       "type": "object",

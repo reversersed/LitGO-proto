@@ -15,7 +15,97 @@
   "produces": [
     "application/json"
   ],
-  "paths": {},
+  "paths": {
+    "/api/v1/genre": {
+      "get": {
+        "summary": "Get category or genre by query",
+        "description": "Query can be hex id or translit name of category or genre",
+        "operationId": "Genre_GetOneOf",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/genresGetCategoryOrGenreResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "query",
+            "description": "query to find. can be hex id or translit name\n\n@gotags: form:\"query\" validate:\"required\"",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Genre"
+        ]
+      }
+    },
+    "/api/v1/genre/all": {
+      "get": {
+        "summary": "Get all categories and genres list",
+        "operationId": "Genre_GetAll",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/genresGetAllResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Genre"
+        ]
+      }
+    },
+    "/api/v1/genre/tree": {
+      "get": {
+        "summary": "Get whole tree",
+        "description": "Search category by genre or category by id or translit name",
+        "operationId": "Genre_GetTree",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/genresCategoryResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "query",
+            "description": "query to find. can be hex id or translit name\n\n@gotags: form:\"query\" validate:\"required\"",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Genre"
+        ]
+      }
+    }
+  },
   "definitions": {
     "genresCategoryModel": {
       "type": "object",
@@ -36,7 +126,8 @@
             "$ref": "#/definitions/genresGenreModel"
           }
         }
-      }
+      },
+      "title": "Models"
     },
     "genresCategoryResponse": {
       "type": "object",

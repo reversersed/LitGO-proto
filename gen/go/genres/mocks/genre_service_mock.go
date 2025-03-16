@@ -10,6 +10,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	genres_pb "github.com/reversersed/LitGO-proto/gen/go/genres"
+	shared_pb "github.com/reversersed/LitGO-proto/gen/go/shared"
 	grpc "google.golang.org/grpc"
 )
 
@@ -37,7 +38,7 @@ func (m *MockGenreClient) EXPECT() *MockGenreClientMockRecorder {
 }
 
 // GetAll mocks base method.
-func (m *MockGenreClient) GetAll(ctx context.Context, in *genres_pb.Empty, opts ...grpc.CallOption) (*genres_pb.GetAllResponse, error) {
+func (m *MockGenreClient) GetAll(ctx context.Context, in *shared_pb.Empty, opts ...grpc.CallOption) (*genres_pb.GetAllResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
@@ -120,7 +121,7 @@ func (m *MockGenreServer) EXPECT() *MockGenreServerMockRecorder {
 }
 
 // GetAll mocks base method.
-func (m *MockGenreServer) GetAll(arg0 context.Context, arg1 *genres_pb.Empty) (*genres_pb.GetAllResponse, error) {
+func (m *MockGenreServer) GetAll(arg0 context.Context, arg1 *shared_pb.Empty) (*genres_pb.GetAllResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll", arg0, arg1)
 	ret0, _ := ret[0].(*genres_pb.GetAllResponse)

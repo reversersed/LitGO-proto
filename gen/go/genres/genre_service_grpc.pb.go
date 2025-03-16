@@ -8,6 +8,7 @@ package genres_pb
 
 import (
 	context "context"
+	shared "github.com/reversersed/LitGO-proto/gen/go/shared"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -30,7 +31,7 @@ const (
 //
 //go:generate mockgen -source=genre_service_grpc.pb.go -destination=./mocks/genre_service_mock.go
 type GenreClient interface {
-	GetAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAllResponse, error)
+	GetAll(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*GetAllResponse, error)
 	GetOneOf(ctx context.Context, in *GetOneOfRequest, opts ...grpc.CallOption) (*GetCategoryOrGenreResponse, error)
 	GetTree(ctx context.Context, in *GetOneOfRequest, opts ...grpc.CallOption) (*CategoryResponse, error)
 }
@@ -43,7 +44,7 @@ func NewGenreClient(cc grpc.ClientConnInterface) GenreClient {
 	return &genreClient{cc}
 }
 
-func (c *genreClient) GetAll(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GetAllResponse, error) {
+func (c *genreClient) GetAll(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*GetAllResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetAllResponse)
 	err := c.cc.Invoke(ctx, Genre_GetAll_FullMethodName, in, out, cOpts...)
@@ -79,7 +80,7 @@ func (c *genreClient) GetTree(ctx context.Context, in *GetOneOfRequest, opts ...
 //
 //go:generate mockgen -source=genre_service_grpc.pb.go -destination=./mocks/genre_service_mock.go
 type GenreServer interface {
-	GetAll(context.Context, *Empty) (*GetAllResponse, error)
+	GetAll(context.Context, *shared.Empty) (*GetAllResponse, error)
 	GetOneOf(context.Context, *GetOneOfRequest) (*GetCategoryOrGenreResponse, error)
 	GetTree(context.Context, *GetOneOfRequest) (*CategoryResponse, error)
 	mustEmbedUnimplementedGenreServer()
@@ -92,7 +93,7 @@ type GenreServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGenreServer struct{}
 
-func (UnimplementedGenreServer) GetAll(context.Context, *Empty) (*GetAllResponse, error) {
+func (UnimplementedGenreServer) GetAll(context.Context, *shared.Empty) (*GetAllResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
 }
 func (UnimplementedGenreServer) GetOneOf(context.Context, *GetOneOfRequest) (*GetCategoryOrGenreResponse, error) {
@@ -123,7 +124,7 @@ func RegisterGenreServer(s grpc.ServiceRegistrar, srv GenreServer) {
 }
 
 func _Genre_GetAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(shared.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -135,7 +136,7 @@ func _Genre_GetAll_Handler(srv interface{}, ctx context.Context, dec func(interf
 		FullMethod: Genre_GetAll_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GenreServer).GetAll(ctx, req.(*Empty))
+		return srv.(GenreServer).GetAll(ctx, req.(*shared.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
