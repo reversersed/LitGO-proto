@@ -16,8 +16,57 @@
     "application/json"
   ],
   "paths": {
+    "/api/v1/users": {
+      "get": {
+        "summary": "Search user",
+        "description": "Find user by provided id, login or email. Only one parameter at time allowed.",
+        "operationId": "User_GetUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/usersUserModel"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "@gotags: validate:\"primitiveid,required_without_all=Login Email\" form:\"id\"",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "login",
+            "description": "@gotags: validate:\"onlyenglish,required_without_all=Id Email\" form:\"login\"",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "description": "@gotags: validate:\"required_without_all=Id Login\" form:\"email\"",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    },
     "/api/v1/users/login": {
       "post": {
+        "summary": "Login user",
+        "description": "Log in user with provided credentials to get auth and refresh tokens",
         "operationId": "User_Login",
         "responses": {
           "200": {
@@ -40,6 +89,40 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/usersLoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/v1/users/register": {
+      "post": {
+        "summary": "Register user",
+        "description": "Creates user account with provided credentials and returns auth and refresh tokens to authorize.",
+        "operationId": "User_RegisterUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/usersLoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/usersRegistrationRequest"
             }
           }
         ],
@@ -119,6 +202,30 @@
         }
       },
       "title": "Responses"
+    },
+    "usersRegistrationRequest": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string",
+          "title": "@gotags: validate:\"required,min=4,max=16,onlyenglish\""
+        },
+        "password": {
+          "type": "string",
+          "title": "@gotags: validate:\"required,min=8,max=32,lowercase,uppercase,digitrequired,specialsymbol\""
+        },
+        "passwordRepeat": {
+          "type": "string",
+          "title": "@gotags: validate:\"required,eqfield=Password\""
+        },
+        "email": {
+          "type": "string",
+          "title": "@gotags: validate:\"required,email\""
+        },
+        "rememberMe": {
+          "type": "boolean"
+        }
+      }
     },
     "usersTokenReply": {
       "type": "object",
