@@ -58,6 +58,11 @@
     },
     "/api/v1/users/auth": {
       "post": {
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
         "description": "Returns current user's credentials if there is one",
         "tags": [
           "User"
@@ -113,6 +118,45 @@
             "description": "A successful response.",
             "schema": {
               "$ref": "#/definitions/usersLoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/logout": {
+      "post": {
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "description": "Removes user cookies if user logged in",
+        "tags": [
+          "User"
+        ],
+        "summary": "Logout user",
+        "operationId": "User_Logout",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sharedEmpty"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sharedUserCredentials"
             }
           },
           "default": {
@@ -658,11 +702,6 @@
       "in": "header"
     }
   },
-  "security": [
-    {
-      "bearer": []
-    }
-  ],
   "tags": [
     {
       "name": "Genre"

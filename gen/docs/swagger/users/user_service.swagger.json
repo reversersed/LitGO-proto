@@ -94,6 +94,11 @@
         ],
         "tags": [
           "User"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
@@ -128,6 +133,45 @@
         ],
         "tags": [
           "User"
+        ]
+      }
+    },
+    "/api/v1/users/logout": {
+      "post": {
+        "summary": "Logout user",
+        "description": "Removes user cookies if user logged in",
+        "operationId": "User_Logout",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sharedUserCredentials"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sharedEmpty"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
@@ -323,10 +367,5 @@
       "name": "Authorization",
       "in": "header"
     }
-  },
-  "security": [
-    {
-      "bearer": []
-    }
-  ]
+  }
 }

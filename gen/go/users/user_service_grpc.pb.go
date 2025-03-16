@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	User_Auth_FullMethodName         = "/users.User/Auth"
+	User_Logout_FullMethodName       = "/users.User/Logout"
 	User_Login_FullMethodName        = "/users.User/Login"
 	User_UpdateToken_FullMethodName  = "/users.User/UpdateToken"
 	User_GetUser_FullMethodName      = "/users.User/GetUser"
@@ -34,6 +35,7 @@ const (
 //go:generate mockgen -source=user_service_grpc.pb.go -destination=./mocks/user_service_mock.go
 type UserClient interface {
 	Auth(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*shared.UserCredentials, error)
+	Logout(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*shared.UserCredentials, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	UpdateToken(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokenReply, error)
 	GetUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserModel, error)
@@ -52,6 +54,16 @@ func (c *userClient) Auth(ctx context.Context, in *shared.Empty, opts ...grpc.Ca
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(shared.UserCredentials)
 	err := c.cc.Invoke(ctx, User_Auth_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) Logout(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*shared.UserCredentials, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(shared.UserCredentials)
+	err := c.cc.Invoke(ctx, User_Logout_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -105,6 +117,7 @@ func (c *userClient) RegisterUser(ctx context.Context, in *RegistrationRequest, 
 //go:generate mockgen -source=user_service_grpc.pb.go -destination=./mocks/user_service_mock.go
 type UserServer interface {
 	Auth(context.Context, *shared.Empty) (*shared.UserCredentials, error)
+	Logout(context.Context, *shared.Empty) (*shared.UserCredentials, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	UpdateToken(context.Context, *TokenRequest) (*TokenReply, error)
 	GetUser(context.Context, *UserRequest) (*UserModel, error)
@@ -121,6 +134,9 @@ type UnimplementedUserServer struct{}
 
 func (UnimplementedUserServer) Auth(context.Context, *shared.Empty) (*shared.UserCredentials, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Auth not implemented")
+}
+func (UnimplementedUserServer) Logout(context.Context, *shared.Empty) (*shared.UserCredentials, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
 func (UnimplementedUserServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
@@ -169,6 +185,24 @@ func _User_Auth_Handler(srv interface{}, ctx context.Context, dec func(interface
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).Auth(ctx, req.(*shared.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(shared.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).Logout(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_Logout_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).Logout(ctx, req.(*shared.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -255,6 +289,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Auth",
 			Handler:    _User_Auth_Handler,
+		},
+		{
+			MethodName: "Logout",
+			Handler:    _User_Logout_Handler,
 		},
 		{
 			MethodName: "Login",

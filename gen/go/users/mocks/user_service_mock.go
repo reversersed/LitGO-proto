@@ -97,6 +97,26 @@ func (mr *MockUserClientMockRecorder) Login(ctx, in interface{}, opts ...interfa
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockUserClient)(nil).Login), varargs...)
 }
 
+// Logout mocks base method.
+func (m *MockUserClient) Logout(ctx context.Context, in *shared_pb.Empty, opts ...grpc.CallOption) (*shared_pb.UserCredentials, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "Logout", varargs...)
+	ret0, _ := ret[0].(*shared_pb.UserCredentials)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Logout indicates an expected call of Logout.
+func (mr *MockUserClientMockRecorder) Logout(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Logout", reflect.TypeOf((*MockUserClient)(nil).Logout), varargs...)
+}
+
 // RegisterUser mocks base method.
 func (m *MockUserClient) RegisterUser(ctx context.Context, in *users_pb.RegistrationRequest, opts ...grpc.CallOption) (*users_pb.LoginResponse, error) {
 	m.ctrl.T.Helper()
@@ -203,6 +223,21 @@ func (m *MockUserServer) Login(arg0 context.Context, arg1 *users_pb.LoginRequest
 func (mr *MockUserServerMockRecorder) Login(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockUserServer)(nil).Login), arg0, arg1)
+}
+
+// Logout mocks base method.
+func (m *MockUserServer) Logout(arg0 context.Context, arg1 *shared_pb.Empty) (*shared_pb.UserCredentials, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Logout", arg0, arg1)
+	ret0, _ := ret[0].(*shared_pb.UserCredentials)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Logout indicates an expected call of Logout.
+func (mr *MockUserServerMockRecorder) Logout(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Logout", reflect.TypeOf((*MockUserServer)(nil).Logout), arg0, arg1)
 }
 
 // RegisterUser mocks base method.
