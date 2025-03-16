@@ -13,11 +13,6 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) ={
       }
     }
   }
-  security: {
-    security_requirement: {
-      key: "bearer"
-    }
-  }
 };
 
 import "protoc-gen-openapiv2/options/annotations.proto";
@@ -34,6 +29,26 @@ service User {
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary: "Authenticate user";
       description: "Returns current user's credentials if there is one";
+      security: {
+        security_requirement: {
+          key: "bearer"
+        }
+      }
+    };
+  }
+  rpc Logout (shared.Empty) returns (shared.UserCredentials){
+    option (google.api.http) = {
+      post: "/api/v1/users/logout"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Logout user";
+      description: "Removes user cookies if user logged in";
+      security: {
+        security_requirement: {
+          key: "bearer"
+        }
+      }
     };
   }
   rpc Login (LoginRequest) returns (LoginResponse){
