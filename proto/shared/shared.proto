@@ -22,3 +22,6 @@ message UserCredentials {
   string login = 2;
   repeated string roles = 3;
 }
+message Empty {
+  
+}
