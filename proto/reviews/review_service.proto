@@ -2,10 +2,28 @@ syntax = "proto3";
 package reviews;
 option go_package = "github.com/reversersed/LitGO-proto/gen/go/reviews;reviews_pb";
 
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+
 //go:generate mockgen -source=review_service_grpc.pb.go -destination=./mocks/review_service_mock.go
 service Review {
-    rpc CreateBookReview(CreateBookReviewRequest) returns (CreateBookReviewResponse);
-    rpc GetBookReviews(GetBookReviewsRequest) returns (GetBookReviewsResponse);
+    rpc CreateBookReview(CreateBookReviewRequest) returns (CreateBookReviewResponse){
+        option (google.api.http) = {
+          post: "/api/v1/review/book"
+          body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Adds new review to book";
+        };
+    }
+    rpc GetBookReviews(GetBookReviewsRequest) returns (GetBookReviewsResponse){
+        option (google.api.http) = {
+          get: "/api/v1/review/{id}"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Get reviews of book with provided {id}";
+        };
+    }
 }
 //Requests
 message GetBookReviewsRequest {

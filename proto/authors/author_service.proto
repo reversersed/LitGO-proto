@@ -4,8 +4,24 @@ option go_package = "github.com/reversersed/LitGO-proto/gen/go/authors;authors_p
 
 //go:generate mockgen -source=author_service_grpc.pb.go -destination=./mocks/author_service_mock.go
 service Author {
-    rpc GetAuthors(GetAuthorsRequest) returns (GetAuthorsResponse);
-    rpc FindAuthors(FindAuthorsRequest) returns (GetAuthorsResponse);
+    rpc GetAuthors(GetAuthorsRequest) returns (GetAuthorsResponse){
+        option (google.api.http) = {
+          get: "/api/v1/authors"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Find authors";
+          description: "Get authors by id or translit name. Can be multiple";
+        };
+    }
+    rpc FindAuthors(FindAuthorsRequest) returns (GetAuthorsResponse){
+        option (google.api.http) = {
+          get: "/api/v1/authors/list"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Find authors list";
+          description: "Get authors by query with pagination";
+        };
+    }
 }
 //Requests
 message GetAuthorsRequest {

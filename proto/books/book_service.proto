@@ -2,13 +2,65 @@ syntax = "proto3";
 package books;
 option go_package = "github.com/reversersed/LitGO-proto/gen/go/books;books_pb";
 
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+import "shared/shared.proto";
+import "genres/genre_service.proto";
+import "authors/authror_service.proto";
+
 //go:generate mockgen -source=book_service_grpc.pb.go -destination=./mocks/book_service_mock.go
 service Book {
-    rpc FindBook(FindBookRequest) returns (FindBookResponse);
-    rpc CreateBook(CreateBookRequest) returns (CreateBookResponse);
-    rpc GetBook(GetBookRequest) returns (GetBookResponse);
-    rpc GetBookByGenre(GetBookByGenreRequest) returns (GetBookByGenreResponse);
-    rpc GetBookList(GetBookListRequest) returns (GetBookListResponse);
+    rpc FindBook(FindBookRequest) returns (FindBookResponse){
+        option (google.api.http) = {
+          get: "/api/v1/book/find"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Find book by query";
+          description: "Searches books by query with pagination";
+        };
+    }
+    rpc CreateBook(stream CreateBookRequest) returns (CreateBookResponse){
+        option (google.api.http) = {
+          post: "/api/v1/book"
+          body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Create book";
+          description: "Create new book. Accessible only for authorized users with admin rights.";
+          security: {
+            security_requirement: {
+              key: "bearer"
+            }
+          }
+        };
+    }
+    rpc GetBook(GetBookRequest) returns (GetBookResponse){
+        option (google.api.http) = {
+          get: "/api/v1/book"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Get book by id";
+          description: "Gets book by id or translit name";
+        };
+    }
+    rpc GetBookByGenre(GetBookByGenreRequest) returns (GetBookByGenreResponse){
+        option (google.api.http) = {
+          get: "/api/v1/book/genre"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Get book by genre";
+          description: "Gets book by genre id or translit name with pagination";
+        };
+    }
+    rpc GetBookList(GetBookListRequest) returns (GetBookListResponse){
+        option (google.api.http) = {
+          get: "/api/v1/book/list"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Find authors list";
+          description: "Get authors by query with pagination";
+        };
+    }
 }
 //Requests
 message GetBookListRequest {
@@ -33,10 +85,10 @@ message CreateBookRequest {
     string name = 1; // @gotags: validate:"required,min=4,max=64" form:"Name"
     // description, required, 16 <= length <= 1024
     string description = 2; // @gotags: validate:"required,min=16,max=1024" form:"Description"
-    // picture path, required
-    string picture = 3; // @gotags: validate:"required" swaggerignore:"true"
-    // file path, required
-    string filepath = 4; // @gotags: validate:"required" swaggerignore:"true"
+    // picture file, required
+    bytes picture = 3; // @gotags: validate:"required" form:"Picture"
+    // book file, required
+    bytes filepath = 4; // @gotags: validate:"required" form:"Book"
     // genre primitive id, required
     string genre = 5; // @gotags: validate:"required,primitiveid" form:"Genre"
     // authors primitive id, at least one required
@@ -72,7 +124,6 @@ message GetBookByGenreResponse {
     repeated BookModel books = 1;
 }
 //Models
-message Empty {}
 message BookModel {
     string id = 1;
     string name = 2;
@@ -80,29 +131,13 @@ message BookModel {
     string description = 4;
     string picture = 5;
     string filepath = 6;
-    repeated AuthorModel authors = 7;
-    CategoryModel category = 8;
-    GenreModel genre = 9;
+    repeated authors.AuthorModel authors = 7;
+    genres.CategoryModel category = 8;
+    genres.GenreModel genre = 9;
     float rating = 10;
     int32 reviews = 11;
     int32 price = 12;
     int64 published = 13;
     int32 written = 14;
     int32 pages = 15;
-}
-message AuthorModel {
-    string id = 1;
-    string name = 2;
-    string translitname = 3;
-    string profilepicture = 4;
-}
-message CategoryModel {
-    string id = 1;
-    string name = 2;
-    string translitname = 3;
-}
-message GenreModel {
-    string id = 1;
-    string name = 2;
-    string translitname = 3;
 }

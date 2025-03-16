@@ -2,11 +2,38 @@ syntax = "proto3";
 package genres;
 option go_package = "github.com/reversersed/LitGO-proto/gen/go/genres;genres_pb";
 
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+import "shared/shared.proto";
+
 //go:generate mockgen -source=genre_service_grpc.pb.go -destination=./mocks/genre_service_mock.go
 service Genre {
-    rpc GetAll(Empty) returns (GetAllResponse);
-    rpc GetOneOf(GetOneOfRequest) returns (GetCategoryOrGenreResponse);
-    rpc GetTree(GetOneOfRequest) returns (CategoryResponse);
+    rpc GetAll(Empty) returns (GetAllResponse){
+        option (google.api.http) = {
+          get: "/api/v1/genre/all"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Get all categories and genres list";
+        };
+    }
+    rpc GetOneOf(GetOneOfRequest) returns (GetCategoryOrGenreResponse){
+        option (google.api.http) = {
+          get: "/api/v1/genre"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Get category or genre by query";
+          description: "Query can be hex id or translit name of category or genre";
+        };
+    }
+    rpc GetTree(GetOneOfRequest) returns (CategoryResponse){
+        option (google.api.http) = {
+          get: "/api/v1/genre/tree"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Get whole tree";
+          description: "Search category by genre or category by id or translit name";
+        };
+    }
 }
 //Requests
 message GetOneOfRequest {
