@@ -18,7 +18,7 @@ service Book {
           description: "Searches books by query with pagination";
         };
     }
-    rpc CreateBook(stream CreateBookRequest) returns (CreateBookResponse){
+    rpc CreateBook(CreateBookRequest) returns (CreateBookResponse){
         option (google.api.http) = {
           post: "/api/v1/book"
           body: "*"
