@@ -36,7 +36,7 @@ service User {
       }
     };
   }
-  rpc Logout (shared.Empty) returns (shared.UserCredentials){
+  rpc Logout (shared.Empty) returns (shared.Empty){
     option (google.api.http) = {
       post: "/api/v1/users/logout"
       body: "*"
