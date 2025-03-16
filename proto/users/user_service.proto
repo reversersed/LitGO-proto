@@ -30,10 +30,31 @@ service User {
           post: "/api/v1/users/login"
           body: "*"
         };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Login user";
+          description: "Log in user with provided credentials to get auth and refresh tokens";
+      };
     }
   rpc UpdateToken (TokenRequest) returns (TokenReply);
-  rpc GetUser (UserRequest) returns (UserModel);
-  rpc RegisterUser (RegistrationRequest) returns (LoginResponse);
+  rpc GetUser (UserRequest) returns (UserModel){
+      option (google.api.http) = {
+        get: "/api/v1/users"
+      };
+      option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+        summary: "Search user";
+        description: "Find user by provided id, login or email. Only one parameter at time allowed.";
+    };
+  }
+  rpc RegisterUser (RegistrationRequest) returns (LoginResponse){
+    option (google.api.http) = {
+      post: "/api/v1/users/register"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Register user";
+      description: "Creates user account with provided credentials and returns auth and refresh tokens to authorize.";
+  };
+}
 }
 //Requests
 message LoginRequest {
