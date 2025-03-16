@@ -9,6 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	shared_pb "github.com/reversersed/LitGO-proto/gen/go/shared"
 	users_pb "github.com/reversersed/LitGO-proto/gen/go/users"
 	grpc "google.golang.org/grpc"
 )
@@ -34,6 +35,26 @@ func NewMockUserClient(ctrl *gomock.Controller) *MockUserClient {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockUserClient) EXPECT() *MockUserClientMockRecorder {
 	return m.recorder
+}
+
+// Auth mocks base method.
+func (m *MockUserClient) Auth(ctx context.Context, in *shared_pb.Empty, opts ...grpc.CallOption) (*shared_pb.UserCredentials, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "Auth", varargs...)
+	ret0, _ := ret[0].(*shared_pb.UserCredentials)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Auth indicates an expected call of Auth.
+func (mr *MockUserClientMockRecorder) Auth(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Auth", reflect.TypeOf((*MockUserClient)(nil).Auth), varargs...)
 }
 
 // GetUser mocks base method.
@@ -137,6 +158,21 @@ func NewMockUserServer(ctrl *gomock.Controller) *MockUserServer {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockUserServer) EXPECT() *MockUserServerMockRecorder {
 	return m.recorder
+}
+
+// Auth mocks base method.
+func (m *MockUserServer) Auth(arg0 context.Context, arg1 *shared_pb.Empty) (*shared_pb.UserCredentials, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Auth", arg0, arg1)
+	ret0, _ := ret[0].(*shared_pb.UserCredentials)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Auth indicates an expected call of Auth.
+func (mr *MockUserServerMockRecorder) Auth(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Auth", reflect.TypeOf((*MockUserServer)(nil).Auth), arg0, arg1)
 }
 
 // GetUser mocks base method.

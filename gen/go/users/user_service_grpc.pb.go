@@ -8,6 +8,7 @@ package users_pb
 
 import (
 	context "context"
+	shared "github.com/reversersed/LitGO-proto/gen/go/shared"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -19,6 +20,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	User_Auth_FullMethodName         = "/users.User/Auth"
 	User_Login_FullMethodName        = "/users.User/Login"
 	User_UpdateToken_FullMethodName  = "/users.User/UpdateToken"
 	User_GetUser_FullMethodName      = "/users.User/GetUser"
@@ -31,6 +33,7 @@ const (
 //
 //go:generate mockgen -source=user_service_grpc.pb.go -destination=./mocks/user_service_mock.go
 type UserClient interface {
+	Auth(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*shared.UserCredentials, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	UpdateToken(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokenReply, error)
 	GetUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserModel, error)
@@ -43,6 +46,16 @@ type userClient struct {
 
 func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 	return &userClient{cc}
+}
+
+func (c *userClient) Auth(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*shared.UserCredentials, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(shared.UserCredentials)
+	err := c.cc.Invoke(ctx, User_Auth_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *userClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
@@ -91,6 +104,7 @@ func (c *userClient) RegisterUser(ctx context.Context, in *RegistrationRequest, 
 //
 //go:generate mockgen -source=user_service_grpc.pb.go -destination=./mocks/user_service_mock.go
 type UserServer interface {
+	Auth(context.Context, *shared.Empty) (*shared.UserCredentials, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	UpdateToken(context.Context, *TokenRequest) (*TokenReply, error)
 	GetUser(context.Context, *UserRequest) (*UserModel, error)
@@ -105,6 +119,9 @@ type UserServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUserServer struct{}
 
+func (UnimplementedUserServer) Auth(context.Context, *shared.Empty) (*shared.UserCredentials, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Auth not implemented")
+}
 func (UnimplementedUserServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
@@ -136,6 +153,24 @@ func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&User_ServiceDesc, srv)
+}
+
+func _User_Auth_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(shared.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).Auth(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_Auth_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).Auth(ctx, req.(*shared.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _User_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -217,6 +252,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "users.User",
 	HandlerType: (*UserServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Auth",
+			Handler:    _User_Auth_Handler,
+		},
 		{
 			MethodName: "Login",
 			Handler:    _User_Login_Handler,

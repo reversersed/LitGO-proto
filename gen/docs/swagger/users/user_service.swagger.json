@@ -63,6 +63,40 @@
         ]
       }
     },
+    "/api/v1/users/auth": {
+      "post": {
+        "summary": "Authenticate user",
+        "description": "Returns current user's credentials if there is one",
+        "operationId": "User_Auth",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sharedUserCredentials"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sharedEmpty"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    },
     "/api/v1/users/login": {
       "post": {
         "summary": "Login user",
@@ -157,6 +191,26 @@
           "items": {
             "type": "object",
             "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "sharedEmpty": {
+      "type": "object"
+    },
+    "sharedUserCredentials": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         }
       }

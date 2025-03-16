@@ -56,6 +56,40 @@
         }
       }
     },
+    "/api/v1/users/auth": {
+      "post": {
+        "description": "Returns current user's credentials if there is one",
+        "tags": [
+          "User"
+        ],
+        "summary": "Authenticate user",
+        "operationId": "User_Auth",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sharedEmpty"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sharedUserCredentials"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/users/login": {
       "post": {
         "description": "Log in user with provided credentials to get auth and refresh tokens",
@@ -492,6 +526,26 @@
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "sharedEmpty": {
+      "type": "object"
+    },
+    "sharedUserCredentials": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
