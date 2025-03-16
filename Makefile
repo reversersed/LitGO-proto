@@ -16,9 +16,9 @@ else
 
 	protoc -I=proto --proto_path=proto --go_out=gen/go --go-grpc_out=gen/go --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative $(PROTO_FILES)
 	protoc -I=proto --proto_path=proto --grpc-gateway_out=gen/go --grpc-gateway_opt paths=source_relative --grpc-gateway_opt generate_unbound_methods=true $(PROTO_FILES)
-	protoc -I=proto --proto_path=proto --openapiv2_out=gen/docs/swagger $(PROTO_FILES)
 	protoc-go-inject-tag -input="./gen/go/*/*.pb.go" -remove_tag_comment
 	protoc-go-inject-tag -input="./gen/go/*/*.pb.gw.go" -remove_tag_comment
+	protoc -I=proto --proto_path=proto --openapiv2_out=gen/docs/swagger $(PROTO_FILES)
 	-swagger mixin ./gen/docs/swagger/template.json $(SWAGGER_FILES) -o ./gen/docs/swagger/swagger.json
 	go generate ./gen/go/...
 	cd ./gen/go && go mod tidy
