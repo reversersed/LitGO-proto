@@ -35,7 +35,7 @@ const (
 //go:generate mockgen -source=user_service_grpc.pb.go -destination=./mocks/user_service_mock.go
 type UserClient interface {
 	Auth(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*shared.UserCredentials, error)
-	Logout(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*shared.UserCredentials, error)
+	Logout(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*shared.Empty, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	UpdateToken(ctx context.Context, in *TokenRequest, opts ...grpc.CallOption) (*TokenReply, error)
 	GetUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserModel, error)
@@ -60,9 +60,9 @@ func (c *userClient) Auth(ctx context.Context, in *shared.Empty, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *userClient) Logout(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*shared.UserCredentials, error) {
+func (c *userClient) Logout(ctx context.Context, in *shared.Empty, opts ...grpc.CallOption) (*shared.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(shared.UserCredentials)
+	out := new(shared.Empty)
 	err := c.cc.Invoke(ctx, User_Logout_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -117,7 +117,7 @@ func (c *userClient) RegisterUser(ctx context.Context, in *RegistrationRequest, 
 //go:generate mockgen -source=user_service_grpc.pb.go -destination=./mocks/user_service_mock.go
 type UserServer interface {
 	Auth(context.Context, *shared.Empty) (*shared.UserCredentials, error)
-	Logout(context.Context, *shared.Empty) (*shared.UserCredentials, error)
+	Logout(context.Context, *shared.Empty) (*shared.Empty, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	UpdateToken(context.Context, *TokenRequest) (*TokenReply, error)
 	GetUser(context.Context, *UserRequest) (*UserModel, error)
@@ -135,7 +135,7 @@ type UnimplementedUserServer struct{}
 func (UnimplementedUserServer) Auth(context.Context, *shared.Empty) (*shared.UserCredentials, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Auth not implemented")
 }
-func (UnimplementedUserServer) Logout(context.Context, *shared.Empty) (*shared.UserCredentials, error) {
+func (UnimplementedUserServer) Logout(context.Context, *shared.Empty) (*shared.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
 func (UnimplementedUserServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {

@@ -156,7 +156,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/sharedUserCredentials"
+              "$ref": "#/definitions/sharedEmpty"
             }
           },
           "default": {

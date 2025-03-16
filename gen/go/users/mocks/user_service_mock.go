@@ -98,14 +98,14 @@ func (mr *MockUserClientMockRecorder) Login(ctx, in interface{}, opts ...interfa
 }
 
 // Logout mocks base method.
-func (m *MockUserClient) Logout(ctx context.Context, in *shared_pb.Empty, opts ...grpc.CallOption) (*shared_pb.UserCredentials, error) {
+func (m *MockUserClient) Logout(ctx context.Context, in *shared_pb.Empty, opts ...grpc.CallOption) (*shared_pb.Empty, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "Logout", varargs...)
-	ret0, _ := ret[0].(*shared_pb.UserCredentials)
+	ret0, _ := ret[0].(*shared_pb.Empty)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -226,10 +226,10 @@ func (mr *MockUserServerMockRecorder) Login(arg0, arg1 interface{}) *gomock.Call
 }
 
 // Logout mocks base method.
-func (m *MockUserServer) Logout(arg0 context.Context, arg1 *shared_pb.Empty) (*shared_pb.UserCredentials, error) {
+func (m *MockUserServer) Logout(arg0 context.Context, arg1 *shared_pb.Empty) (*shared_pb.Empty, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Logout", arg0, arg1)
-	ret0, _ := ret[0].(*shared_pb.UserCredentials)
+	ret0, _ := ret[0].(*shared_pb.Empty)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
