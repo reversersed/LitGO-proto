@@ -8,7 +8,7 @@ import "shared/shared.proto";
 
 //go:generate mockgen -source=genre_service_grpc.pb.go -destination=./mocks/genre_service_mock.go
 service Genre {
-    rpc GetAll(Empty) returns (GetAllResponse){
+    rpc GetAll(shared.Empty) returns (GetAllResponse){
         option (google.api.http) = {
           get: "/api/v1/genre/all"
         };
@@ -54,7 +54,6 @@ message GetCategoryOrGenreResponse {
     }
 }
 //Models
-message Empty {}
 message CategoryModel {
     string id = 1;
     string name = 2;
