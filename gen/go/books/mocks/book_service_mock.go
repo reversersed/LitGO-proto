@@ -13,7 +13,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	books "github.com/reversersed/LitGO-proto/gen/go/books"
+	books_pb "github.com/reversersed/LitGO-proto/gen/go/books"
 	gomock "go.uber.org/mock/gomock"
 	grpc "google.golang.org/grpc"
 )
@@ -43,14 +43,14 @@ func (m *MockBookClient) EXPECT() *MockBookClientMockRecorder {
 }
 
 // CreateBook mocks base method.
-func (m *MockBookClient) CreateBook(ctx context.Context, in *books.CreateBookRequest, opts ...grpc.CallOption) (*books.CreateBookResponse, error) {
+func (m *MockBookClient) CreateBook(ctx context.Context, in *books_pb.CreateBookRequest, opts ...grpc.CallOption) (*books_pb.CreateBookResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CreateBook", varargs...)
-	ret0, _ := ret[0].(*books.CreateBookResponse)
+	ret0, _ := ret[0].(*books_pb.CreateBookResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -63,14 +63,14 @@ func (mr *MockBookClientMockRecorder) CreateBook(ctx, in any, opts ...any) *gomo
 }
 
 // FindBook mocks base method.
-func (m *MockBookClient) FindBook(ctx context.Context, in *books.FindBookRequest, opts ...grpc.CallOption) (*books.FindBookResponse, error) {
+func (m *MockBookClient) FindBook(ctx context.Context, in *books_pb.FindBookRequest, opts ...grpc.CallOption) (*books_pb.FindBookResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "FindBook", varargs...)
-	ret0, _ := ret[0].(*books.FindBookResponse)
+	ret0, _ := ret[0].(*books_pb.FindBookResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -83,14 +83,14 @@ func (mr *MockBookClientMockRecorder) FindBook(ctx, in any, opts ...any) *gomock
 }
 
 // GetBook mocks base method.
-func (m *MockBookClient) GetBook(ctx context.Context, in *books.GetBookRequest, opts ...grpc.CallOption) (*books.GetBookResponse, error) {
+func (m *MockBookClient) GetBook(ctx context.Context, in *books_pb.GetBookRequest, opts ...grpc.CallOption) (*books_pb.GetBookResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetBook", varargs...)
-	ret0, _ := ret[0].(*books.GetBookResponse)
+	ret0, _ := ret[0].(*books_pb.GetBookResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -103,14 +103,14 @@ func (mr *MockBookClientMockRecorder) GetBook(ctx, in any, opts ...any) *gomock.
 }
 
 // GetBookByGenre mocks base method.
-func (m *MockBookClient) GetBookByGenre(ctx context.Context, in *books.GetBookByGenreRequest, opts ...grpc.CallOption) (*books.GetBookByGenreResponse, error) {
+func (m *MockBookClient) GetBookByGenre(ctx context.Context, in *books_pb.GetBookByGenreRequest, opts ...grpc.CallOption) (*books_pb.GetBookByGenreResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetBookByGenre", varargs...)
-	ret0, _ := ret[0].(*books.GetBookByGenreResponse)
+	ret0, _ := ret[0].(*books_pb.GetBookByGenreResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -123,14 +123,14 @@ func (mr *MockBookClientMockRecorder) GetBookByGenre(ctx, in any, opts ...any) *
 }
 
 // GetBookList mocks base method.
-func (m *MockBookClient) GetBookList(ctx context.Context, in *books.GetBookListRequest, opts ...grpc.CallOption) (*books.GetBookListResponse, error) {
+func (m *MockBookClient) GetBookList(ctx context.Context, in *books_pb.GetBookListRequest, opts ...grpc.CallOption) (*books_pb.GetBookListResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetBookList", varargs...)
-	ret0, _ := ret[0].(*books.GetBookListResponse)
+	ret0, _ := ret[0].(*books_pb.GetBookListResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -167,10 +167,10 @@ func (m *MockBookServer) EXPECT() *MockBookServerMockRecorder {
 }
 
 // CreateBook mocks base method.
-func (m *MockBookServer) CreateBook(arg0 context.Context, arg1 *books.CreateBookRequest) (*books.CreateBookResponse, error) {
+func (m *MockBookServer) CreateBook(arg0 context.Context, arg1 *books_pb.CreateBookRequest) (*books_pb.CreateBookResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateBook", arg0, arg1)
-	ret0, _ := ret[0].(*books.CreateBookResponse)
+	ret0, _ := ret[0].(*books_pb.CreateBookResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -182,10 +182,10 @@ func (mr *MockBookServerMockRecorder) CreateBook(arg0, arg1 any) *gomock.Call {
 }
 
 // FindBook mocks base method.
-func (m *MockBookServer) FindBook(arg0 context.Context, arg1 *books.FindBookRequest) (*books.FindBookResponse, error) {
+func (m *MockBookServer) FindBook(arg0 context.Context, arg1 *books_pb.FindBookRequest) (*books_pb.FindBookResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindBook", arg0, arg1)
-	ret0, _ := ret[0].(*books.FindBookResponse)
+	ret0, _ := ret[0].(*books_pb.FindBookResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -197,10 +197,10 @@ func (mr *MockBookServerMockRecorder) FindBook(arg0, arg1 any) *gomock.Call {
 }
 
 // GetBook mocks base method.
-func (m *MockBookServer) GetBook(arg0 context.Context, arg1 *books.GetBookRequest) (*books.GetBookResponse, error) {
+func (m *MockBookServer) GetBook(arg0 context.Context, arg1 *books_pb.GetBookRequest) (*books_pb.GetBookResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBook", arg0, arg1)
-	ret0, _ := ret[0].(*books.GetBookResponse)
+	ret0, _ := ret[0].(*books_pb.GetBookResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -212,10 +212,10 @@ func (mr *MockBookServerMockRecorder) GetBook(arg0, arg1 any) *gomock.Call {
 }
 
 // GetBookByGenre mocks base method.
-func (m *MockBookServer) GetBookByGenre(arg0 context.Context, arg1 *books.GetBookByGenreRequest) (*books.GetBookByGenreResponse, error) {
+func (m *MockBookServer) GetBookByGenre(arg0 context.Context, arg1 *books_pb.GetBookByGenreRequest) (*books_pb.GetBookByGenreResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBookByGenre", arg0, arg1)
-	ret0, _ := ret[0].(*books.GetBookByGenreResponse)
+	ret0, _ := ret[0].(*books_pb.GetBookByGenreResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -227,10 +227,10 @@ func (mr *MockBookServerMockRecorder) GetBookByGenre(arg0, arg1 any) *gomock.Cal
 }
 
 // GetBookList mocks base method.
-func (m *MockBookServer) GetBookList(arg0 context.Context, arg1 *books.GetBookListRequest) (*books.GetBookListResponse, error) {
+func (m *MockBookServer) GetBookList(arg0 context.Context, arg1 *books_pb.GetBookListRequest) (*books_pb.GetBookListResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBookList", arg0, arg1)
-	ret0, _ := ret[0].(*books.GetBookListResponse)
+	ret0, _ := ret[0].(*books_pb.GetBookListResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

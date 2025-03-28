@@ -13,7 +13,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	reviews "github.com/reversersed/LitGO-proto/gen/go/reviews"
+	reviews_pb "github.com/reversersed/LitGO-proto/gen/go/reviews"
 	gomock "go.uber.org/mock/gomock"
 	grpc "google.golang.org/grpc"
 )
@@ -43,14 +43,14 @@ func (m *MockReviewClient) EXPECT() *MockReviewClientMockRecorder {
 }
 
 // CreateBookReview mocks base method.
-func (m *MockReviewClient) CreateBookReview(ctx context.Context, in *reviews.CreateBookReviewRequest, opts ...grpc.CallOption) (*reviews.CreateBookReviewResponse, error) {
+func (m *MockReviewClient) CreateBookReview(ctx context.Context, in *reviews_pb.CreateBookReviewRequest, opts ...grpc.CallOption) (*reviews_pb.CreateBookReviewResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CreateBookReview", varargs...)
-	ret0, _ := ret[0].(*reviews.CreateBookReviewResponse)
+	ret0, _ := ret[0].(*reviews_pb.CreateBookReviewResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -63,14 +63,14 @@ func (mr *MockReviewClientMockRecorder) CreateBookReview(ctx, in any, opts ...an
 }
 
 // GetBookReviews mocks base method.
-func (m *MockReviewClient) GetBookReviews(ctx context.Context, in *reviews.GetBookReviewsRequest, opts ...grpc.CallOption) (*reviews.GetBookReviewsResponse, error) {
+func (m *MockReviewClient) GetBookReviews(ctx context.Context, in *reviews_pb.GetBookReviewsRequest, opts ...grpc.CallOption) (*reviews_pb.GetBookReviewsResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetBookReviews", varargs...)
-	ret0, _ := ret[0].(*reviews.GetBookReviewsResponse)
+	ret0, _ := ret[0].(*reviews_pb.GetBookReviewsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -107,10 +107,10 @@ func (m *MockReviewServer) EXPECT() *MockReviewServerMockRecorder {
 }
 
 // CreateBookReview mocks base method.
-func (m *MockReviewServer) CreateBookReview(arg0 context.Context, arg1 *reviews.CreateBookReviewRequest) (*reviews.CreateBookReviewResponse, error) {
+func (m *MockReviewServer) CreateBookReview(arg0 context.Context, arg1 *reviews_pb.CreateBookReviewRequest) (*reviews_pb.CreateBookReviewResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateBookReview", arg0, arg1)
-	ret0, _ := ret[0].(*reviews.CreateBookReviewResponse)
+	ret0, _ := ret[0].(*reviews_pb.CreateBookReviewResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -122,10 +122,10 @@ func (mr *MockReviewServerMockRecorder) CreateBookReview(arg0, arg1 any) *gomock
 }
 
 // GetBookReviews mocks base method.
-func (m *MockReviewServer) GetBookReviews(arg0 context.Context, arg1 *reviews.GetBookReviewsRequest) (*reviews.GetBookReviewsResponse, error) {
+func (m *MockReviewServer) GetBookReviews(arg0 context.Context, arg1 *reviews_pb.GetBookReviewsRequest) (*reviews_pb.GetBookReviewsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBookReviews", arg0, arg1)
-	ret0, _ := ret[0].(*reviews.GetBookReviewsResponse)
+	ret0, _ := ret[0].(*reviews_pb.GetBookReviewsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
