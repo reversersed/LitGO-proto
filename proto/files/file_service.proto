@@ -22,8 +22,7 @@ import "google/api/annotations.proto";
 service File {
   rpc GetBookCover (FileRequest) returns (stream FileResponse){
     option (google.api.http) = {
-      post: "/api/v1/files/cover"
-      body: "*"
+      get: "/api/v1/files/cover"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary: "Get's book cover's file";
@@ -32,8 +31,7 @@ service File {
   }
   rpc GetBookFile (FileRequest) returns (stream FileResponse){
     option (google.api.http) = {
-      post: "/api/v1/files/book"
-      body: "*"
+      get: "/api/v1/files/book"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       summary: "Get's book cover's file";
