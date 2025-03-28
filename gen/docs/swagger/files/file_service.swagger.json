@@ -17,7 +17,7 @@
   ],
   "paths": {
     "/api/v1/files/book": {
-      "post": {
+      "get": {
         "summary": "Get's book cover's file",
         "description": "Returns file's bytes if there is one",
         "operationId": "File_GetBookFile",
@@ -46,12 +46,11 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/filesFileRequest"
-            }
+            "name": "fileName",
+            "description": "@gotags: validate:\"required\" example:\"bible-231125.epub\"\n\nName of file to find with extension",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -60,7 +59,7 @@
       }
     },
     "/api/v1/files/cover": {
-      "post": {
+      "get": {
         "summary": "Get's book cover's file",
         "description": "Returns file's bytes if there is one",
         "operationId": "File_GetBookCover",
@@ -89,12 +88,11 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/filesFileRequest"
-            }
+            "name": "fileName",
+            "description": "@gotags: validate:\"required\" example:\"bible-231125.epub\"\n\nName of file to find with extension",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -104,17 +102,6 @@
     }
   },
   "definitions": {
-    "filesFileRequest": {
-      "type": "object",
-      "properties": {
-        "fileName": {
-          "type": "string",
-          "description": "Name of file to find with extension",
-          "title": "@gotags: validate:\"required\" example:\"bible-231125.epub\""
-        }
-      },
-      "title": "Requests"
-    },
     "filesFileResponse": {
       "type": "object",
       "properties": {

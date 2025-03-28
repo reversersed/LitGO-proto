@@ -122,10 +122,10 @@ const file_files_file_service_proto_rawDesc = "" +
 	"\vFileRequest\x12\x1a\n" +
 	"\bfileName\x18\x01 \x01(\tR\bfileName\"\"\n" +
 	"\fFileResponse\x12\x12\n" +
-	"\x04file\x18\x01 \x01(\fR\x04file2\xc0\x02\n" +
-	"\x04File\x12\x9b\x01\n" +
-	"\fGetBookCover\x12\x12.files.FileRequest\x1a\x13.files.FileResponse\"`\x92A?\x12\x17Get's book cover's file\x1a$Returns file's bytes if there is one\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/api/v1/files/cover0\x01\x12\x99\x01\n" +
-	"\vGetBookFile\x12\x12.files.FileRequest\x1a\x13.files.FileResponse\"_\x92A?\x12\x17Get's book cover's file\x1a$Returns file's bytes if there is one\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/v1/files/book0\x01B\x98\x01\x92A[ZY\n" +
+	"\x04file\x18\x01 \x01(\fR\x04file2\xba\x02\n" +
+	"\x04File\x12\x98\x01\n" +
+	"\fGetBookCover\x12\x12.files.FileRequest\x1a\x13.files.FileResponse\"]\x92A?\x12\x17Get's book cover's file\x1a$Returns file's bytes if there is one\x82\xd3\xe4\x93\x02\x15\x12\x13/api/v1/files/cover0\x01\x12\x96\x01\n" +
+	"\vGetBookFile\x12\x12.files.FileRequest\x1a\x13.files.FileResponse\"\\\x92A?\x12\x17Get's book cover's file\x1a$Returns file's bytes if there is one\x82\xd3\xe4\x93\x02\x14\x12\x12/api/v1/files/book0\x01B\x98\x01\x92A[ZY\n" +
 	"W\n" +
 	"\x06bearer\x12M\b\x02\x128Authentication token, prefixed by Bearer: Bearer <token>\x1a\rAuthorization \x02Z8github.com/reversersed/LitGO-proto/gen/go/files;files_pbb\x06proto3"
 

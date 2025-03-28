@@ -344,7 +344,7 @@
       }
     },
     "/api/v1/files/book": {
-      "post": {
+      "get": {
         "description": "Returns file's bytes if there is one",
         "tags": [
           "File"
@@ -353,12 +353,10 @@
         "operationId": "File_GetBookFile",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/filesFileRequest"
-            }
+            "type": "string",
+            "description": "@gotags: validate:\"required\" example:\"bible-231125.epub\"\n\nName of file to find with extension",
+            "name": "fileName",
+            "in": "query"
           }
         ],
         "responses": {
@@ -387,7 +385,7 @@
       }
     },
     "/api/v1/files/cover": {
-      "post": {
+      "get": {
         "description": "Returns file's bytes if there is one",
         "tags": [
           "File"
@@ -396,12 +394,10 @@
         "operationId": "File_GetBookCover",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/filesFileRequest"
-            }
+            "type": "string",
+            "description": "@gotags: validate:\"required\" example:\"bible-231125.epub\"\n\nName of file to find with extension",
+            "name": "fileName",
+            "in": "query"
           }
         ],
         "responses": {
@@ -980,17 +976,6 @@
       "properties": {
         "book": {
           "$ref": "#/definitions/booksBookModel"
-        }
-      }
-    },
-    "filesFileRequest": {
-      "type": "object",
-      "title": "Requests",
-      "properties": {
-        "fileName": {
-          "description": "Name of file to find with extension",
-          "type": "string",
-          "title": "@gotags: validate:\"required\" example:\"bible-231125.epub\""
         }
       }
     },
