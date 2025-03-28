@@ -20,7 +20,7 @@ import "google/api/annotations.proto";
 
 //go:generate mockgen -source=file_service_grpc.pb.go -destination=./mocks/file_service_mock.go
 service File {
-  rpc GetBookCover (FileRequest) returns (FileResponse){
+  rpc GetBookCover (FileRequest) returns (stream FileResponse){
     option (google.api.http) = {
       post: "/api/v1/files/cover"
       body: "*"
@@ -30,7 +30,7 @@ service File {
       description: "Returns file's bytes if there is one";
     };
   }
-  rpc GetBookFile (FileRequest) returns (FileResponse){
+  rpc GetBookFile (FileRequest) returns (stream FileResponse){
     option (google.api.http) = {
       post: "/api/v1/files/book"
       body: "*"
