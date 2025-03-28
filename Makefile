@@ -1,5 +1,5 @@
 PROTO_FILES := $(shell find proto -not \( -path proto/google -prune \) -not \( -path proto/protoc-gen-openapiv2 -prune \) -name '*.proto')
-SWAGGER_FILES := $(shell find gen/docs -name '*.swagger.json')
+SWAGGER_FILES := $(shell find gen/docs/swagger -name '*.swagger.json')
 
 run: $(PROTO_FILES)
 ifeq ($(OS),Windows_NT)
