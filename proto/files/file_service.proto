@@ -17,13 +17,22 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) ={
 
 import "protoc-gen-openapiv2/options/annotations.proto";
 import "google/api/annotations.proto";
-import "shared/shared.proto";
 
 //go:generate mockgen -source=file_service_grpc.pb.go -destination=./mocks/file_service_mock.go
 service File {
-  rpc GetBookCover (FileRequest) returns (stream FileResponse){
+  rpc GetBookCover (FileRequest) returns (FileResponse){
     option (google.api.http) = {
       post: "/api/v1/files/cover"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get's book cover's file";
+      description: "Returns file's bytes if there is one";
+    };
+  }
+  rpc GetBookFile (FileRequest) returns (FileResponse){
+    option (google.api.http) = {
+      post: "/api/v1/files/book"
       body: "*"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
