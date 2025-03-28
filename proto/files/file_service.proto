@@ -1,0 +1,43 @@
+syntax = "proto3";
+package files;
+option go_package = "github.com/reversersed/LitGO-proto/gen/go/files;files_pb";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) ={
+  security_definitions: {
+    security: {
+      key: "bearer"
+      value: {
+        type: TYPE_API_KEY
+        in: IN_HEADER
+        name: "Authorization"
+        description: "Authentication token, prefixed by Bearer: Bearer <token>"
+      }
+    }
+  }
+};
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+import "shared/shared.proto";
+
+//go:generate mockgen -source=file_service_grpc.pb.go -destination=./mocks/file_service_mock.go
+service File {
+  rpc GetBookCover (FileRequest) returns (stream FileResponse){
+    option (google.api.http) = {
+      post: "/api/v1/files/cover"
+      body: "*"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get's book cover's file";
+      description: "Returns file's bytes if there is one";
+    };
+  }
+}
+//Requests
+message FileRequest {
+  // @gotags: validate:"required" example:"bible-231125.epub"
+  string fileName = 1; // Name of file to find with extension
+}
+//Responses
+message FileResponse {
+  bytes file = 1;
+}
