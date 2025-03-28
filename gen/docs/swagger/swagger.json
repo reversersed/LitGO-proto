@@ -349,7 +349,7 @@
         "tags": [
           "File"
         ],
-        "summary": "Get's book cover's file",
+        "summary": "Get's book's epub file",
         "operationId": "File_GetBookFile",
         "parameters": [
           {

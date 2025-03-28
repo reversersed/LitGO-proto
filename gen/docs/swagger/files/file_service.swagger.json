@@ -18,7 +18,7 @@
   "paths": {
     "/api/v1/files/book": {
       "get": {
-        "summary": "Get's book cover's file",
+        "summary": "Get's book's epub file",
         "description": "Returns file's bytes if there is one",
         "operationId": "File_GetBookFile",
         "responses": {
