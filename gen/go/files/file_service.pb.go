@@ -73,6 +73,7 @@ func (x *FileRequest) GetFileName() string {
 type FileResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	File          []byte                 `protobuf:"bytes,1,opt,name=file,proto3" json:"file,omitempty"`
+	Mimetype      string                 `protobuf:"bytes,2,opt,name=mimetype,proto3" json:"mimetype,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -114,15 +115,23 @@ func (x *FileResponse) GetFile() []byte {
 	return nil
 }
 
+func (x *FileResponse) GetMimetype() string {
+	if x != nil {
+		return x.Mimetype
+	}
+	return ""
+}
+
 var File_files_file_service_proto protoreflect.FileDescriptor
 
 const file_files_file_service_proto_rawDesc = "" +
 	"\n" +
 	"\x18files/file_service.proto\x12\x05files\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x1cgoogle/api/annotations.proto\")\n" +
 	"\vFileRequest\x12\x1a\n" +
-	"\bfileName\x18\x01 \x01(\tR\bfileName\"\"\n" +
+	"\bfileName\x18\x01 \x01(\tR\bfileName\">\n" +
 	"\fFileResponse\x12\x12\n" +
-	"\x04file\x18\x01 \x01(\fR\x04file2\xb5\x02\n" +
+	"\x04file\x18\x01 \x01(\fR\x04file\x12\x1a\n" +
+	"\bmimetype\x18\x02 \x01(\tR\bmimetype2\xb5\x02\n" +
 	"\x04File\x12\x96\x01\n" +
 	"\fGetBookCover\x12\x12.files.FileRequest\x1a\x13.files.FileResponse\"]\x92A?\x12\x17Get's book cover's file\x1a$Returns file's bytes if there is one\x82\xd3\xe4\x93\x02\x15\x12\x13/api/v1/files/cover\x12\x93\x01\n" +
 	"\vGetBookFile\x12\x12.files.FileRequest\x1a\x13.files.FileResponse\"[\x92A>\x12\x16Get's book's epub file\x1a$Returns file's bytes if there is one\x82\xd3\xe4\x93\x02\x14\x12\x12/api/v1/files/bookB\x98\x01\x92A[ZY\n" +

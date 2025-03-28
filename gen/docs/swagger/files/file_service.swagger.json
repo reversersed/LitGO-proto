@@ -90,6 +90,9 @@
         "file": {
           "type": "string",
           "format": "byte"
+        },
+        "mimetype": {
+          "type": "string"
         }
       },
       "title": "Responses"
