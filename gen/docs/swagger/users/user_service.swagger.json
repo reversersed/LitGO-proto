@@ -1,0 +1,371 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "users/user_service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "User"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/users": {
+      "get": {
+        "summary": "Search user",
+        "description": "Find user by provided id, login or email. Only one parameter at time allowed.",
+        "operationId": "User_GetUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/usersUserModel"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "@gotags: validate:\"primitiveid,required_without_all=Login Email\" form:\"id\"",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "login",
+            "description": "@gotags: validate:\"onlyenglish,required_without_all=Id Email\" form:\"login\"",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "description": "@gotags: validate:\"required_without_all=Id Login\" form:\"email\"",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/v1/users/auth": {
+      "post": {
+        "summary": "Authenticate user",
+        "description": "Returns current user's credentials if there is one",
+        "operationId": "User_Auth",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sharedUserCredentials"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sharedEmpty"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/login": {
+      "post": {
+        "summary": "Login user",
+        "description": "Log in user with provided credentials to get auth and refresh tokens",
+        "operationId": "User_Login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/usersLoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/usersLoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/v1/users/logout": {
+      "post": {
+        "summary": "Logout user",
+        "description": "Removes user cookies if user logged in",
+        "operationId": "User_Logout",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/sharedEmpty"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sharedEmpty"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/users/register": {
+      "post": {
+        "summary": "Register user",
+        "description": "Creates user account with provided credentials and returns auth and refresh tokens to authorize.",
+        "operationId": "User_RegisterUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/usersLoginResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/usersRegistrationRequest"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "sharedEmpty": {
+      "type": "object"
+    },
+    "sharedUserCredentials": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "usersLoginRequest": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string",
+          "description": "Can be presented as login or email",
+          "title": "@gotags: validate:\"required\" example:\"admin\""
+        },
+        "password": {
+          "type": "string",
+          "title": "@gotags: validate:\"required\" example:\"admin\""
+        },
+        "rememberMe": {
+          "type": "boolean"
+        }
+      },
+      "title": "Requests"
+    },
+    "usersLoginResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "token": {
+          "type": "string"
+        },
+        "refreshtoken": {
+          "type": "string"
+        }
+      },
+      "title": "Responses"
+    },
+    "usersRegistrationRequest": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string",
+          "title": "@gotags: validate:\"required,min=4,max=16,onlyenglish\""
+        },
+        "password": {
+          "type": "string",
+          "title": "@gotags: validate:\"required,min=8,max=32,lowercase,uppercase,digitrequired,specialsymbol\""
+        },
+        "passwordRepeat": {
+          "type": "string",
+          "title": "@gotags: validate:\"required,eqfield=Password\""
+        },
+        "email": {
+          "type": "string",
+          "title": "@gotags: validate:\"required,email\""
+        },
+        "rememberMe": {
+          "type": "boolean"
+        }
+      }
+    },
+    "usersTokenReply": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "title": "@gotags: example:\"token\""
+        },
+        "refreshtoken": {
+          "type": "string",
+          "title": "@gotags: example:\"refresh token\""
+        }
+      }
+    },
+    "usersUserModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "Models"
+    }
+  },
+  "securityDefinitions": {
+    "bearer": {
+      "type": "apiKey",
+      "description": "Authentication token, prefixed by Bearer: Bearer \u003ctoken\u003e",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

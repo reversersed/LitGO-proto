@@ -1,0 +1,228 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "reviews/review_service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Review"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/review/book": {
+      "post": {
+        "summary": "Adds new review to book",
+        "operationId": "Review_CreateBookReview",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reviewsCreateBookReviewResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/reviewsCreateBookReviewRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Review"
+        ]
+      }
+    },
+    "/api/v1/review/{id}": {
+      "get": {
+        "summary": "Get reviews of book with provided {id}",
+        "operationId": "Review_GetBookReviews",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reviewsGetBookReviewsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Book ID to search reviews of\n\n@gotags: form:\"id\" validate:\"required,primitiveid\"",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "description": "Page number to search\n\n@gotags: form:\"page\" validate:\"gte=0\"",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "description": "Reviews count per page\n\n@gotags: form:\"pagesize\" validate:\"gte=1\"",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Review"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "reviewsCreateBookReviewRequest": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "title": "@gotags: form:\"Id\" validate:\"required\""
+        },
+        "rating": {
+          "type": "number",
+          "format": "float",
+          "title": "@gotags: form:\"Rating\" validate:\"required,gte=0,lte=5\""
+        },
+        "creatorId": {
+          "type": "string",
+          "title": "@gotags: validate:\"required,primitiveid\" swaggerignore:\"true\""
+        },
+        "modelId": {
+          "type": "string",
+          "title": "@gotags: form:\"ModelId\" validate:\"required,primitiveid\""
+        }
+      }
+    },
+    "reviewsCreateBookReviewResponse": {
+      "type": "object",
+      "properties": {
+        "review": {
+          "$ref": "#/definitions/reviewsReviewModel"
+        }
+      }
+    },
+    "reviewsGetBookReviewsResponse": {
+      "type": "object",
+      "properties": {
+        "reviews": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/reviewsReviewModel"
+          }
+        }
+      },
+      "title": "Responses"
+    },
+    "reviewsReviewModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string",
+          "format": "int64"
+        },
+        "creator": {
+          "$ref": "#/definitions/reviewsUserModel"
+        },
+        "rating": {
+          "type": "number",
+          "format": "float"
+        },
+        "userAction": {
+          "$ref": "#/definitions/reviewsUserActionEnum"
+        },
+        "upvotes": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "downvotes": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "reviewsUserActionEnum": {
+      "type": "string",
+      "enum": [
+        "noAction",
+        "like",
+        "dislike"
+      ],
+      "default": "noAction",
+      "title": "Models"
+    },
+    "reviewsUserModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        }
+      }
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
