@@ -34,7 +34,7 @@ service File {
       get: "/api/v1/files/book"
     };
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      summary: "Get's book cover's file";
+      summary: "Get's book's epub file";
       description: "Returns file's bytes if there is one";
     };
   }
