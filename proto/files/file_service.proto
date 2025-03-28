@@ -47,4 +47,5 @@ message FileRequest {
 //Responses
 message FileResponse {
   bytes file = 1;
+  string mimetype = 2;
 }
