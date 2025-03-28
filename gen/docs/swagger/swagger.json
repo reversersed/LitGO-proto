@@ -361,18 +361,9 @@
         ],
         "responses": {
           "200": {
-            "description": "A successful response.(streaming responses)",
+            "description": "A successful response.",
             "schema": {
-              "type": "object",
-              "title": "Stream result of filesFileResponse",
-              "properties": {
-                "error": {
-                  "$ref": "#/definitions/rpcStatus"
-                },
-                "result": {
-                  "$ref": "#/definitions/filesFileResponse"
-                }
-              }
+              "$ref": "#/definitions/filesFileResponse"
             }
           },
           "default": {
@@ -402,18 +393,9 @@
         ],
         "responses": {
           "200": {
-            "description": "A successful response.(streaming responses)",
+            "description": "A successful response.",
             "schema": {
-              "type": "object",
-              "title": "Stream result of filesFileResponse",
-              "properties": {
-                "error": {
-                  "$ref": "#/definitions/rpcStatus"
-                },
-                "result": {
-                  "$ref": "#/definitions/filesFileResponse"
-                }
-              }
+              "$ref": "#/definitions/filesFileResponse"
             }
           },
           "default": {

@@ -29,8 +29,8 @@ const (
 //
 //go:generate mockgen -source=file_service_grpc.pb.go -destination=./mocks/file_service_mock.go
 type FileClient interface {
-	GetBookCover(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[FileResponse], error)
-	GetBookFile(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[FileResponse], error)
+	GetBookCover(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (*FileResponse, error)
+	GetBookFile(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (*FileResponse, error)
 }
 
 type fileClient struct {
@@ -41,43 +41,25 @@ func NewFileClient(cc grpc.ClientConnInterface) FileClient {
 	return &fileClient{cc}
 }
 
-func (c *fileClient) GetBookCover(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[FileResponse], error) {
+func (c *fileClient) GetBookCover(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (*FileResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &File_ServiceDesc.Streams[0], File_GetBookCover_FullMethodName, cOpts...)
+	out := new(FileResponse)
+	err := c.cc.Invoke(ctx, File_GetBookCover_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[FileRequest, FileResponse]{ClientStream: stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
+	return out, nil
 }
 
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type File_GetBookCoverClient = grpc.ServerStreamingClient[FileResponse]
-
-func (c *fileClient) GetBookFile(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[FileResponse], error) {
+func (c *fileClient) GetBookFile(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (*FileResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &File_ServiceDesc.Streams[1], File_GetBookFile_FullMethodName, cOpts...)
+	out := new(FileResponse)
+	err := c.cc.Invoke(ctx, File_GetBookFile_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[FileRequest, FileResponse]{ClientStream: stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	return x, nil
+	return out, nil
 }
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type File_GetBookFileClient = grpc.ServerStreamingClient[FileResponse]
 
 // FileServer is the server API for File service.
 // All implementations must embed UnimplementedFileServer
@@ -85,8 +67,8 @@ type File_GetBookFileClient = grpc.ServerStreamingClient[FileResponse]
 //
 //go:generate mockgen -source=file_service_grpc.pb.go -destination=./mocks/file_service_mock.go
 type FileServer interface {
-	GetBookCover(*FileRequest, grpc.ServerStreamingServer[FileResponse]) error
-	GetBookFile(*FileRequest, grpc.ServerStreamingServer[FileResponse]) error
+	GetBookCover(context.Context, *FileRequest) (*FileResponse, error)
+	GetBookFile(context.Context, *FileRequest) (*FileResponse, error)
 	mustEmbedUnimplementedFileServer()
 }
 
@@ -97,11 +79,11 @@ type FileServer interface {
 // pointer dereference when methods are called.
 type UnimplementedFileServer struct{}
 
-func (UnimplementedFileServer) GetBookCover(*FileRequest, grpc.ServerStreamingServer[FileResponse]) error {
-	return status.Errorf(codes.Unimplemented, "method GetBookCover not implemented")
+func (UnimplementedFileServer) GetBookCover(context.Context, *FileRequest) (*FileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBookCover not implemented")
 }
-func (UnimplementedFileServer) GetBookFile(*FileRequest, grpc.ServerStreamingServer[FileResponse]) error {
-	return status.Errorf(codes.Unimplemented, "method GetBookFile not implemented")
+func (UnimplementedFileServer) GetBookFile(context.Context, *FileRequest) (*FileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBookFile not implemented")
 }
 func (UnimplementedFileServer) mustEmbedUnimplementedFileServer() {}
 func (UnimplementedFileServer) testEmbeddedByValue()              {}
@@ -124,27 +106,41 @@ func RegisterFileServer(s grpc.ServiceRegistrar, srv FileServer) {
 	s.RegisterService(&File_ServiceDesc, srv)
 }
 
-func _File_GetBookCover_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(FileRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
+func _File_GetBookCover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
 	}
-	return srv.(FileServer).GetBookCover(m, &grpc.GenericServerStream[FileRequest, FileResponse]{ServerStream: stream})
+	if interceptor == nil {
+		return srv.(FileServer).GetBookCover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: File_GetBookCover_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FileServer).GetBookCover(ctx, req.(*FileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type File_GetBookCoverServer = grpc.ServerStreamingServer[FileResponse]
-
-func _File_GetBookFile_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(FileRequest)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
+func _File_GetBookFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
 	}
-	return srv.(FileServer).GetBookFile(m, &grpc.GenericServerStream[FileRequest, FileResponse]{ServerStream: stream})
+	if interceptor == nil {
+		return srv.(FileServer).GetBookFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: File_GetBookFile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FileServer).GetBookFile(ctx, req.(*FileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type File_GetBookFileServer = grpc.ServerStreamingServer[FileResponse]
 
 // File_ServiceDesc is the grpc.ServiceDesc for File service.
 // It's only intended for direct use with grpc.RegisterService,
@@ -152,18 +148,16 @@ type File_GetBookFileServer = grpc.ServerStreamingServer[FileResponse]
 var File_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "files.File",
 	HandlerType: (*FileServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams: []grpc.StreamDesc{
+	Methods: []grpc.MethodDesc{
 		{
-			StreamName:    "GetBookCover",
-			Handler:       _File_GetBookCover_Handler,
-			ServerStreams: true,
+			MethodName: "GetBookCover",
+			Handler:    _File_GetBookCover_Handler,
 		},
 		{
-			StreamName:    "GetBookFile",
-			Handler:       _File_GetBookFile_Handler,
-			ServerStreams: true,
+			MethodName: "GetBookFile",
+			Handler:    _File_GetBookFile_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "files/file_service.proto",
 }

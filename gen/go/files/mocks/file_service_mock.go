@@ -43,14 +43,14 @@ func (m *MockFileClient) EXPECT() *MockFileClientMockRecorder {
 }
 
 // GetBookCover mocks base method.
-func (m *MockFileClient) GetBookCover(ctx context.Context, in *files_pb.FileRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[files_pb.FileResponse], error) {
+func (m *MockFileClient) GetBookCover(ctx context.Context, in *files_pb.FileRequest, opts ...grpc.CallOption) (*files_pb.FileResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetBookCover", varargs...)
-	ret0, _ := ret[0].(grpc.ServerStreamingClient[files_pb.FileResponse])
+	ret0, _ := ret[0].(*files_pb.FileResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -63,14 +63,14 @@ func (mr *MockFileClientMockRecorder) GetBookCover(ctx, in any, opts ...any) *go
 }
 
 // GetBookFile mocks base method.
-func (m *MockFileClient) GetBookFile(ctx context.Context, in *files_pb.FileRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[files_pb.FileResponse], error) {
+func (m *MockFileClient) GetBookFile(ctx context.Context, in *files_pb.FileRequest, opts ...grpc.CallOption) (*files_pb.FileResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []any{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetBookFile", varargs...)
-	ret0, _ := ret[0].(grpc.ServerStreamingClient[files_pb.FileResponse])
+	ret0, _ := ret[0].(*files_pb.FileResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -107,11 +107,12 @@ func (m *MockFileServer) EXPECT() *MockFileServerMockRecorder {
 }
 
 // GetBookCover mocks base method.
-func (m *MockFileServer) GetBookCover(arg0 *files_pb.FileRequest, arg1 grpc.ServerStreamingServer[files_pb.FileResponse]) error {
+func (m *MockFileServer) GetBookCover(arg0 context.Context, arg1 *files_pb.FileRequest) (*files_pb.FileResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBookCover", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(*files_pb.FileResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // GetBookCover indicates an expected call of GetBookCover.
@@ -121,11 +122,12 @@ func (mr *MockFileServerMockRecorder) GetBookCover(arg0, arg1 any) *gomock.Call 
 }
 
 // GetBookFile mocks base method.
-func (m *MockFileServer) GetBookFile(arg0 *files_pb.FileRequest, arg1 grpc.ServerStreamingServer[files_pb.FileResponse]) error {
+func (m *MockFileServer) GetBookFile(arg0 context.Context, arg1 *files_pb.FileRequest) (*files_pb.FileResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetBookFile", arg0, arg1)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(*files_pb.FileResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // GetBookFile indicates an expected call of GetBookFile.
