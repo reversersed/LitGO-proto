@@ -131,10 +131,11 @@ const file_files_file_service_proto_rawDesc = "" +
 	"\bfileName\x18\x01 \x01(\tR\bfileName\">\n" +
 	"\fFileResponse\x12\x12\n" +
 	"\x04file\x18\x01 \x01(\fR\x04file\x12\x1a\n" +
-	"\bmimetype\x18\x02 \x01(\tR\bmimetype2\xb5\x02\n" +
+	"\bmimetype\x18\x02 \x01(\tR\bmimetype2\xd4\x03\n" +
 	"\x04File\x12\x96\x01\n" +
 	"\fGetBookCover\x12\x12.files.FileRequest\x1a\x13.files.FileResponse\"]\x92A?\x12\x17Get's book cover's file\x1a$Returns file's bytes if there is one\x82\xd3\xe4\x93\x02\x15\x12\x13/api/v1/files/cover\x12\x93\x01\n" +
-	"\vGetBookFile\x12\x12.files.FileRequest\x1a\x13.files.FileResponse\"[\x92A>\x12\x16Get's book's epub file\x1a$Returns file's bytes if there is one\x82\xd3\xe4\x93\x02\x14\x12\x12/api/v1/files/bookB\x98\x01\x92A[ZY\n" +
+	"\vGetBookFile\x12\x12.files.FileRequest\x1a\x13.files.FileResponse\"[\x92A>\x12\x16Get's book's epub file\x1a$Returns file's bytes if there is one\x82\xd3\xe4\x93\x02\x14\x12\x12/api/v1/files/book\x12\x9c\x01\n" +
+	"\x0eGetAuthorCover\x12\x12.files.FileRequest\x1a\x13.files.FileResponse\"a\x92AB\x12\x1aGet's authors cover's file\x1a$Returns file's bytes if there is one\x82\xd3\xe4\x93\x02\x16\x12\x14/api/v1/files/authorB\x98\x01\x92A[ZY\n" +
 	"W\n" +
 	"\x06bearer\x12M\b\x02\x128Authentication token, prefixed by Bearer: Bearer <token>\x1a\rAuthorization \x02Z8github.com/reversersed/LitGO-proto/gen/go/files;files_pbb\x06proto3"
 
@@ -158,10 +159,12 @@ var file_files_file_service_proto_goTypes = []any{
 var file_files_file_service_proto_depIdxs = []int32{
 	0, // 0: files.File.GetBookCover:input_type -> files.FileRequest
 	0, // 1: files.File.GetBookFile:input_type -> files.FileRequest
-	1, // 2: files.File.GetBookCover:output_type -> files.FileResponse
-	1, // 3: files.File.GetBookFile:output_type -> files.FileResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	0, // 2: files.File.GetAuthorCover:input_type -> files.FileRequest
+	1, // 3: files.File.GetBookCover:output_type -> files.FileResponse
+	1, // 4: files.File.GetBookFile:output_type -> files.FileResponse
+	1, // 5: files.File.GetAuthorCover:output_type -> files.FileResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

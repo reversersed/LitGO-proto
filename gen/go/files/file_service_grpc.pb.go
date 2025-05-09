@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	File_GetBookCover_FullMethodName = "/files.File/GetBookCover"
-	File_GetBookFile_FullMethodName  = "/files.File/GetBookFile"
+	File_GetBookCover_FullMethodName   = "/files.File/GetBookCover"
+	File_GetBookFile_FullMethodName    = "/files.File/GetBookFile"
+	File_GetAuthorCover_FullMethodName = "/files.File/GetAuthorCover"
 )
 
 // FileClient is the client API for File service.
@@ -31,6 +32,7 @@ const (
 type FileClient interface {
 	GetBookCover(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (*FileResponse, error)
 	GetBookFile(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (*FileResponse, error)
+	GetAuthorCover(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (*FileResponse, error)
 }
 
 type fileClient struct {
@@ -61,6 +63,16 @@ func (c *fileClient) GetBookFile(ctx context.Context, in *FileRequest, opts ...g
 	return out, nil
 }
 
+func (c *fileClient) GetAuthorCover(ctx context.Context, in *FileRequest, opts ...grpc.CallOption) (*FileResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FileResponse)
+	err := c.cc.Invoke(ctx, File_GetAuthorCover_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FileServer is the server API for File service.
 // All implementations must embed UnimplementedFileServer
 // for forward compatibility.
@@ -69,6 +81,7 @@ func (c *fileClient) GetBookFile(ctx context.Context, in *FileRequest, opts ...g
 type FileServer interface {
 	GetBookCover(context.Context, *FileRequest) (*FileResponse, error)
 	GetBookFile(context.Context, *FileRequest) (*FileResponse, error)
+	GetAuthorCover(context.Context, *FileRequest) (*FileResponse, error)
 	mustEmbedUnimplementedFileServer()
 }
 
@@ -84,6 +97,9 @@ func (UnimplementedFileServer) GetBookCover(context.Context, *FileRequest) (*Fil
 }
 func (UnimplementedFileServer) GetBookFile(context.Context, *FileRequest) (*FileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBookFile not implemented")
+}
+func (UnimplementedFileServer) GetAuthorCover(context.Context, *FileRequest) (*FileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAuthorCover not implemented")
 }
 func (UnimplementedFileServer) mustEmbedUnimplementedFileServer() {}
 func (UnimplementedFileServer) testEmbeddedByValue()              {}
@@ -142,6 +158,24 @@ func _File_GetBookFile_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _File_GetAuthorCover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FileServer).GetAuthorCover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: File_GetAuthorCover_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FileServer).GetAuthorCover(ctx, req.(*FileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // File_ServiceDesc is the grpc.ServiceDesc for File service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -156,6 +190,10 @@ var File_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBookFile",
 			Handler:    _File_GetBookFile_Handler,
+		},
+		{
+			MethodName: "GetAuthorCover",
+			Handler:    _File_GetAuthorCover_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

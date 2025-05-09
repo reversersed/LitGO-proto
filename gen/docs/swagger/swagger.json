@@ -343,6 +343,38 @@
         }
       }
     },
+    "/api/v1/files/author": {
+      "get": {
+        "description": "Returns file's bytes if there is one",
+        "tags": [
+          "File"
+        ],
+        "summary": "Get's authors cover's file",
+        "operationId": "File_GetAuthorCover",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "@gotags: validate:\"required\" example:\"bible-231125.epub\"\n\nName of file to find with extension",
+            "name": "fileName",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/filesFileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/files/book": {
       "get": {
         "description": "Returns file's bytes if there is one",
@@ -1302,22 +1334,22 @@
   },
   "tags": [
     {
-      "name": "Genre"
-    },
-    {
-      "name": "User"
-    },
-    {
-      "name": "Review"
-    },
-    {
-      "name": "Book"
+      "name": "File"
     },
     {
       "name": "Author"
     },
     {
-      "name": "File"
+      "name": "Review"
+    },
+    {
+      "name": "User"
+    },
+    {
+      "name": "Book"
+    },
+    {
+      "name": "Genre"
     }
   ]
 }

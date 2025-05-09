@@ -16,6 +16,39 @@
     "application/json"
   ],
   "paths": {
+    "/api/v1/files/author": {
+      "get": {
+        "summary": "Get's authors cover's file",
+        "description": "Returns file's bytes if there is one",
+        "operationId": "File_GetAuthorCover",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/filesFileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "fileName",
+            "description": "@gotags: validate:\"required\" example:\"bible-231125.epub\"\n\nName of file to find with extension",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "File"
+        ]
+      }
+    },
     "/api/v1/files/book": {
       "get": {
         "summary": "Get's book's epub file",

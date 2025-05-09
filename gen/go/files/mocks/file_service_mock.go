@@ -42,6 +42,26 @@ func (m *MockFileClient) EXPECT() *MockFileClientMockRecorder {
 	return m.recorder
 }
 
+// GetAuthorCover mocks base method.
+func (m *MockFileClient) GetAuthorCover(ctx context.Context, in *files_pb.FileRequest, opts ...grpc.CallOption) (*files_pb.FileResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetAuthorCover", varargs...)
+	ret0, _ := ret[0].(*files_pb.FileResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAuthorCover indicates an expected call of GetAuthorCover.
+func (mr *MockFileClientMockRecorder) GetAuthorCover(ctx, in any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAuthorCover", reflect.TypeOf((*MockFileClient)(nil).GetAuthorCover), varargs...)
+}
+
 // GetBookCover mocks base method.
 func (m *MockFileClient) GetBookCover(ctx context.Context, in *files_pb.FileRequest, opts ...grpc.CallOption) (*files_pb.FileResponse, error) {
 	m.ctrl.T.Helper()
@@ -104,6 +124,21 @@ func NewMockFileServer(ctrl *gomock.Controller) *MockFileServer {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockFileServer) EXPECT() *MockFileServerMockRecorder {
 	return m.recorder
+}
+
+// GetAuthorCover mocks base method.
+func (m *MockFileServer) GetAuthorCover(arg0 context.Context, arg1 *files_pb.FileRequest) (*files_pb.FileResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAuthorCover", arg0, arg1)
+	ret0, _ := ret[0].(*files_pb.FileResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAuthorCover indicates an expected call of GetAuthorCover.
+func (mr *MockFileServerMockRecorder) GetAuthorCover(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAuthorCover", reflect.TypeOf((*MockFileServer)(nil).GetAuthorCover), arg0, arg1)
 }
 
 // GetBookCover mocks base method.
