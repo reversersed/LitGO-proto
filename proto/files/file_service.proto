@@ -38,6 +38,15 @@ service File {
       description: "Returns file's bytes if there is one";
     };
   }
+  rpc GetAuthorCover(FileRequest) returns (FileResponse){
+    option (google.api.http) = {
+      get: "/api/v1/files/author"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary: "Get's authors cover's file";
+      description: "Returns file's bytes if there is one";
+    };
+  }
 }
 //Requests
 message FileRequest {
