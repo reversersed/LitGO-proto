@@ -27,7 +27,7 @@ service Review {
     }
     rpc CreateReviewReply(CreateReplyRequest) returns (CreateReplyResponse) {
         option (google.api.http) = {
-          post: "/api/v1/review/{bookId}/{replyId}/reply"
+          post: "/api/v1/review/{bookId}/{reviewId}/reply"
           body: "*"
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
