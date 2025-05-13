@@ -137,6 +137,13 @@
             "required": false,
             "type": "integer",
             "format": "int32"
+          },
+          {
+            "name": "sort",
+            "description": "@gotags: form:\"sort\" validate:\"oneof=new old\"",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [

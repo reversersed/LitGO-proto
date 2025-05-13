@@ -32,7 +32,8 @@ type GetBookReviewsRequest struct {
 	// Page number to search
 	Page int32 `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty" form:"page" validate:"gte=0"`  
 	// Reviews count per page
-	PageSize      int32 `protobuf:"varint,3,opt,name=pageSize,proto3" json:"pageSize,omitempty" form:"pagesize" validate:"gte=1"`  
+	PageSize      int32  `protobuf:"varint,3,opt,name=pageSize,proto3" json:"pageSize,omitempty" form:"pagesize" validate:"gte=1"`  
+	Sort          string `protobuf:"bytes,4,opt,name=sort,proto3" json:"sort,omitempty" form:"sort" validate:"oneof=new old"`           
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -86,6 +87,13 @@ func (x *GetBookReviewsRequest) GetPageSize() int32 {
 		return x.PageSize
 	}
 	return 0
+}
+
+func (x *GetBookReviewsRequest) GetSort() string {
+	if x != nil {
+		return x.Sort
+	}
+	return ""
 }
 
 type CreateBookReviewRequest struct {
@@ -638,11 +646,12 @@ var File_reviews_review_service_proto protoreflect.FileDescriptor
 
 const file_reviews_review_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1creviews/review_service.proto\x12\areviews\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x13shared/shared.proto\"W\n" +
+	"\x1creviews/review_service.proto\x12\areviews\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x13shared/shared.proto\"k\n" +
 	"\x15GetBookReviewsRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1a\n" +
-	"\bpageSize\x18\x03 \x01(\x05R\bpageSize\"]\n" +
+	"\bpageSize\x18\x03 \x01(\x05R\bpageSize\x12\x12\n" +
+	"\x04sort\x18\x04 \x01(\tR\x04sort\"]\n" +
 	"\x17CreateBookReviewRequest\x12\x12\n" +
 	"\x04text\x18\x01 \x01(\tR\x04text\x12\x16\n" +
 	"\x06rating\x18\x02 \x01(\x02R\x06rating\x12\x16\n" +

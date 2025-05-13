@@ -634,6 +634,12 @@
             "description": "Reviews count per page\n\n@gotags: form:\"pagesize\" validate:\"gte=1\"",
             "name": "pageSize",
             "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "@gotags: form:\"sort\" validate:\"oneof=new old\"",
+            "name": "sort",
+            "in": "query"
           }
         ],
         "responses": {
