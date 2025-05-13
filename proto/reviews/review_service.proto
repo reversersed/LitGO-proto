@@ -4,6 +4,7 @@ option go_package = "github.com/reversersed/LitGO-proto/gen/go/reviews;reviews_p
 
 import "protoc-gen-openapiv2/options/annotations.proto";
 import "google/api/annotations.proto";
+import "shared/shared.proto";
 
 //go:generate mockgen -source=review_service_grpc.pb.go -destination=./mocks/review_service_mock.go
 service Review {
@@ -14,6 +15,23 @@ service Review {
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
           summary: "Adds new review to book";
+        };
+    }
+    rpc CreateReviewReply(CreateReplyRequest) returns (CreateReplyResponse) {
+        option (google.api.http) = {
+          post: "/api/v1/review/{bookId}/{replyId}/reply"
+          body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Adds new review to book";
+        };
+    }
+    rpc GetCurrentUserBookReview(GetCurrentUserBookReviewRequest) returns (GetCurrentUserReviewResponse){
+        option (google.api.http) = {
+          get: "/api/v1/review/{id}/user"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Gets current user's review";
         };
     }
     rpc GetBookReviews(GetBookReviewsRequest) returns (GetBookReviewsResponse){
@@ -37,8 +55,15 @@ message GetBookReviewsRequest {
 message CreateBookReviewRequest {
     string text = 1; // @gotags: form:"Id" validate:"required"
     float rating = 2; // @gotags: form:"Rating" validate:"required,gte=0,lte=5"
-    string creatorId = 3; // @gotags: validate:"required,primitiveid" swaggerignore:"true"
-    string modelId = 4; // @gotags: form:"ModelId" validate:"required,primitiveid"
+    string bookId = 3; // @gotags: form:"BookId" validate:"required,primitiveid"
+}
+message GetCurrentUserBookReviewRequest {
+    string id = 1; // @gotags: form:"id" validate:"required,primitiveid"
+}
+message CreateReplyRequest {
+    string bookId = 1; // @gotags: form:"bookId" validate:"required,primitiveid"
+    string replyId = 1; // @gotags: form:"replyId" validate:"required,primitiveid"
+    string text = 2; // @gotags: form:"text" validate:"required"
 }
 //Responses
 message GetBookReviewsResponse {
@@ -47,21 +72,26 @@ message GetBookReviewsResponse {
 message CreateBookReviewResponse {
     ReviewModel review = 1;
 }
-//Models
-enum UserActionEnum {
-    noAction = 0;
-    like = 1;
-    dislike = 2;
+message GetCurrentUserReviewResponse {
+    ReviewModel review = 1;
 }
+message CreateReplyResponse {
+    ReviewModel review = 1;
+}
+//Models
 message ReviewModel {
     string id = 1;
     string text = 2;
     int64 created = 3;
     UserModel creator = 4;
     float rating = 5;
-    UserActionEnum userAction = 6;
-    int32 upvotes = 7;
-    int32 downvotes = 8;
+    repeated ReviewReplyModel replies = 6;
+}
+message ReviewReplyModel {
+    string id = 1;
+    string text = 2;
+    int64 created = 3;
+    UserModel creator = 4;
 }
 message UserModel {
     string id = 1;
