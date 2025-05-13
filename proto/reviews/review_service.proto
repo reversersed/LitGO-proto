@@ -62,8 +62,8 @@ message GetCurrentUserBookReviewRequest {
 }
 message CreateReplyRequest {
     string bookId = 1; // @gotags: form:"bookId" validate:"required,primitiveid"
-    string replyId = 1; // @gotags: form:"replyId" validate:"required,primitiveid"
-    string text = 2; // @gotags: form:"text" validate:"required"
+    string replyId = 2; // @gotags: form:"replyId" validate:"required,primitiveid"
+    string text = 3; // @gotags: form:"text" validate:"required"
 }
 //Responses
 message GetBookReviewsResponse {
