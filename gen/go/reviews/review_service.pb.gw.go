@@ -35,6 +35,59 @@ var (
 	_ = metadata.Join
 )
 
+func request_Review_DeleteBookReview_0(ctx context.Context, marshaler runtime.Marshaler, client ReviewClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteReviewRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	io.Copy(io.Discard, req.Body)
+	val, ok := pathParams["bookId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "bookId")
+	}
+	protoReq.BookId, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "bookId", err)
+	}
+	val, ok = pathParams["reviewId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reviewId")
+	}
+	protoReq.ReviewId, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reviewId", err)
+	}
+	msg, err := client.DeleteBookReview(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_Review_DeleteBookReview_0(ctx context.Context, marshaler runtime.Marshaler, server ReviewServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteReviewRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["bookId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "bookId")
+	}
+	protoReq.BookId, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "bookId", err)
+	}
+	val, ok = pathParams["reviewId"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reviewId")
+	}
+	protoReq.ReviewId, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reviewId", err)
+	}
+	msg, err := server.DeleteBookReview(ctx, &protoReq)
+	return msg, metadata, err
+}
+
 func request_Review_CreateBookReview_0(ctx context.Context, marshaler runtime.Marshaler, client ReviewClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq CreateBookReviewRequest
@@ -76,13 +129,13 @@ func request_Review_CreateReviewReply_0(ctx context.Context, marshaler runtime.M
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "bookId", err)
 	}
-	val, ok = pathParams["replyId"]
+	val, ok = pathParams["reviewId"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "replyId")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reviewId")
 	}
-	protoReq.ReplyId, err = runtime.String(val)
+	protoReq.ReviewId, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "replyId", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reviewId", err)
 	}
 	msg, err := client.CreateReviewReply(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -105,13 +158,13 @@ func local_request_Review_CreateReviewReply_0(ctx context.Context, marshaler run
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "bookId", err)
 	}
-	val, ok = pathParams["replyId"]
+	val, ok = pathParams["reviewId"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "replyId")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "reviewId")
 	}
-	protoReq.ReplyId, err = runtime.String(val)
+	protoReq.ReviewId, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "replyId", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "reviewId", err)
 	}
 	msg, err := server.CreateReviewReply(ctx, &protoReq)
 	return msg, metadata, err
@@ -211,6 +264,26 @@ func local_request_Review_GetBookReviews_0(ctx context.Context, marshaler runtim
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterReviewHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterReviewHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ReviewServer) error {
+	mux.Handle(http.MethodDelete, pattern_Review_DeleteBookReview_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/reviews.Review/DeleteBookReview", runtime.WithHTTPPathPattern("/api/v1/review/{bookId}/{reviewId}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Review_DeleteBookReview_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Review_DeleteBookReview_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Review_CreateBookReview_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -237,7 +310,7 @@ func RegisterReviewHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/reviews.Review/CreateReviewReply", runtime.WithHTTPPathPattern("/api/v1/review/{bookId}/{replyId}/reply"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/reviews.Review/CreateReviewReply", runtime.WithHTTPPathPattern("/api/v1/review/{bookId}/{reviewId}/reply"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -331,6 +404,23 @@ func RegisterReviewHandler(ctx context.Context, mux *runtime.ServeMux, conn *grp
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "ReviewClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterReviewHandlerClient(ctx context.Context, mux *runtime.ServeMux, client ReviewClient) error {
+	mux.Handle(http.MethodDelete, pattern_Review_DeleteBookReview_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/reviews.Review/DeleteBookReview", runtime.WithHTTPPathPattern("/api/v1/review/{bookId}/{reviewId}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Review_DeleteBookReview_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_Review_DeleteBookReview_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_Review_CreateBookReview_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -352,7 +442,7 @@ func RegisterReviewHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/reviews.Review/CreateReviewReply", runtime.WithHTTPPathPattern("/api/v1/review/{bookId}/{replyId}/reply"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/reviews.Review/CreateReviewReply", runtime.WithHTTPPathPattern("/api/v1/review/{bookId}/{reviewId}/reply"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -403,13 +493,15 @@ func RegisterReviewHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 }
 
 var (
+	pattern_Review_DeleteBookReview_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "review", "bookId", "reviewId"}, ""))
 	pattern_Review_CreateBookReview_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "review", "book"}, ""))
-	pattern_Review_CreateReviewReply_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "review", "bookId", "replyId", "reply"}, ""))
+	pattern_Review_CreateReviewReply_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "review", "bookId", "reviewId", "reply"}, ""))
 	pattern_Review_GetCurrentUserBookReview_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "review", "id", "user"}, ""))
 	pattern_Review_GetBookReviews_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "review", "id"}, ""))
 )
 
 var (
+	forward_Review_DeleteBookReview_0         = runtime.ForwardResponseMessage
 	forward_Review_CreateBookReview_0         = runtime.ForwardResponseMessage
 	forward_Review_CreateReviewReply_0        = runtime.ForwardResponseMessage
 	forward_Review_GetCurrentUserBookReview_0 = runtime.ForwardResponseMessage

@@ -559,7 +559,46 @@
         }
       }
     },
-    "/api/v1/review/{bookId}/{replyId}/reply": {
+    "/api/v1/review/{bookId}/{reviewId}": {
+      "delete": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Deletes book's review",
+        "operationId": "Review_DeleteBookReview",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "@gotags: form:\"bookId\" validate:\"required,primitiveid\"",
+            "name": "bookId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "@gotags: form:\"reviewId\" validate:\"required,primitiveid\"",
+            "name": "reviewId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reviewsDeleteReviewResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/review/{bookId}/{reviewId}/reply": {
       "post": {
         "tags": [
           "Review"
@@ -576,8 +615,8 @@
           },
           {
             "type": "string",
-            "description": "@gotags: form:\"replyId\" validate:\"required,primitiveid\"",
-            "name": "replyId",
+            "description": "@gotags: form:\"reviewId\" validate:\"required,primitiveid\"",
+            "name": "reviewId",
             "in": "path",
             "required": true
           },
@@ -1215,9 +1254,17 @@
         }
       }
     },
-    "reviewsGetBookReviewsResponse": {
+    "reviewsDeleteReviewResponse": {
       "type": "object",
       "title": "Responses",
+      "properties": {
+        "deletedId": {
+          "type": "string"
+        }
+      }
+    },
+    "reviewsGetBookReviewsResponse": {
+      "type": "object",
       "properties": {
         "reviews": {
           "type": "array",

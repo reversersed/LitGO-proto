@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	Review_DeleteBookReview_FullMethodName         = "/reviews.Review/DeleteBookReview"
 	Review_CreateBookReview_FullMethodName         = "/reviews.Review/CreateBookReview"
 	Review_CreateReviewReply_FullMethodName        = "/reviews.Review/CreateReviewReply"
 	Review_GetCurrentUserBookReview_FullMethodName = "/reviews.Review/GetCurrentUserBookReview"
@@ -31,6 +32,7 @@ const (
 //
 //go:generate mockgen -source=review_service_grpc.pb.go -destination=./mocks/review_service_mock.go
 type ReviewClient interface {
+	DeleteBookReview(ctx context.Context, in *DeleteReviewRequest, opts ...grpc.CallOption) (*DeleteReviewResponse, error)
 	CreateBookReview(ctx context.Context, in *CreateBookReviewRequest, opts ...grpc.CallOption) (*CreateBookReviewResponse, error)
 	CreateReviewReply(ctx context.Context, in *CreateReplyRequest, opts ...grpc.CallOption) (*CreateReplyResponse, error)
 	GetCurrentUserBookReview(ctx context.Context, in *GetCurrentUserBookReviewRequest, opts ...grpc.CallOption) (*GetCurrentUserReviewResponse, error)
@@ -43,6 +45,16 @@ type reviewClient struct {
 
 func NewReviewClient(cc grpc.ClientConnInterface) ReviewClient {
 	return &reviewClient{cc}
+}
+
+func (c *reviewClient) DeleteBookReview(ctx context.Context, in *DeleteReviewRequest, opts ...grpc.CallOption) (*DeleteReviewResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteReviewResponse)
+	err := c.cc.Invoke(ctx, Review_DeleteBookReview_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *reviewClient) CreateBookReview(ctx context.Context, in *CreateBookReviewRequest, opts ...grpc.CallOption) (*CreateBookReviewResponse, error) {
@@ -91,6 +103,7 @@ func (c *reviewClient) GetBookReviews(ctx context.Context, in *GetBookReviewsReq
 //
 //go:generate mockgen -source=review_service_grpc.pb.go -destination=./mocks/review_service_mock.go
 type ReviewServer interface {
+	DeleteBookReview(context.Context, *DeleteReviewRequest) (*DeleteReviewResponse, error)
 	CreateBookReview(context.Context, *CreateBookReviewRequest) (*CreateBookReviewResponse, error)
 	CreateReviewReply(context.Context, *CreateReplyRequest) (*CreateReplyResponse, error)
 	GetCurrentUserBookReview(context.Context, *GetCurrentUserBookReviewRequest) (*GetCurrentUserReviewResponse, error)
@@ -105,6 +118,9 @@ type ReviewServer interface {
 // pointer dereference when methods are called.
 type UnimplementedReviewServer struct{}
 
+func (UnimplementedReviewServer) DeleteBookReview(context.Context, *DeleteReviewRequest) (*DeleteReviewResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteBookReview not implemented")
+}
 func (UnimplementedReviewServer) CreateBookReview(context.Context, *CreateBookReviewRequest) (*CreateBookReviewResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateBookReview not implemented")
 }
@@ -136,6 +152,24 @@ func RegisterReviewServer(s grpc.ServiceRegistrar, srv ReviewServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&Review_ServiceDesc, srv)
+}
+
+func _Review_DeleteBookReview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteReviewRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServer).DeleteBookReview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Review_DeleteBookReview_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServer).DeleteBookReview(ctx, req.(*DeleteReviewRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Review_CreateBookReview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -217,6 +251,10 @@ var Review_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "reviews.Review",
 	HandlerType: (*ReviewServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "DeleteBookReview",
+			Handler:    _Review_DeleteBookReview_Handler,
+		},
 		{
 			MethodName: "CreateBookReview",
 			Handler:    _Review_CreateBookReview_Handler,

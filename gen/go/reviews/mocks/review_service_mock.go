@@ -82,6 +82,26 @@ func (mr *MockReviewClientMockRecorder) CreateReviewReply(ctx, in any, opts ...a
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateReviewReply", reflect.TypeOf((*MockReviewClient)(nil).CreateReviewReply), varargs...)
 }
 
+// DeleteBookReview mocks base method.
+func (m *MockReviewClient) DeleteBookReview(ctx context.Context, in *reviews_pb.DeleteReviewRequest, opts ...grpc.CallOption) (*reviews_pb.DeleteReviewResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteBookReview", varargs...)
+	ret0, _ := ret[0].(*reviews_pb.DeleteReviewResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteBookReview indicates an expected call of DeleteBookReview.
+func (mr *MockReviewClientMockRecorder) DeleteBookReview(ctx, in any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteBookReview", reflect.TypeOf((*MockReviewClient)(nil).DeleteBookReview), varargs...)
+}
+
 // GetBookReviews mocks base method.
 func (m *MockReviewClient) GetBookReviews(ctx context.Context, in *reviews_pb.GetBookReviewsRequest, opts ...grpc.CallOption) (*reviews_pb.GetBookReviewsResponse, error) {
 	m.ctrl.T.Helper()
@@ -174,6 +194,21 @@ func (m *MockReviewServer) CreateReviewReply(arg0 context.Context, arg1 *reviews
 func (mr *MockReviewServerMockRecorder) CreateReviewReply(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateReviewReply", reflect.TypeOf((*MockReviewServer)(nil).CreateReviewReply), arg0, arg1)
+}
+
+// DeleteBookReview mocks base method.
+func (m *MockReviewServer) DeleteBookReview(arg0 context.Context, arg1 *reviews_pb.DeleteReviewRequest) (*reviews_pb.DeleteReviewResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteBookReview", arg0, arg1)
+	ret0, _ := ret[0].(*reviews_pb.DeleteReviewResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteBookReview indicates an expected call of DeleteBookReview.
+func (mr *MockReviewServerMockRecorder) DeleteBookReview(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteBookReview", reflect.TypeOf((*MockReviewServer)(nil).DeleteBookReview), arg0, arg1)
 }
 
 // GetBookReviews mocks base method.
