@@ -51,6 +51,7 @@ message GetBookReviewsRequest {
     int32 page = 2; // @gotags: form:"page" validate:"gte=0"
     // Reviews count per page
     int32 pageSize = 3; // @gotags: form:"pagesize" validate:"gte=1"
+    string sort = 4; // @gotags: form:"sort" validate:"oneof=new old"
 }
 message CreateBookReviewRequest {
     string text = 1; // @gotags: form:"Id" validate:"required"
