@@ -19,8 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Review_CreateBookReview_FullMethodName = "/reviews.Review/CreateBookReview"
-	Review_GetBookReviews_FullMethodName   = "/reviews.Review/GetBookReviews"
+	Review_CreateBookReview_FullMethodName         = "/reviews.Review/CreateBookReview"
+	Review_CreateReviewReply_FullMethodName        = "/reviews.Review/CreateReviewReply"
+	Review_GetCurrentUserBookReview_FullMethodName = "/reviews.Review/GetCurrentUserBookReview"
+	Review_GetBookReviews_FullMethodName           = "/reviews.Review/GetBookReviews"
 )
 
 // ReviewClient is the client API for Review service.
@@ -30,6 +32,8 @@ const (
 //go:generate mockgen -source=review_service_grpc.pb.go -destination=./mocks/review_service_mock.go
 type ReviewClient interface {
 	CreateBookReview(ctx context.Context, in *CreateBookReviewRequest, opts ...grpc.CallOption) (*CreateBookReviewResponse, error)
+	CreateReviewReply(ctx context.Context, in *CreateReplyRequest, opts ...grpc.CallOption) (*CreateReplyResponse, error)
+	GetCurrentUserBookReview(ctx context.Context, in *GetCurrentUserBookReviewRequest, opts ...grpc.CallOption) (*GetCurrentUserReviewResponse, error)
 	GetBookReviews(ctx context.Context, in *GetBookReviewsRequest, opts ...grpc.CallOption) (*GetBookReviewsResponse, error)
 }
 
@@ -45,6 +49,26 @@ func (c *reviewClient) CreateBookReview(ctx context.Context, in *CreateBookRevie
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateBookReviewResponse)
 	err := c.cc.Invoke(ctx, Review_CreateBookReview_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reviewClient) CreateReviewReply(ctx context.Context, in *CreateReplyRequest, opts ...grpc.CallOption) (*CreateReplyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateReplyResponse)
+	err := c.cc.Invoke(ctx, Review_CreateReviewReply_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *reviewClient) GetCurrentUserBookReview(ctx context.Context, in *GetCurrentUserBookReviewRequest, opts ...grpc.CallOption) (*GetCurrentUserReviewResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCurrentUserReviewResponse)
+	err := c.cc.Invoke(ctx, Review_GetCurrentUserBookReview_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -68,6 +92,8 @@ func (c *reviewClient) GetBookReviews(ctx context.Context, in *GetBookReviewsReq
 //go:generate mockgen -source=review_service_grpc.pb.go -destination=./mocks/review_service_mock.go
 type ReviewServer interface {
 	CreateBookReview(context.Context, *CreateBookReviewRequest) (*CreateBookReviewResponse, error)
+	CreateReviewReply(context.Context, *CreateReplyRequest) (*CreateReplyResponse, error)
+	GetCurrentUserBookReview(context.Context, *GetCurrentUserBookReviewRequest) (*GetCurrentUserReviewResponse, error)
 	GetBookReviews(context.Context, *GetBookReviewsRequest) (*GetBookReviewsResponse, error)
 	mustEmbedUnimplementedReviewServer()
 }
@@ -81,6 +107,12 @@ type UnimplementedReviewServer struct{}
 
 func (UnimplementedReviewServer) CreateBookReview(context.Context, *CreateBookReviewRequest) (*CreateBookReviewResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateBookReview not implemented")
+}
+func (UnimplementedReviewServer) CreateReviewReply(context.Context, *CreateReplyRequest) (*CreateReplyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateReviewReply not implemented")
+}
+func (UnimplementedReviewServer) GetCurrentUserBookReview(context.Context, *GetCurrentUserBookReviewRequest) (*GetCurrentUserReviewResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCurrentUserBookReview not implemented")
 }
 func (UnimplementedReviewServer) GetBookReviews(context.Context, *GetBookReviewsRequest) (*GetBookReviewsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBookReviews not implemented")
@@ -124,6 +156,42 @@ func _Review_CreateBookReview_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Review_CreateReviewReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateReplyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServer).CreateReviewReply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Review_CreateReviewReply_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServer).CreateReviewReply(ctx, req.(*CreateReplyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Review_GetCurrentUserBookReview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCurrentUserBookReviewRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewServer).GetCurrentUserBookReview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Review_GetCurrentUserBookReview_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewServer).GetCurrentUserBookReview(ctx, req.(*GetCurrentUserBookReviewRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Review_GetBookReviews_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetBookReviewsRequest)
 	if err := dec(in); err != nil {
@@ -152,6 +220,14 @@ var Review_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateBookReview",
 			Handler:    _Review_CreateBookReview_Handler,
+		},
+		{
+			MethodName: "CreateReviewReply",
+			Handler:    _Review_CreateReviewReply_Handler,
+		},
+		{
+			MethodName: "GetCurrentUserBookReview",
+			Handler:    _Review_GetCurrentUserBookReview_Handler,
 		},
 		{
 			MethodName: "GetBookReviews",

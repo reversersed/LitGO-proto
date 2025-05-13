@@ -559,6 +559,53 @@
         }
       }
     },
+    "/api/v1/review/{bookId}/{replyId}/reply": {
+      "post": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Adds new review to book",
+        "operationId": "Review_CreateReviewReply",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "@gotags: form:\"bookId\" validate:\"required,primitiveid\"",
+            "name": "bookId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "@gotags: form:\"replyId\" validate:\"required,primitiveid\"",
+            "name": "replyId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReviewCreateReviewReplyBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reviewsCreateReplyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/review/{id}": {
       "get": {
         "tags": [
@@ -594,6 +641,38 @@
             "description": "A successful response.",
             "schema": {
               "$ref": "#/definitions/reviewsGetBookReviewsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/review/{id}/user": {
+      "get": {
+        "tags": [
+          "Review"
+        ],
+        "summary": "Gets current user's review",
+        "operationId": "Review_GetCurrentUserBookReview",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "@gotags: form:\"id\" validate:\"required,primitiveid\"",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/reviewsGetCurrentUserReviewResponse"
             }
           },
           "default": {
@@ -797,6 +876,15 @@
     }
   },
   "definitions": {
+    "ReviewCreateReviewReplyBody": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "title": "@gotags: form:\"text\" validate:\"required\""
+        }
+      }
+    },
     "authorsAuthorModel": {
       "type": "object",
       "properties": {
@@ -1090,13 +1178,9 @@
     "reviewsCreateBookReviewRequest": {
       "type": "object",
       "properties": {
-        "creatorId": {
+        "bookId": {
           "type": "string",
-          "title": "@gotags: validate:\"required,primitiveid\" swaggerignore:\"true\""
-        },
-        "modelId": {
-          "type": "string",
-          "title": "@gotags: form:\"ModelId\" validate:\"required,primitiveid\""
+          "title": "@gotags: form:\"BookId\" validate:\"required,primitiveid\""
         },
         "rating": {
           "type": "number",
@@ -1117,6 +1201,14 @@
         }
       }
     },
+    "reviewsCreateReplyResponse": {
+      "type": "object",
+      "properties": {
+        "review": {
+          "$ref": "#/definitions/reviewsReviewModel"
+        }
+      }
+    },
     "reviewsGetBookReviewsResponse": {
       "type": "object",
       "title": "Responses",
@@ -1130,7 +1222,45 @@
         }
       }
     },
+    "reviewsGetCurrentUserReviewResponse": {
+      "type": "object",
+      "properties": {
+        "review": {
+          "$ref": "#/definitions/reviewsReviewModel"
+        }
+      }
+    },
     "reviewsReviewModel": {
+      "type": "object",
+      "title": "Models",
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "int64"
+        },
+        "creator": {
+          "$ref": "#/definitions/reviewsUserModel"
+        },
+        "id": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "number",
+          "format": "float"
+        },
+        "replies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/reviewsReviewReplyModel"
+          }
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "reviewsReviewReplyModel": {
       "type": "object",
       "properties": {
         "created": {
@@ -1140,38 +1270,13 @@
         "creator": {
           "$ref": "#/definitions/reviewsUserModel"
         },
-        "downvotes": {
-          "type": "integer",
-          "format": "int32"
-        },
         "id": {
           "type": "string"
         },
-        "rating": {
-          "type": "number",
-          "format": "float"
-        },
         "text": {
           "type": "string"
-        },
-        "upvotes": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "userAction": {
-          "$ref": "#/definitions/reviewsUserActionEnum"
         }
       }
-    },
-    "reviewsUserActionEnum": {
-      "type": "string",
-      "title": "Models",
-      "default": "noAction",
-      "enum": [
-        "noAction",
-        "like",
-        "dislike"
-      ]
     },
     "reviewsUserModel": {
       "type": "object",

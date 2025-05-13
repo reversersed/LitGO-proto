@@ -62,6 +62,26 @@ func (mr *MockReviewClientMockRecorder) CreateBookReview(ctx, in any, opts ...an
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBookReview", reflect.TypeOf((*MockReviewClient)(nil).CreateBookReview), varargs...)
 }
 
+// CreateReviewReply mocks base method.
+func (m *MockReviewClient) CreateReviewReply(ctx context.Context, in *reviews_pb.CreateReplyRequest, opts ...grpc.CallOption) (*reviews_pb.CreateReplyResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateReviewReply", varargs...)
+	ret0, _ := ret[0].(*reviews_pb.CreateReplyResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateReviewReply indicates an expected call of CreateReviewReply.
+func (mr *MockReviewClientMockRecorder) CreateReviewReply(ctx, in any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateReviewReply", reflect.TypeOf((*MockReviewClient)(nil).CreateReviewReply), varargs...)
+}
+
 // GetBookReviews mocks base method.
 func (m *MockReviewClient) GetBookReviews(ctx context.Context, in *reviews_pb.GetBookReviewsRequest, opts ...grpc.CallOption) (*reviews_pb.GetBookReviewsResponse, error) {
 	m.ctrl.T.Helper()
@@ -80,6 +100,26 @@ func (mr *MockReviewClientMockRecorder) GetBookReviews(ctx, in any, opts ...any)
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]any{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBookReviews", reflect.TypeOf((*MockReviewClient)(nil).GetBookReviews), varargs...)
+}
+
+// GetCurrentUserBookReview mocks base method.
+func (m *MockReviewClient) GetCurrentUserBookReview(ctx context.Context, in *reviews_pb.GetCurrentUserBookReviewRequest, opts ...grpc.CallOption) (*reviews_pb.GetCurrentUserReviewResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetCurrentUserBookReview", varargs...)
+	ret0, _ := ret[0].(*reviews_pb.GetCurrentUserReviewResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCurrentUserBookReview indicates an expected call of GetCurrentUserBookReview.
+func (mr *MockReviewClientMockRecorder) GetCurrentUserBookReview(ctx, in any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCurrentUserBookReview", reflect.TypeOf((*MockReviewClient)(nil).GetCurrentUserBookReview), varargs...)
 }
 
 // MockReviewServer is a mock of ReviewServer interface.
@@ -121,6 +161,21 @@ func (mr *MockReviewServerMockRecorder) CreateBookReview(arg0, arg1 any) *gomock
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateBookReview", reflect.TypeOf((*MockReviewServer)(nil).CreateBookReview), arg0, arg1)
 }
 
+// CreateReviewReply mocks base method.
+func (m *MockReviewServer) CreateReviewReply(arg0 context.Context, arg1 *reviews_pb.CreateReplyRequest) (*reviews_pb.CreateReplyResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateReviewReply", arg0, arg1)
+	ret0, _ := ret[0].(*reviews_pb.CreateReplyResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateReviewReply indicates an expected call of CreateReviewReply.
+func (mr *MockReviewServerMockRecorder) CreateReviewReply(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateReviewReply", reflect.TypeOf((*MockReviewServer)(nil).CreateReviewReply), arg0, arg1)
+}
+
 // GetBookReviews mocks base method.
 func (m *MockReviewServer) GetBookReviews(arg0 context.Context, arg1 *reviews_pb.GetBookReviewsRequest) (*reviews_pb.GetBookReviewsResponse, error) {
 	m.ctrl.T.Helper()
@@ -134,6 +189,21 @@ func (m *MockReviewServer) GetBookReviews(arg0 context.Context, arg1 *reviews_pb
 func (mr *MockReviewServerMockRecorder) GetBookReviews(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBookReviews", reflect.TypeOf((*MockReviewServer)(nil).GetBookReviews), arg0, arg1)
+}
+
+// GetCurrentUserBookReview mocks base method.
+func (m *MockReviewServer) GetCurrentUserBookReview(arg0 context.Context, arg1 *reviews_pb.GetCurrentUserBookReviewRequest) (*reviews_pb.GetCurrentUserReviewResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCurrentUserBookReview", arg0, arg1)
+	ret0, _ := ret[0].(*reviews_pb.GetCurrentUserReviewResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCurrentUserBookReview indicates an expected call of GetCurrentUserBookReview.
+func (mr *MockReviewServerMockRecorder) GetCurrentUserBookReview(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCurrentUserBookReview", reflect.TypeOf((*MockReviewServer)(nil).GetCurrentUserBookReview), arg0, arg1)
 }
 
 // mustEmbedUnimplementedReviewServer mocks base method.

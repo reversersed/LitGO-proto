@@ -8,6 +8,7 @@ package reviews_pb
 
 import (
 	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
+	_ "github.com/reversersed/LitGO-proto/gen/go/shared"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -22,56 +23,6 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
-
-// Models
-type UserActionEnum int32
-
-const (
-	UserActionEnum_noAction UserActionEnum = 0
-	UserActionEnum_like     UserActionEnum = 1
-	UserActionEnum_dislike  UserActionEnum = 2
-)
-
-// Enum value maps for UserActionEnum.
-var (
-	UserActionEnum_name = map[int32]string{
-		0: "noAction",
-		1: "like",
-		2: "dislike",
-	}
-	UserActionEnum_value = map[string]int32{
-		"noAction": 0,
-		"like":     1,
-		"dislike":  2,
-	}
-)
-
-func (x UserActionEnum) Enum() *UserActionEnum {
-	p := new(UserActionEnum)
-	*p = x
-	return p
-}
-
-func (x UserActionEnum) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UserActionEnum) Descriptor() protoreflect.EnumDescriptor {
-	return file_reviews_review_service_proto_enumTypes[0].Descriptor()
-}
-
-func (UserActionEnum) Type() protoreflect.EnumType {
-	return &file_reviews_review_service_proto_enumTypes[0]
-}
-
-func (x UserActionEnum) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UserActionEnum.Descriptor instead.
-func (UserActionEnum) EnumDescriptor() ([]byte, []int) {
-	return file_reviews_review_service_proto_rawDescGZIP(), []int{0}
-}
 
 // Requests
 type GetBookReviewsRequest struct {
@@ -139,10 +90,9 @@ func (x *GetBookReviewsRequest) GetPageSize() int32 {
 
 type CreateBookReviewRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Text          string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty" form:"Id" validate:"required"`            
-	Rating        float32                `protobuf:"fixed32,2,opt,name=rating,proto3" json:"rating,omitempty" form:"Rating" validate:"required,gte=0,lte=5"`      
-	CreatorId     string                 `protobuf:"bytes,3,opt,name=creatorId,proto3" json:"creatorId,omitempty" validate:"required,primitiveid" swaggerignore:"true"`  
-	ModelId       string                 `protobuf:"bytes,4,opt,name=modelId,proto3" json:"modelId,omitempty" form:"ModelId" validate:"required,primitiveid"`      
+	Text          string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty" form:"Id" validate:"required"`        
+	Rating        float32                `protobuf:"fixed32,2,opt,name=rating,proto3" json:"rating,omitempty" form:"Rating" validate:"required,gte=0,lte=5"`  
+	BookId        string                 `protobuf:"bytes,3,opt,name=bookId,proto3" json:"bookId,omitempty" form:"BookId" validate:"required,primitiveid"`    
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -191,16 +141,113 @@ func (x *CreateBookReviewRequest) GetRating() float32 {
 	return 0
 }
 
-func (x *CreateBookReviewRequest) GetCreatorId() string {
+func (x *CreateBookReviewRequest) GetBookId() string {
 	if x != nil {
-		return x.CreatorId
+		return x.BookId
 	}
 	return ""
 }
 
-func (x *CreateBookReviewRequest) GetModelId() string {
+type GetCurrentUserBookReviewRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" form:"id" validate:"required,primitiveid"`  
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCurrentUserBookReviewRequest) Reset() {
+	*x = GetCurrentUserBookReviewRequest{}
+	mi := &file_reviews_review_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCurrentUserBookReviewRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCurrentUserBookReviewRequest) ProtoMessage() {}
+
+func (x *GetCurrentUserBookReviewRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_review_service_proto_msgTypes[2]
 	if x != nil {
-		return x.ModelId
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCurrentUserBookReviewRequest.ProtoReflect.Descriptor instead.
+func (*GetCurrentUserBookReviewRequest) Descriptor() ([]byte, []int) {
+	return file_reviews_review_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetCurrentUserBookReviewRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type CreateReplyRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	BookId        string                 `protobuf:"bytes,1,opt,name=bookId,proto3" json:"bookId,omitempty" form:"bookId" validate:"required,primitiveid"`    
+	ReplyId       string                 `protobuf:"bytes,2,opt,name=replyId,proto3" json:"replyId,omitempty" form:"replyId" validate:"required,primitiveid"`  
+	Text          string                 `protobuf:"bytes,3,opt,name=text,proto3" json:"text,omitempty" form:"text" validate:"required"`        
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateReplyRequest) Reset() {
+	*x = CreateReplyRequest{}
+	mi := &file_reviews_review_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateReplyRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateReplyRequest) ProtoMessage() {}
+
+func (x *CreateReplyRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_review_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateReplyRequest.ProtoReflect.Descriptor instead.
+func (*CreateReplyRequest) Descriptor() ([]byte, []int) {
+	return file_reviews_review_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *CreateReplyRequest) GetBookId() string {
+	if x != nil {
+		return x.BookId
+	}
+	return ""
+}
+
+func (x *CreateReplyRequest) GetReplyId() string {
+	if x != nil {
+		return x.ReplyId
+	}
+	return ""
+}
+
+func (x *CreateReplyRequest) GetText() string {
+	if x != nil {
+		return x.Text
 	}
 	return ""
 }
@@ -215,7 +262,7 @@ type GetBookReviewsResponse struct {
 
 func (x *GetBookReviewsResponse) Reset() {
 	*x = GetBookReviewsResponse{}
-	mi := &file_reviews_review_service_proto_msgTypes[2]
+	mi := &file_reviews_review_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -227,7 +274,7 @@ func (x *GetBookReviewsResponse) String() string {
 func (*GetBookReviewsResponse) ProtoMessage() {}
 
 func (x *GetBookReviewsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_review_service_proto_msgTypes[2]
+	mi := &file_reviews_review_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -240,7 +287,7 @@ func (x *GetBookReviewsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetBookReviewsResponse.ProtoReflect.Descriptor instead.
 func (*GetBookReviewsResponse) Descriptor() ([]byte, []int) {
-	return file_reviews_review_service_proto_rawDescGZIP(), []int{2}
+	return file_reviews_review_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetBookReviewsResponse) GetReviews() []*ReviewModel {
@@ -259,7 +306,7 @@ type CreateBookReviewResponse struct {
 
 func (x *CreateBookReviewResponse) Reset() {
 	*x = CreateBookReviewResponse{}
-	mi := &file_reviews_review_service_proto_msgTypes[3]
+	mi := &file_reviews_review_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -271,7 +318,7 @@ func (x *CreateBookReviewResponse) String() string {
 func (*CreateBookReviewResponse) ProtoMessage() {}
 
 func (x *CreateBookReviewResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_review_service_proto_msgTypes[3]
+	mi := &file_reviews_review_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -284,7 +331,7 @@ func (x *CreateBookReviewResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateBookReviewResponse.ProtoReflect.Descriptor instead.
 func (*CreateBookReviewResponse) Descriptor() ([]byte, []int) {
-	return file_reviews_review_service_proto_rawDescGZIP(), []int{3}
+	return file_reviews_review_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CreateBookReviewResponse) GetReview() *ReviewModel {
@@ -294,6 +341,95 @@ func (x *CreateBookReviewResponse) GetReview() *ReviewModel {
 	return nil
 }
 
+type GetCurrentUserReviewResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Review        *ReviewModel           `protobuf:"bytes,1,opt,name=review,proto3" json:"review,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCurrentUserReviewResponse) Reset() {
+	*x = GetCurrentUserReviewResponse{}
+	mi := &file_reviews_review_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCurrentUserReviewResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCurrentUserReviewResponse) ProtoMessage() {}
+
+func (x *GetCurrentUserReviewResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_review_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCurrentUserReviewResponse.ProtoReflect.Descriptor instead.
+func (*GetCurrentUserReviewResponse) Descriptor() ([]byte, []int) {
+	return file_reviews_review_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetCurrentUserReviewResponse) GetReview() *ReviewModel {
+	if x != nil {
+		return x.Review
+	}
+	return nil
+}
+
+type CreateReplyResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Review        *ReviewModel           `protobuf:"bytes,1,opt,name=review,proto3" json:"review,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateReplyResponse) Reset() {
+	*x = CreateReplyResponse{}
+	mi := &file_reviews_review_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateReplyResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateReplyResponse) ProtoMessage() {}
+
+func (x *CreateReplyResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_review_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateReplyResponse.ProtoReflect.Descriptor instead.
+func (*CreateReplyResponse) Descriptor() ([]byte, []int) {
+	return file_reviews_review_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CreateReplyResponse) GetReview() *ReviewModel {
+	if x != nil {
+		return x.Review
+	}
+	return nil
+}
+
+// Models
 type ReviewModel struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -301,16 +437,14 @@ type ReviewModel struct {
 	Created       int64                  `protobuf:"varint,3,opt,name=created,proto3" json:"created,omitempty"`
 	Creator       *UserModel             `protobuf:"bytes,4,opt,name=creator,proto3" json:"creator,omitempty"`
 	Rating        float32                `protobuf:"fixed32,5,opt,name=rating,proto3" json:"rating,omitempty"`
-	UserAction    UserActionEnum         `protobuf:"varint,6,opt,name=userAction,proto3,enum=reviews.UserActionEnum" json:"userAction,omitempty"`
-	Upvotes       int32                  `protobuf:"varint,7,opt,name=upvotes,proto3" json:"upvotes,omitempty"`
-	Downvotes     int32                  `protobuf:"varint,8,opt,name=downvotes,proto3" json:"downvotes,omitempty"`
+	Replies       []*ReviewReplyModel    `protobuf:"bytes,6,rep,name=replies,proto3" json:"replies,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ReviewModel) Reset() {
 	*x = ReviewModel{}
-	mi := &file_reviews_review_service_proto_msgTypes[4]
+	mi := &file_reviews_review_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -322,7 +456,7 @@ func (x *ReviewModel) String() string {
 func (*ReviewModel) ProtoMessage() {}
 
 func (x *ReviewModel) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_review_service_proto_msgTypes[4]
+	mi := &file_reviews_review_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -335,7 +469,7 @@ func (x *ReviewModel) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReviewModel.ProtoReflect.Descriptor instead.
 func (*ReviewModel) Descriptor() ([]byte, []int) {
-	return file_reviews_review_service_proto_rawDescGZIP(), []int{4}
+	return file_reviews_review_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ReviewModel) GetId() string {
@@ -373,25 +507,79 @@ func (x *ReviewModel) GetRating() float32 {
 	return 0
 }
 
-func (x *ReviewModel) GetUserAction() UserActionEnum {
+func (x *ReviewModel) GetReplies() []*ReviewReplyModel {
 	if x != nil {
-		return x.UserAction
+		return x.Replies
 	}
-	return UserActionEnum_noAction
+	return nil
 }
 
-func (x *ReviewModel) GetUpvotes() int32 {
+type ReviewReplyModel struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Text          string                 `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
+	Created       int64                  `protobuf:"varint,3,opt,name=created,proto3" json:"created,omitempty"`
+	Creator       *UserModel             `protobuf:"bytes,4,opt,name=creator,proto3" json:"creator,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReviewReplyModel) Reset() {
+	*x = ReviewReplyModel{}
+	mi := &file_reviews_review_service_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReviewReplyModel) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReviewReplyModel) ProtoMessage() {}
+
+func (x *ReviewReplyModel) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_review_service_proto_msgTypes[9]
 	if x != nil {
-		return x.Upvotes
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReviewReplyModel.ProtoReflect.Descriptor instead.
+func (*ReviewReplyModel) Descriptor() ([]byte, []int) {
+	return file_reviews_review_service_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ReviewReplyModel) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ReviewReplyModel) GetText() string {
+	if x != nil {
+		return x.Text
+	}
+	return ""
+}
+
+func (x *ReviewReplyModel) GetCreated() int64 {
+	if x != nil {
+		return x.Created
 	}
 	return 0
 }
 
-func (x *ReviewModel) GetDownvotes() int32 {
+func (x *ReviewReplyModel) GetCreator() *UserModel {
 	if x != nil {
-		return x.Downvotes
+		return x.Creator
 	}
-	return 0
+	return nil
 }
 
 type UserModel struct {
@@ -404,7 +592,7 @@ type UserModel struct {
 
 func (x *UserModel) Reset() {
 	*x = UserModel{}
-	mi := &file_reviews_review_service_proto_msgTypes[5]
+	mi := &file_reviews_review_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -416,7 +604,7 @@ func (x *UserModel) String() string {
 func (*UserModel) ProtoMessage() {}
 
 func (x *UserModel) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_review_service_proto_msgTypes[5]
+	mi := &file_reviews_review_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -429,7 +617,7 @@ func (x *UserModel) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserModel.ProtoReflect.Descriptor instead.
 func (*UserModel) Descriptor() ([]byte, []int) {
-	return file_reviews_review_service_proto_rawDescGZIP(), []int{5}
+	return file_reviews_review_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *UserModel) GetId() string {
@@ -450,40 +638,48 @@ var File_reviews_review_service_proto protoreflect.FileDescriptor
 
 const file_reviews_review_service_proto_rawDesc = "" +
 	"\n" +
-	"\x1creviews/review_service.proto\x12\areviews\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x1cgoogle/api/annotations.proto\"W\n" +
+	"\x1creviews/review_service.proto\x12\areviews\x1a.protoc-gen-openapiv2/options/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x13shared/shared.proto\"W\n" +
 	"\x15GetBookReviewsRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1a\n" +
-	"\bpageSize\x18\x03 \x01(\x05R\bpageSize\"}\n" +
+	"\bpageSize\x18\x03 \x01(\x05R\bpageSize\"]\n" +
 	"\x17CreateBookReviewRequest\x12\x12\n" +
 	"\x04text\x18\x01 \x01(\tR\x04text\x12\x16\n" +
-	"\x06rating\x18\x02 \x01(\x02R\x06rating\x12\x1c\n" +
-	"\tcreatorId\x18\x03 \x01(\tR\tcreatorId\x12\x18\n" +
-	"\amodelId\x18\x04 \x01(\tR\amodelId\"H\n" +
+	"\x06rating\x18\x02 \x01(\x02R\x06rating\x12\x16\n" +
+	"\x06bookId\x18\x03 \x01(\tR\x06bookId\"1\n" +
+	"\x1fGetCurrentUserBookReviewRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"Z\n" +
+	"\x12CreateReplyRequest\x12\x16\n" +
+	"\x06bookId\x18\x01 \x01(\tR\x06bookId\x12\x18\n" +
+	"\areplyId\x18\x02 \x01(\tR\areplyId\x12\x12\n" +
+	"\x04text\x18\x03 \x01(\tR\x04text\"H\n" +
 	"\x16GetBookReviewsResponse\x12.\n" +
 	"\areviews\x18\x01 \x03(\v2\x14.reviews.ReviewModelR\areviews\"H\n" +
 	"\x18CreateBookReviewResponse\x12,\n" +
-	"\x06review\x18\x01 \x01(\v2\x14.reviews.ReviewModelR\x06review\"\x82\x02\n" +
+	"\x06review\x18\x01 \x01(\v2\x14.reviews.ReviewModelR\x06review\"L\n" +
+	"\x1cGetCurrentUserReviewResponse\x12,\n" +
+	"\x06review\x18\x01 \x01(\v2\x14.reviews.ReviewModelR\x06review\"C\n" +
+	"\x13CreateReplyResponse\x12,\n" +
+	"\x06review\x18\x01 \x01(\v2\x14.reviews.ReviewModelR\x06review\"\xc6\x01\n" +
 	"\vReviewModel\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04text\x18\x02 \x01(\tR\x04text\x12\x18\n" +
 	"\acreated\x18\x03 \x01(\x03R\acreated\x12,\n" +
 	"\acreator\x18\x04 \x01(\v2\x12.reviews.UserModelR\acreator\x12\x16\n" +
-	"\x06rating\x18\x05 \x01(\x02R\x06rating\x127\n" +
-	"\n" +
-	"userAction\x18\x06 \x01(\x0e2\x17.reviews.UserActionEnumR\n" +
-	"userAction\x12\x18\n" +
-	"\aupvotes\x18\a \x01(\x05R\aupvotes\x12\x1c\n" +
-	"\tdownvotes\x18\b \x01(\x05R\tdownvotes\"1\n" +
+	"\x06rating\x18\x05 \x01(\x02R\x06rating\x123\n" +
+	"\areplies\x18\x06 \x03(\v2\x19.reviews.ReviewReplyModelR\areplies\"~\n" +
+	"\x10ReviewReplyModel\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04text\x18\x02 \x01(\tR\x04text\x12\x18\n" +
+	"\acreated\x18\x03 \x01(\x03R\acreated\x12,\n" +
+	"\acreator\x18\x04 \x01(\v2\x12.reviews.UserModelR\acreator\"1\n" +
 	"\tUserModel\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
-	"\x05login\x18\x02 \x01(\tR\x05login*5\n" +
-	"\x0eUserActionEnum\x12\f\n" +
-	"\bnoAction\x10\x00\x12\b\n" +
-	"\x04like\x10\x01\x12\v\n" +
-	"\adislike\x10\x022\xba\x02\n" +
+	"\x05login\x18\x02 \x01(\tR\x05login2\x8a\x05\n" +
 	"\x06Review\x12\x93\x01\n" +
-	"\x10CreateBookReview\x12 .reviews.CreateBookReviewRequest\x1a!.reviews.CreateBookReviewResponse\":\x92A\x19\x12\x17Adds new review to book\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/api/v1/review/book\x12\x99\x01\n" +
+	"\x10CreateBookReview\x12 .reviews.CreateBookReviewRequest\x1a!.reviews.CreateBookReviewResponse\":\x92A\x19\x12\x17Adds new review to book\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/api/v1/review/book\x12\x9e\x01\n" +
+	"\x11CreateReviewReply\x12\x1b.reviews.CreateReplyRequest\x1a\x1c.reviews.CreateReplyResponse\"N\x92A\x19\x12\x17Adds new review to book\x82\xd3\xe4\x93\x02,:\x01*\"'/api/v1/review/{bookId}/{replyId}/reply\x12\xac\x01\n" +
+	"\x18GetCurrentUserBookReview\x12(.reviews.GetCurrentUserBookReviewRequest\x1a%.reviews.GetCurrentUserReviewResponse\"?\x92A\x1c\x12\x1aGets current user's review\x82\xd3\xe4\x93\x02\x1a\x12\x18/api/v1/review/{id}/user\x12\x99\x01\n" +
 	"\x0eGetBookReviews\x12\x1e.reviews.GetBookReviewsRequest\x1a\x1f.reviews.GetBookReviewsResponse\"F\x92A(\x12&Get reviews of book with provided {id}\x82\xd3\xe4\x93\x02\x15\x12\x13/api/v1/review/{id}B>Z<github.com/reversersed/LitGO-proto/gen/go/reviews;reviews_pbb\x06proto3"
 
 var (
@@ -498,31 +694,41 @@ func file_reviews_review_service_proto_rawDescGZIP() []byte {
 	return file_reviews_review_service_proto_rawDescData
 }
 
-var file_reviews_review_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_reviews_review_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_reviews_review_service_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_reviews_review_service_proto_goTypes = []any{
-	(UserActionEnum)(0),              // 0: reviews.UserActionEnum
-	(*GetBookReviewsRequest)(nil),    // 1: reviews.GetBookReviewsRequest
-	(*CreateBookReviewRequest)(nil),  // 2: reviews.CreateBookReviewRequest
-	(*GetBookReviewsResponse)(nil),   // 3: reviews.GetBookReviewsResponse
-	(*CreateBookReviewResponse)(nil), // 4: reviews.CreateBookReviewResponse
-	(*ReviewModel)(nil),              // 5: reviews.ReviewModel
-	(*UserModel)(nil),                // 6: reviews.UserModel
+	(*GetBookReviewsRequest)(nil),           // 0: reviews.GetBookReviewsRequest
+	(*CreateBookReviewRequest)(nil),         // 1: reviews.CreateBookReviewRequest
+	(*GetCurrentUserBookReviewRequest)(nil), // 2: reviews.GetCurrentUserBookReviewRequest
+	(*CreateReplyRequest)(nil),              // 3: reviews.CreateReplyRequest
+	(*GetBookReviewsResponse)(nil),          // 4: reviews.GetBookReviewsResponse
+	(*CreateBookReviewResponse)(nil),        // 5: reviews.CreateBookReviewResponse
+	(*GetCurrentUserReviewResponse)(nil),    // 6: reviews.GetCurrentUserReviewResponse
+	(*CreateReplyResponse)(nil),             // 7: reviews.CreateReplyResponse
+	(*ReviewModel)(nil),                     // 8: reviews.ReviewModel
+	(*ReviewReplyModel)(nil),                // 9: reviews.ReviewReplyModel
+	(*UserModel)(nil),                       // 10: reviews.UserModel
 }
 var file_reviews_review_service_proto_depIdxs = []int32{
-	5, // 0: reviews.GetBookReviewsResponse.reviews:type_name -> reviews.ReviewModel
-	5, // 1: reviews.CreateBookReviewResponse.review:type_name -> reviews.ReviewModel
-	6, // 2: reviews.ReviewModel.creator:type_name -> reviews.UserModel
-	0, // 3: reviews.ReviewModel.userAction:type_name -> reviews.UserActionEnum
-	2, // 4: reviews.Review.CreateBookReview:input_type -> reviews.CreateBookReviewRequest
-	1, // 5: reviews.Review.GetBookReviews:input_type -> reviews.GetBookReviewsRequest
-	4, // 6: reviews.Review.CreateBookReview:output_type -> reviews.CreateBookReviewResponse
-	3, // 7: reviews.Review.GetBookReviews:output_type -> reviews.GetBookReviewsResponse
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	8,  // 0: reviews.GetBookReviewsResponse.reviews:type_name -> reviews.ReviewModel
+	8,  // 1: reviews.CreateBookReviewResponse.review:type_name -> reviews.ReviewModel
+	8,  // 2: reviews.GetCurrentUserReviewResponse.review:type_name -> reviews.ReviewModel
+	8,  // 3: reviews.CreateReplyResponse.review:type_name -> reviews.ReviewModel
+	10, // 4: reviews.ReviewModel.creator:type_name -> reviews.UserModel
+	9,  // 5: reviews.ReviewModel.replies:type_name -> reviews.ReviewReplyModel
+	10, // 6: reviews.ReviewReplyModel.creator:type_name -> reviews.UserModel
+	1,  // 7: reviews.Review.CreateBookReview:input_type -> reviews.CreateBookReviewRequest
+	3,  // 8: reviews.Review.CreateReviewReply:input_type -> reviews.CreateReplyRequest
+	2,  // 9: reviews.Review.GetCurrentUserBookReview:input_type -> reviews.GetCurrentUserBookReviewRequest
+	0,  // 10: reviews.Review.GetBookReviews:input_type -> reviews.GetBookReviewsRequest
+	5,  // 11: reviews.Review.CreateBookReview:output_type -> reviews.CreateBookReviewResponse
+	7,  // 12: reviews.Review.CreateReviewReply:output_type -> reviews.CreateReplyResponse
+	6,  // 13: reviews.Review.GetCurrentUserBookReview:output_type -> reviews.GetCurrentUserReviewResponse
+	4,  // 14: reviews.Review.GetBookReviews:output_type -> reviews.GetBookReviewsResponse
+	11, // [11:15] is the sub-list for method output_type
+	7,  // [7:11] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_reviews_review_service_proto_init() }
@@ -535,14 +741,13 @@ func file_reviews_review_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_reviews_review_service_proto_rawDesc), len(file_reviews_review_service_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   6,
+			NumEnums:      0,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_reviews_review_service_proto_goTypes,
 		DependencyIndexes: file_reviews_review_service_proto_depIdxs,
-		EnumInfos:         file_reviews_review_service_proto_enumTypes,
 		MessageInfos:      file_reviews_review_service_proto_msgTypes,
 	}.Build()
 	File_reviews_review_service_proto = out.File
