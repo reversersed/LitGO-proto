@@ -8,6 +8,15 @@ import "shared/shared.proto";
 
 //go:generate mockgen -source=review_service_grpc.pb.go -destination=./mocks/review_service_mock.go
 service Review {
+    rpc DeleteBookReview(DeleteReviewRequest) returns (DeleteReviewResponse){
+        option (google.api.http) = {
+          delete: "/api/v1/review/{bookId}/{reviewId}"
+          body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Deletes book's review";
+        };
+    }
     rpc CreateBookReview(CreateBookReviewRequest) returns (CreateBookReviewResponse){
         option (google.api.http) = {
           post: "/api/v1/review/book"
@@ -44,6 +53,10 @@ service Review {
     }
 }
 //Requests
+message DeleteReviewRequest {
+    string bookId = 1; // @gotags: form:"bookId" validate:"required,primitiveid"
+    string reviewId = 2; // @gotags: form:"reviewId" validate:"required,primitiveid"
+}
 message GetBookReviewsRequest {
     // Book ID to search reviews of
     string id = 1; // @gotags: form:"id" validate:"required,primitiveid"
@@ -63,10 +76,13 @@ message GetCurrentUserBookReviewRequest {
 }
 message CreateReplyRequest {
     string bookId = 1; // @gotags: form:"bookId" validate:"required,primitiveid"
-    string replyId = 2; // @gotags: form:"replyId" validate:"required,primitiveid"
+    string reviewId = 2; // @gotags: form:"reviewId" validate:"required,primitiveid"
     string text = 3; // @gotags: form:"text" validate:"required"
 }
 //Responses
+message DeleteReviewResponse {
+  string deletedId = 1;
+}
 message GetBookReviewsResponse {
     repeated ReviewModel reviews = 1;
 }
