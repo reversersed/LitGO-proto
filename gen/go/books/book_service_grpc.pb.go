@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Book_FindBook_FullMethodName       = "/books.Book/FindBook"
-	Book_CreateBook_FullMethodName     = "/books.Book/CreateBook"
-	Book_GetBook_FullMethodName        = "/books.Book/GetBook"
-	Book_GetBookByGenre_FullMethodName = "/books.Book/GetBookByGenre"
-	Book_GetBookList_FullMethodName    = "/books.Book/GetBookList"
+	Book_FindBook_FullMethodName        = "/books.Book/FindBook"
+	Book_CreateBook_FullMethodName      = "/books.Book/CreateBook"
+	Book_GetBook_FullMethodName         = "/books.Book/GetBook"
+	Book_GetBookByGenre_FullMethodName  = "/books.Book/GetBookByGenre"
+	Book_GetBookList_FullMethodName     = "/books.Book/GetBookList"
+	Book_GetBookByAuthor_FullMethodName = "/books.Book/GetBookByAuthor"
 )
 
 // BookClient is the client API for Book service.
@@ -37,6 +38,7 @@ type BookClient interface {
 	GetBook(ctx context.Context, in *GetBookRequest, opts ...grpc.CallOption) (*GetBookResponse, error)
 	GetBookByGenre(ctx context.Context, in *GetBookByGenreRequest, opts ...grpc.CallOption) (*GetBookByGenreResponse, error)
 	GetBookList(ctx context.Context, in *GetBookListRequest, opts ...grpc.CallOption) (*GetBookListResponse, error)
+	GetBookByAuthor(ctx context.Context, in *GetBookByAuthorRequest, opts ...grpc.CallOption) (*GetBookByAuthorResponse, error)
 }
 
 type bookClient struct {
@@ -97,6 +99,16 @@ func (c *bookClient) GetBookList(ctx context.Context, in *GetBookListRequest, op
 	return out, nil
 }
 
+func (c *bookClient) GetBookByAuthor(ctx context.Context, in *GetBookByAuthorRequest, opts ...grpc.CallOption) (*GetBookByAuthorResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetBookByAuthorResponse)
+	err := c.cc.Invoke(ctx, Book_GetBookByAuthor_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BookServer is the server API for Book service.
 // All implementations must embed UnimplementedBookServer
 // for forward compatibility.
@@ -108,6 +120,7 @@ type BookServer interface {
 	GetBook(context.Context, *GetBookRequest) (*GetBookResponse, error)
 	GetBookByGenre(context.Context, *GetBookByGenreRequest) (*GetBookByGenreResponse, error)
 	GetBookList(context.Context, *GetBookListRequest) (*GetBookListResponse, error)
+	GetBookByAuthor(context.Context, *GetBookByAuthorRequest) (*GetBookByAuthorResponse, error)
 	mustEmbedUnimplementedBookServer()
 }
 
@@ -132,6 +145,9 @@ func (UnimplementedBookServer) GetBookByGenre(context.Context, *GetBookByGenreRe
 }
 func (UnimplementedBookServer) GetBookList(context.Context, *GetBookListRequest) (*GetBookListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBookList not implemented")
+}
+func (UnimplementedBookServer) GetBookByAuthor(context.Context, *GetBookByAuthorRequest) (*GetBookByAuthorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBookByAuthor not implemented")
 }
 func (UnimplementedBookServer) mustEmbedUnimplementedBookServer() {}
 func (UnimplementedBookServer) testEmbeddedByValue()              {}
@@ -244,6 +260,24 @@ func _Book_GetBookList_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Book_GetBookByAuthor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBookByAuthorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BookServer).GetBookByAuthor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Book_GetBookByAuthor_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BookServer).GetBookByAuthor(ctx, req.(*GetBookByAuthorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Book_ServiceDesc is the grpc.ServiceDesc for Book service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -270,6 +304,10 @@ var Book_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetBookList",
 			Handler:    _Book_GetBookList_Handler,
+		},
+		{
+			MethodName: "GetBookByAuthor",
+			Handler:    _Book_GetBookByAuthor_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

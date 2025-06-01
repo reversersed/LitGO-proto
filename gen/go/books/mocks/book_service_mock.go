@@ -102,6 +102,26 @@ func (mr *MockBookClientMockRecorder) GetBook(ctx, in any, opts ...any) *gomock.
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBook", reflect.TypeOf((*MockBookClient)(nil).GetBook), varargs...)
 }
 
+// GetBookByAuthor mocks base method.
+func (m *MockBookClient) GetBookByAuthor(ctx context.Context, in *books_pb.GetBookByAuthorRequest, opts ...grpc.CallOption) (*books_pb.GetBookByAuthorResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetBookByAuthor", varargs...)
+	ret0, _ := ret[0].(*books_pb.GetBookByAuthorResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetBookByAuthor indicates an expected call of GetBookByAuthor.
+func (mr *MockBookClientMockRecorder) GetBookByAuthor(ctx, in any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBookByAuthor", reflect.TypeOf((*MockBookClient)(nil).GetBookByAuthor), varargs...)
+}
+
 // GetBookByGenre mocks base method.
 func (m *MockBookClient) GetBookByGenre(ctx context.Context, in *books_pb.GetBookByGenreRequest, opts ...grpc.CallOption) (*books_pb.GetBookByGenreResponse, error) {
 	m.ctrl.T.Helper()
@@ -209,6 +229,21 @@ func (m *MockBookServer) GetBook(arg0 context.Context, arg1 *books_pb.GetBookReq
 func (mr *MockBookServerMockRecorder) GetBook(arg0, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBook", reflect.TypeOf((*MockBookServer)(nil).GetBook), arg0, arg1)
+}
+
+// GetBookByAuthor mocks base method.
+func (m *MockBookServer) GetBookByAuthor(arg0 context.Context, arg1 *books_pb.GetBookByAuthorRequest) (*books_pb.GetBookByAuthorResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetBookByAuthor", arg0, arg1)
+	ret0, _ := ret[0].(*books_pb.GetBookByAuthorResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetBookByAuthor indicates an expected call of GetBookByAuthor.
+func (mr *MockBookServerMockRecorder) GetBookByAuthor(arg0, arg1 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetBookByAuthor", reflect.TypeOf((*MockBookServer)(nil).GetBookByAuthor), arg0, arg1)
 }
 
 // GetBookByGenre mocks base method.

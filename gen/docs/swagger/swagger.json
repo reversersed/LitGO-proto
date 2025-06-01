@@ -180,6 +180,52 @@
         }
       }
     },
+    "/api/v1/book/author": {
+      "get": {
+        "description": "Get books by query with pagination",
+        "tags": [
+          "Book"
+        ],
+        "summary": "Find books by author id",
+        "operationId": "Book_GetBookByAuthor",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "@gotags: form:\"id\" validate:\"primitiveid,required_without_all=Translit\"",
+            "name": "authorId",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "max objects to find\n\n@gotags: form:\"limit\" validate:\"required,gte=1,lte=50\"",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "page to find\n\n@gotags: form:\"page\" validate:\"gte=0\"",
+            "name": "page",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/booksGetBookByAuthorResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        }
+      }
+    },
     "/api/v1/book/find": {
       "get": {
         "description": "Searches books by query with pagination",
@@ -299,11 +345,11 @@
     },
     "/api/v1/book/list": {
       "get": {
-        "description": "Get authors by query with pagination",
+        "description": "Get books by query with pagination",
         "tags": [
           "Book"
         ],
-        "summary": "Find authors list",
+        "summary": "Find book list",
         "operationId": "Book_GetBookList",
         "parameters": [
           {
@@ -1083,6 +1129,18 @@
     },
     "booksFindBookResponse": {
       "type": "object",
+      "properties": {
+        "books": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/booksBookModel"
+          }
+        }
+      }
+    },
+    "booksGetBookByAuthorResponse": {
+      "type": "object",
       "title": "Responses",
       "properties": {
         "books": {
@@ -1492,22 +1550,22 @@
   },
   "tags": [
     {
-      "name": "File"
-    },
-    {
-      "name": "Author"
-    },
-    {
-      "name": "Review"
+      "name": "Book"
     },
     {
       "name": "User"
     },
     {
-      "name": "Book"
+      "name": "File"
+    },
+    {
+      "name": "Review"
     },
     {
       "name": "Genre"
+    },
+    {
+      "name": "Author"
     }
   ]
 }
