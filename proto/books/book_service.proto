@@ -56,12 +56,28 @@ service Book {
           get: "/api/v1/book/list"
         };
         option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-          summary: "Find authors list";
-          description: "Get authors by query with pagination";
+          summary: "Find book list";
+          description: "Get books by query with pagination";
+        };
+    }
+    rpc GetBookByAuthor(GetBookByAuthorRequest) returns (GetBookByAuthorResponse){
+        option (google.api.http) = {
+          get: "/api/v1/book/author"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+          summary: "Find books by author id";
+          description: "Get books by query with pagination";
         };
     }
 }
 //Requests
+message GetBookByAuthorRequest {
+  string authorId = 1; // @gotags: form:"id" validate:"primitiveid,required_without_all=Translit"
+  // max objects to find
+  int32 limit = 2; // @gotags: form:"limit" validate:"required,gte=1,lte=50"
+  // page to find
+  int32 page = 3; // @gotags: form:"page" validate:"gte=0"
+}
 message GetBookListRequest {
     // array of authors id to find
     repeated string id = 1; // @gotags: form:"id" validate:"primitiveid,required_without_all=Translit"
@@ -107,6 +123,9 @@ message GetBookByGenreRequest {
     int32 page = 5; // @gotags: form:"page" validate:"gte=0"
 }
 //Responses
+message GetBookByAuthorResponse {
+    repeated BookModel books = 1;
+}
 message FindBookResponse {
     repeated BookModel books = 1;
 }
